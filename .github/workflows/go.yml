@@ -1,0 +1,65 @@
+name: Run Tests
+
+on:
+  push:
+    branches:
+      - master
+  pull_request: ~
+
+env:
+  GO111MODULE: on
+
+jobs:
+  tests:
+    name: unit tests
+    strategy:
+      matrix:
+        platform:
+          - ubuntu-latest
+          - windows-latest
+        go-version:
+          - 1.x
+          - 1.16.x
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-go@v1
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Cache Go Modules
+        uses: actions/cache@v1
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('go.sum') }}
+          restore-keys: ${{ runner.os }}-go-
+
+      - name: Run Tests
+        run: go test -v -race -coverprofile coverage.out -covermode atomic ./...
+
+      - name: Ensure Integration Tests Build
+        # don't actually run tests since they hit the live API
+        run: go test -v -tags=integration -run=^$ ./test/integration
+
+      - name: Upload Coverage to Codecov
+        if: success()
+        uses: codecov/codecov-action@v1
+        with:
+          file: ./coverage.out
+
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-go@v1
+        with:
+          go-version: '1.16'
+
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@master
+        with:
+          version: v1.39
+          skip-go-installation: true
