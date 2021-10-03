@@ -22,6 +22,9 @@ import (
 	"time"
 )
 
+// AdGroupService handles communication with build-related methods of the Apple Search Ads API
+//
+// https://developer.apple.com/documentation/apple_search_ads/ad_groups
 type AdGroupService service
 
 type AdGroupResponse struct {
@@ -30,23 +33,53 @@ type AdGroupResponse struct {
 	AdGroup    *AdGroup              `json:"data,omitempty"`
 }
 
+// AdGroupDisplayStatus defines model for AdGroupDisplayStatus.
+//
+// https://developer.apple.com/documentation/apple_search_ads/adgroup
 type AdGroupDisplayStatus string
 
 const (
-	AdGroupDisplayStatusDelete  AdGroupDisplayStatus = "DELETED"
-	AdGroupDisplayStatusOnHold  AdGroupDisplayStatus = "ON_HOLD"
-	AdGroupDisplayStatusPaused  AdGroupDisplayStatus = "PAUSED"
+	// AdGroupDisplayStatusDelete is for an ad group display status on Deleted.
+	AdGroupDisplayStatusDelete AdGroupDisplayStatus = "DELETED"
+	// AdGroupDisplayStatusOnHold is for an ad group display status on On Hold.
+	AdGroupDisplayStatusOnHold AdGroupDisplayStatus = "ON_HOLD"
+	// AdGroupDisplayStatusPaused is for an ad group display status on Paused.
+	AdGroupDisplayStatusPaused AdGroupDisplayStatus = "PAUSED"
+	// AdGroupDisplayStatusRunning is for an ad group display status on Running.
 	AdGroupDisplayStatusRunning AdGroupDisplayStatus = "RUNNING"
 )
 
+// AdGroupPricingModel defines model for AdGroupPricingModel.
+//
+// https://developer.apple.com/documentation/apple_search_ads/adgroup
 type AdGroupPricingModel string
 
 const (
+	//AdGroupPricingModelCPC is for an ad group pricing model CPC
 	AdGroupPricingModelCPC AdGroupPricingModel = "CPC"
+	//AdGroupPricingModelCPM is for an ad group pricing model CPM
 	AdGroupPricingModelCPM AdGroupPricingModel = "CPM"
 )
 
 type ServingStateReason string
+
+const (
+	ServingStateReasonAdGroupPausedByUser         ServingStateReason = "AD_GROUP_PAUSED_BY_USER"
+	ServingStateReasonAdGroupEndDateReached       ServingStateReason = "ADGROUP_END_DATE_REACHED"
+	ServingStateReasonAppNotSupport               ServingStateReason = "APP_NOT_SUPPORT"
+	ServingStateReasonAudienceBelowThreshold      ServingStateReason = "AUDIENCE_BELOW_THRESHOLD"
+	ServingStateReasonCampaignNotRunning          ServingStateReason = "CAMPAIGN_NOT_RUNNING"
+	ServingStateReasonDeletedByUser               ServingStateReason = "DELETED_BY_USER"
+	ServingStateReasonPendingAudienceVerification ServingStateReason = "PENDING_AUDIENCE_VERIFICATION"
+	ServingStateReasonStartDateInTheFuture        ServingStateReason = "START_DATE_IN_THE_FUTURE"
+)
+
+type AdGroupServingStatus string
+
+const (
+	AdGroupServingStatusNotRunning AdGroupServingStatus = "NOT_RUNNING"
+	AdGroupServingStatusRunning    AdGroupServingStatus = "RUNNING"
+)
 
 type AdGroupStatus string
 
@@ -69,6 +102,7 @@ type AdGroup struct {
 	OrgId                  int64                `json:"orgId,omitempty"`
 	PricingModel           AdGroupPricingModel  `json:"pricingModel"`
 	ServingStateReasons    []ServingStateReason `json:"servingStateReasons,omitempty"`
+	ServingStatus          AdGroupServingStatus `json:"servingStatus"`
 	StartTime              time.Time            `json:"startTime,omitempty"`
 	Status                 AdGroupStatus        `json:"status,omitempty"`
 	TargetDimensions       *TargetDimensions    `json:"targetDimensions,omitempty"`
