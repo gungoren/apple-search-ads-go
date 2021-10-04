@@ -49,16 +49,15 @@ func TestUpdateCampaign(t *testing.T) {
 	t.Parallel()
 
 	testEndpointWithResponse(t, "{}", &CampaignResponse{}, func(ctx context.Context, client *Client) (interface{}, *Response, error) {
-		return client.Campaigns.UpdateCampaign(ctx, 1,  &UpdateCampaignRequest{})
+		return client.Campaigns.UpdateCampaign(ctx, 1, &UpdateCampaignRequest{})
 	})
 }
-
 
 func TestCreateCampaign(t *testing.T) {
 	t.Parallel()
 
 	testEndpointWithResponse(t, "{}", &CampaignResponse{}, func(ctx context.Context, client *Client) (interface{}, *Response, error) {
-		return client.Campaigns.CreateCampaign(ctx,  &Campaign{})
+		return client.Campaigns.CreateCampaign(ctx, &Campaign{})
 	})
 }
 
@@ -66,6 +65,6 @@ func TestFindCampaigns(t *testing.T) {
 	t.Parallel()
 
 	testEndpointWithResponse(t, "{}", &CampaignListResponse{}, func(ctx context.Context, client *Client) (interface{}, *Response, error) {
-		return client.Campaigns.FindCampaigns(ctx,  &Selector{})
+		return client.Campaigns.FindCampaigns(ctx, &Selector{})
 	})
 }

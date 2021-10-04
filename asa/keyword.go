@@ -50,10 +50,10 @@ const (
 //
 // https://developer.apple.com/documentation/apple_search_ads/keyword
 type Keyword struct {
-	AdGroupId        int64            `json:"adGroupId,omitempty"`
+	AdGroupID        int64            `json:"adGroupId,omitempty"`
 	BidAmount        Money            `json:"bidAmount,omitempty"`
 	Deleted          bool             `json:"deleted,omitempty"`
-	Id               int64            `json:"id,omitempty"`
+	ID               int64            `json:"id,omitempty"`
 	MatchType        KeywordMatchType `json:"matchType,omitempty"`
 	ModificationTime DateTime         `json:"modificationTime,omitempty"`
 	Status           KeywordStatus    `json:"status,omitempty"`
@@ -72,20 +72,22 @@ type KeywordListResponse struct {
 // CreateTargetingKeywords Creates targeting keywords in ad groups
 //
 // https://developer.apple.com/documentation/apple_search_ads/create_targeting_keywords
-func (s *KeywordService) CreateTargetingKeywords(ctx context.Context, campaignId int64, adGroupId int64, keyword []*Keyword) (*KeywordListResponse, *Response, error) {
-	url := fmt.Sprintf("/campaigns/%d/adgroups/%d/targetingkeywords/bulk", campaignId, adGroupId)
+func (s *KeywordService) CreateTargetingKeywords(ctx context.Context, campaignID int64, adGroupID int64, keyword []*Keyword) (*KeywordListResponse, *Response, error) {
+	url := fmt.Sprintf("/campaigns/%d/adgroups/%d/targetingkeywords/bulk", campaignID, adGroupID)
 	res := new(KeywordListResponse)
 	resp, err := s.client.post(ctx, url, keyword, res)
+
 	return res, resp, err
 }
 
 // FindTargetingKeywords Fetches targeting keywords in a campaign’s ad groups
 //
 // https://developer.apple.com/documentation/apple_search_ads/create_targeting_keywords
-func (s *KeywordService) FindTargetingKeywords(ctx context.Context, campaignId int64, selector *Selector) (*KeywordListResponse, *Response, error) {
-	url := fmt.Sprintf("/campaigns/%d/adgroups/targetingkeywords/find", campaignId)
+func (s *KeywordService) FindTargetingKeywords(ctx context.Context, campaignID int64, selector *Selector) (*KeywordListResponse, *Response, error) {
+	url := fmt.Sprintf("/campaigns/%d/adgroups/targetingkeywords/find", campaignID)
 	res := new(KeywordListResponse)
 	resp, err := s.client.post(ctx, url, selector, res)
+
 	return res, resp, err
 }
 
@@ -101,10 +103,11 @@ type KeywordResponse struct {
 // GetTargetingKeyword Fetches a specific targeting keyword in an ad group
 //
 // https://developer.apple.com/documentation/apple_search_ads/get_a_targeting_keyword_in_an_ad_group
-func (s *KeywordService) GetTargetingKeyword(ctx context.Context, campaignId int64, adGroupId int64, keywordId int64) (*KeywordResponse, *Response, error) {
-	url := fmt.Sprintf("/campaigns/%d/adgroups/%d/targetingkeywords/%d", campaignId, adGroupId, keywordId)
+func (s *KeywordService) GetTargetingKeyword(ctx context.Context, campaignID int64, adGroupID int64, keywordID int64) (*KeywordResponse, *Response, error) {
+	url := fmt.Sprintf("/campaigns/%d/adgroups/%d/targetingkeywords/%d", campaignID, adGroupID, keywordID)
 	res := new(KeywordResponse)
 	resp, err := s.client.get(ctx, url, nil, res)
+
 	return res, resp, err
 }
 
@@ -117,10 +120,11 @@ type GetAllTargetingKeywordsQuery struct {
 // GetAllTargetingKeywords Fetches all targeting keywords in ad groups
 //
 // https://developer.apple.com/documentation/apple_search_ads/get_all_targeting_keywords_in_an_ad_group
-func (s *KeywordService) GetAllTargetingKeywords(ctx context.Context, campaignId int64, adGroupId int64, params *GetAllTargetingKeywordsQuery) (*KeywordListResponse, *Response, error) {
-	url := fmt.Sprintf("/campaigns/%d/adgroups/%d/targetingkeywords/", campaignId, adGroupId)
+func (s *KeywordService) GetAllTargetingKeywords(ctx context.Context, campaignID int64, adGroupID int64, params *GetAllTargetingKeywordsQuery) (*KeywordListResponse, *Response, error) {
+	url := fmt.Sprintf("/campaigns/%d/adgroups/%d/targetingkeywords/", campaignID, adGroupID)
 	res := new(KeywordListResponse)
 	resp, err := s.client.get(ctx, url, params, res)
+
 	return res, resp, err
 }
 
@@ -128,10 +132,10 @@ func (s *KeywordService) GetAllTargetingKeywords(ctx context.Context, campaignId
 //
 // https://developer.apple.com/documentation/apple_search_ads/keywordupdaterequest
 type KeywordUpdateRequest struct {
-	AdGroupId        int64            `json:"adGroupId,omitempty"`
+	AdGroupID        int64            `json:"adGroupId,omitempty"`
 	BidAmount        *Money           `json:"bidAmount,omitempty"`
 	Deleted          bool             `json:"deleted,omitempty"`
-	Id               int64            `json:"id,omitempty"`
+	ID               int64            `json:"id,omitempty"`
 	MatchType        KeywordMatchType `json:"matchType"`
 	ModificationTime DateTime         `json:"modificationTime"`
 }
@@ -139,10 +143,11 @@ type KeywordUpdateRequest struct {
 // UpdateTargetingKeywords Updates targeting keywords in ad groups
 //
 // https://developer.apple.com/documentation/apple_search_ads/update_targeting_keywords
-func (s *KeywordService) UpdateTargetingKeywords(ctx context.Context, campaignId int64, adGroupId int64, updateRequests []*KeywordUpdateRequest) (*KeywordListResponse, *Response, error) {
-	url := fmt.Sprintf("/campaigns/%d/adgroups/%d/targetingkeywords/bulk", campaignId, adGroupId)
+func (s *KeywordService) UpdateTargetingKeywords(ctx context.Context, campaignID int64, adGroupID int64, updateRequests []*KeywordUpdateRequest) (*KeywordListResponse, *Response, error) {
+	url := fmt.Sprintf("/campaigns/%d/adgroups/%d/targetingkeywords/bulk", campaignID, adGroupID)
 	res := new(KeywordListResponse)
 	resp, err := s.client.put(ctx, url, updateRequests, res)
+
 	return res, resp, err
 }
 
@@ -150,10 +155,10 @@ func (s *KeywordService) UpdateTargetingKeywords(ctx context.Context, campaignId
 //
 // https://developer.apple.com/documentation/apple_search_ads/negativekeyword
 type NegativeKeyword struct {
-	AdGroupId        int64            `json:"adGroupId,omitempty"`
-	CampaignId       int64            `json:"campaignId,omitempty"`
+	AdGroupID        int64            `json:"adGroupId,omitempty"`
+	CampaignID       int64            `json:"campaignId,omitempty"`
 	Deleted          bool             `json:"deleted,omitempty"`
-	Id               int64            `json:"id,omitempty"`
+	ID               int64            `json:"id,omitempty"`
 	MatchType        KeywordMatchType `json:"matchType,omitempty"`
 	ModificationTime DateTime         `json:"modificationTime,omitempty"`
 	Status           KeywordStatus    `json:"status,omitempty"`
@@ -172,20 +177,22 @@ type NegativeKeywordListResponse struct {
 // CreateNegativeKeywords Creates negative keywords for a campaign
 //
 // https://developer.apple.com/documentation/apple_search_ads/create_campaign_negative_keywords
-func (s *KeywordService) CreateNegativeKeywords(ctx context.Context, campaignId int64, keyword []*NegativeKeyword) (*NegativeKeywordListResponse, *Response, error) {
-	url := fmt.Sprintf("/campaigns/%d/negativekeywords/bulk", campaignId)
+func (s *KeywordService) CreateNegativeKeywords(ctx context.Context, campaignID int64, keyword []*NegativeKeyword) (*NegativeKeywordListResponse, *Response, error) {
+	url := fmt.Sprintf("/campaigns/%d/negativekeywords/bulk", campaignID)
 	res := new(NegativeKeywordListResponse)
 	resp, err := s.client.post(ctx, url, keyword, res)
+
 	return res, resp, err
 }
 
 // FindNegativeKeywords Fetches negative keywords in a campaign’s ad groups
 //
 // https://developer.apple.com/documentation/apple_search_ads/find_ad_group_negative_keywords
-func (s *KeywordService) FindNegativeKeywords(ctx context.Context, campaignId int64, selector *Selector) (*NegativeKeywordListResponse, *Response, error) {
-	url := fmt.Sprintf("/campaigns/%d/adgroups/negativekeywords/find", campaignId)
+func (s *KeywordService) FindNegativeKeywords(ctx context.Context, campaignID int64, selector *Selector) (*NegativeKeywordListResponse, *Response, error) {
+	url := fmt.Sprintf("/campaigns/%d/adgroups/negativekeywords/find", campaignID)
 	res := new(NegativeKeywordListResponse)
 	resp, err := s.client.post(ctx, url, selector, res)
+
 	return res, resp, err
 }
 
@@ -201,10 +208,11 @@ type NegativeKeywordResponse struct {
 // GetNegativeKeyword Fetches a specific negative keyword in an ad group
 //
 // https://developer.apple.com/documentation/apple_search_ads/get_an_ad_group_negative_keyword
-func (s *KeywordService) GetNegativeKeyword(ctx context.Context, campaignId int64, adGroupId int64, keywordId int64) (*NegativeKeywordResponse, *Response, error) {
-	url := fmt.Sprintf("/campaigns/%d/adgroups/%d/negativekeywords/%d", campaignId, adGroupId, keywordId)
+func (s *KeywordService) GetNegativeKeyword(ctx context.Context, campaignID int64, adGroupID int64, keywordID int64) (*NegativeKeywordResponse, *Response, error) {
+	url := fmt.Sprintf("/campaigns/%d/adgroups/%d/negativekeywords/%d", campaignID, adGroupID, keywordID)
 	res := new(NegativeKeywordResponse)
 	resp, err := s.client.get(ctx, url, nil, res)
+
 	return res, resp, err
 }
 
@@ -217,20 +225,22 @@ type GetAllNegativeKeywordsQuery struct {
 // GetAllNegativeKeywords Fetches all negative keywords in ad groups
 //
 // https://developer.apple.com/documentation/apple_search_ads/get_all_ad_group_negative_keywords
-func (s *KeywordService) GetAllNegativeKeywords(ctx context.Context, campaignId int64, adGroupId int64, params *GetAllNegativeKeywordsQuery) (*NegativeKeywordListResponse, *Response, error) {
-	url := fmt.Sprintf("/campaigns/%d/adgroups/%d/negativekeywords/", campaignId, adGroupId)
+func (s *KeywordService) GetAllNegativeKeywords(ctx context.Context, campaignID int64, adGroupID int64, params *GetAllNegativeKeywordsQuery) (*NegativeKeywordListResponse, *Response, error) {
+	url := fmt.Sprintf("/campaigns/%d/adgroups/%d/negativekeywords/", campaignID, adGroupID)
 	res := new(NegativeKeywordListResponse)
 	resp, err := s.client.get(ctx, url, params, res)
+
 	return res, resp, err
 }
 
 // UpdateNegativeKeywords Updates negative keywords in an ad group
 //
 // https://developer.apple.com/documentation/apple_search_ads/update_ad_group_negative_keywords
-func (s *KeywordService) UpdateNegativeKeywords(ctx context.Context, campaignId int64, adGroupId int64, updateRequests []*NegativeKeyword) (*NegativeKeywordListResponse, *Response, error) {
-	url := fmt.Sprintf("/campaigns/%d/adgroups/%d/negativekeywords/bulk", campaignId, adGroupId)
+func (s *KeywordService) UpdateNegativeKeywords(ctx context.Context, campaignID int64, adGroupID int64, updateRequests []*NegativeKeyword) (*NegativeKeywordListResponse, *Response, error) {
+	url := fmt.Sprintf("/campaigns/%d/adgroups/%d/negativekeywords/bulk", campaignID, adGroupID)
 	res := new(NegativeKeywordListResponse)
 	resp, err := s.client.put(ctx, url, updateRequests, res)
+
 	return res, resp, err
 }
 
@@ -240,15 +250,16 @@ func (s *KeywordService) UpdateNegativeKeywords(ctx context.Context, campaignId 
 type IntegerResponse struct {
 	Data       int32              `json:"data,omitempty"`
 	Error      *ErrorResponseBody `json:"error,omitempty"`
-	Pagination *PageDetail         `json:"pagination,omitempty"`
+	Pagination *PageDetail        `json:"pagination,omitempty"`
 }
 
 // DeleteNegativeKeywords Deletes negative keywords from an ad group
 //
 // https://developer.apple.com/documentation/apple_search_ads/delete_ad_group_negative_keywords
-func (s *KeywordService) DeleteNegativeKeywords(ctx context.Context, campaignId int64, adGroupId int64, keywordIds []int64) (*IntegerResponse, *Response, error) {
-	url := fmt.Sprintf("/campaigns/%d/adgroups/%d/negativekeywords/delete/bulk", campaignId, adGroupId)
+func (s *KeywordService) DeleteNegativeKeywords(ctx context.Context, campaignID int64, adGroupID int64, keywordIds []int64) (*IntegerResponse, *Response, error) {
+	url := fmt.Sprintf("/campaigns/%d/adgroups/%d/negativekeywords/delete/bulk", campaignID, adGroupID)
 	res := new(IntegerResponse)
 	resp, err := s.client.post(ctx, url, keywordIds, res)
+
 	return res, resp, err
 }

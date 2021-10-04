@@ -53,7 +53,6 @@ func TestUpdateAdGroup(t *testing.T) {
 	})
 }
 
-
 func TestCreateAdGroup(t *testing.T) {
 	t.Parallel()
 

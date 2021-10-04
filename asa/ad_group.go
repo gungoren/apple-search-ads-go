@@ -30,9 +30,9 @@ type AdGroupService service
 //
 // https://developer.apple.com/documentation/apple_search_ads/adgroupresponse
 type AdGroupResponse struct {
-	AdGroup    *AdGroup              `json:"data,omitempty"`
-	Error      *GeneralErrorResponse `json:"error,omitempty"`
-	Pagination *PageDetail           `json:"pagination,omitempty"`
+	AdGroup    *AdGroup          `json:"data,omitempty"`
+	Error      *APIErrorResponse `json:"error,omitempty"`
+	Pagination *PageDetail       `json:"pagination,omitempty"`
 }
 
 // AdGroupDisplayStatus defines model for AdGroupDisplayStatus.
@@ -57,44 +57,65 @@ const (
 type AdGroupPricingModel string
 
 const (
-	//AdGroupPricingModelCPC is for an ad group pricing model CPC
+	// AdGroupPricingModelCPC is for an ad group pricing model CPC.
 	AdGroupPricingModelCPC AdGroupPricingModel = "CPC"
-	//AdGroupPricingModelCPM is for an ad group pricing model CPM
+	// AdGroupPricingModelCPM is for an ad group pricing model CPM.
 	AdGroupPricingModelCPM AdGroupPricingModel = "CPM"
 )
 
+// ServingStateReason is that displays when an ad group isn’t running.
 type ServingStateReason string
 
 const (
-	ServingStateReasonAdGroupPausedByUser         ServingStateReason = "AD_GROUP_PAUSED_BY_USER"
-	ServingStateReasonAdGroupEndDateReached       ServingStateReason = "ADGROUP_END_DATE_REACHED"
-	ServingStateReasonAppNotSupport               ServingStateReason = "APP_NOT_SUPPORT"
-	ServingStateReasonAudienceBelowThreshold      ServingStateReason = "AUDIENCE_BELOW_THRESHOLD"
-	ServingStateReasonCampaignNotRunning          ServingStateReason = "CAMPAIGN_NOT_RUNNING"
-	ServingStateReasonDeletedByUser               ServingStateReason = "DELETED_BY_USER"
+	// ServingStateReasonAdGroupPausedByUser is for an ad group serving state reason Ad Group Paused By User.
+	ServingStateReasonAdGroupPausedByUser ServingStateReason = "AD_GROUP_PAUSED_BY_USER"
+	// ServingStateReasonAdGroupEndDateReached is for an ad group serving state reason Ad Group End Date Reached.
+	ServingStateReasonAdGroupEndDateReached ServingStateReason = "ADGROUP_END_DATE_REACHED"
+	// ServingStateReasonAppNotSupport is for an ad group serving state reason App Not Support.
+	ServingStateReasonAppNotSupport ServingStateReason = "APP_NOT_SUPPORT"
+	// ServingStateReasonAudienceBelowThreshold is for an ad group serving state reason Audience Below Threshold.
+	ServingStateReasonAudienceBelowThreshold ServingStateReason = "AUDIENCE_BELOW_THRESHOLD"
+	// ServingStateReasonCampaignNotRunning is for an ad group serving state reason Campaign Not Running.
+	ServingStateReasonCampaignNotRunning ServingStateReason = "CAMPAIGN_NOT_RUNNING"
+	// ServingStateReasonDeletedByUser is for an ad group serving state reason Deleted By User.
+	ServingStateReasonDeletedByUser ServingStateReason = "DELETED_BY_USER"
+	// ServingStateReasonPendingAudienceVerification is for an ad group serving state reason Pending Audience Verification.
 	ServingStateReasonPendingAudienceVerification ServingStateReason = "PENDING_AUDIENCE_VERIFICATION"
-	ServingStateReasonStartDateInTheFuture        ServingStateReason = "START_DATE_IN_THE_FUTURE"
+	// ServingStateReasonStartDateInTheFuture is for an ad group serving state reason Start Date in The Future.
+	ServingStateReasonStartDateInTheFuture ServingStateReason = "START_DATE_IN_THE_FUTURE"
 )
 
+// AdGroupServingStatus is the status of whether the ad group is serving.
 type AdGroupServingStatus string
 
 const (
+	// AdGroupServingStatusNotRunning is for an ad group serving status Not Running.
 	AdGroupServingStatusNotRunning AdGroupServingStatus = "NOT_RUNNING"
-	AdGroupServingStatusRunning    AdGroupServingStatus = "RUNNING"
+	// AdGroupServingStatusRunning is for an ad group serving status Running.
+	AdGroupServingStatusRunning AdGroupServingStatus = "RUNNING"
 )
 
+// AdGroupStatus is the user-controlled status to enable or pause the ad group.
 type AdGroupStatus string
 
 const (
+	// AdGroupStatusEnabled is for an ad group status Enabled.
 	AdGroupStatusEnabled AdGroupStatus = "ENABLED"
-	AdGroupStatusPaused  AdGroupStatus = "PAUSED"
+	// AdGroupStatusPaused is for an ad group status Paused.
+	AdGroupStatusPaused AdGroupStatus = "PAUSED"
 )
 
+// Money is the response to requests for budget amounts in campaigns
+//
+// https://developer.apple.com/documentation/apple_search_ads/money
 type Money struct {
 	Amount   string `json:"amount"`
 	Currency string `json:"currency"`
 }
 
+// AdGroup is the response to ad group requests
+//
+// https://developer.apple.com/documentation/apple_search_ads/adgroup
 type AdGroup struct {
 	AutomatedKeywordsOptIn bool                 `json:"automatedKeywordsOptIn,omitempty"`
 	CampaignID             int64                `json:"campaignID,omitempty"`
@@ -103,10 +124,10 @@ type AdGroup struct {
 	Deleted                bool                 `json:"deleted"`
 	DisplayStatus          AdGroupDisplayStatus `json:"displayStatus"`
 	EndTime                DateTime             `json:"endTime,omitempty"`
-	Id                     int64                `json:"id,omitempty"`
+	ID                     int64                `json:"id,omitempty"`
 	ModificationTime       DateTime             `json:"modificationTime,omitempty"`
 	Name                   string               `json:"name,omitempty"`
-	OrgId                  int64                `json:"orgId,omitempty"`
+	OrgID                  int64                `json:"orgId,omitempty"`
 	PricingModel           AdGroupPricingModel  `json:"pricingModel"`
 	ServingStateReasons    []ServingStateReason `json:"servingStateReasons,omitempty"`
 	ServingStatus          AdGroupServingStatus `json:"servingStatus"`
@@ -115,6 +136,9 @@ type AdGroup struct {
 	TargetDimensions       *TargetDimensions    `json:"targetDimensions,omitempty"`
 }
 
+// TargetDimensions is the criteria to use with ad groups to narrow the audience that views the ads
+//
+// https://developer.apple.com/documentation/apple_search_ads/targetingdimensions
 type TargetDimensions struct {
 	AdminArea      *AdminAreaCriteria     `json:"adminArea,omitempty"`
 	Age            *AgeCriteria           `json:"age,omitempty"`
@@ -126,62 +150,101 @@ type TargetDimensions struct {
 	Locality       *LocalityCriteria      `json:"locality,omitempty"`
 }
 
+// AdminAreaCriteria is the defined targeted audience by administrative area
+//
+// https://developer.apple.com/documentation/apple_search_ads/adminareacriteria
 type AdminAreaCriteria struct {
 	Included []string `json:"included,omitempty"`
 }
 
+// AgeCriteria is the defined targeted audience to include using the age demographic
+//
+// https://developer.apple.com/documentation/apple_search_ads/agecriteria
 type AgeCriteria struct {
 	Included []*AgeRange `json:"included,omitempty"`
 }
 
+// AgeRange is the defined target audience to include using the age range demographic
+//
+// https://developer.apple.com/documentation/apple_search_ads/agerange
 type AgeRange struct {
 	MaxAge int32 `json:"maxAge,omitempty"`
 	MinAge int32 `json:"minAge,omitempty"`
 }
 
+// AppDownloaderCriteria is the defined targeted audience according to app downloads
+//
+// https://developer.apple.com/documentation/apple_search_ads/appdownloadercriteria
 type AppDownloaderCriteria struct {
 	Included []string `json:"included,omitempty"`
 	Excluded []string `json:"excluded,omitempty"`
 }
 
+// CountryCriteria is the defined targeted audience by country or region
+//
+// https://developer.apple.com/documentation/apple_search_ads/countrycriteria
 type CountryCriteria struct {
 	Included []string `json:"included,omitempty"`
 }
 
+// DayPartCriteria is the defined targeted audience to include for a specific time of day
+//
+// https://developer.apple.com/documentation/apple_search_ads/daypartcriteria
 type DayPartCriteria struct {
 	UserTime *DaypartDetail `json:"userTime,omitempty"`
 }
 
+// DaypartDetail is the defined targeted audience to include by a specific time of day
+//
+// https://developer.apple.com/documentation/apple_search_ads/daypartdetail
 type DaypartDetail struct {
 	Included []int32 `json:"included,omitempty"`
 }
 
+// AdGroupDeviceClass is targeting criteria values for device class targeting.
 type AdGroupDeviceClass string
 
 const (
-	AdGroupDeviceClassIpad   AdGroupDeviceClass = "IPAD"
+	// AdGroupDeviceClassIpad is for ad group targeting criteria values for Ipad.
+	AdGroupDeviceClassIpad AdGroupDeviceClass = "IPAD"
+	// AdGroupDeviceClassIphone is for ad group targeting criteria values for Iphone.
 	AdGroupDeviceClassIphone AdGroupDeviceClass = "IPHONE"
 )
 
+// DeviceClassCriteria is the defined targeted audience to include by device type
+//
+// https://developer.apple.com/documentation/apple_search_ads/deviceclasscriteria
 type DeviceClassCriteria struct {
 	Included []AdGroupDeviceClass `json:"included,omitempty"`
 }
 
+// AdGroupGender is the targeting criteria values for gender.
 type AdGroupGender string
 
 const (
+	// AdGroupGenderFemale is the targeting gender criteria for Female.
 	AdGroupGenderFemale AdGroupGender = "F"
-	AdGroupGenderMale   AdGroupGender = "M"
+	// AdGroupGenderMale is the targeting gender criteria for Male.
+	AdGroupGenderMale AdGroupGender = "M"
 )
 
+// GenderCriteria is the defined targeted audience to include using the gender demographic
+//
+// https://developer.apple.com/documentation/apple_search_ads/gendercriteria
 type GenderCriteria struct {
 	Included []AdGroupGender `json:"included,omitempty"`
 }
 
+// LocalityCriteria is the defined targeted audience by locality
+//
+// https://developer.apple.com/documentation/apple_search_ads/localitycriteria
 type LocalityCriteria struct {
 	Included []string `json:"included,omitempty"`
 }
 
+// AdGroupListResponse is the response details of ad group requests
+//
+// https://developer.apple.com/documentation/apple_search_ads/adgrouplistresponse
 type AdGroupListResponse struct {
 	AdGroup    []AdGroup          `json:"data,omitempty"`
 	Error      *ErrorResponseBody `json:"error,omitempty"`
@@ -191,18 +254,23 @@ type AdGroupListResponse struct {
 // CreateAdGroup creates an ad group as part of a campaign
 //
 // https://developer.apple.com/documentation/apple_search_ads/create_an_ad_group
-func (s *AdGroupService) CreateAdGroup(ctx context.Context, campaignId int64, adGroup *AdGroup) (*AdGroupResponse, *Response, error) {
-	url := fmt.Sprintf("/campaigns/%d/adgroups", campaignId)
+func (s *AdGroupService) CreateAdGroup(ctx context.Context, campaignID int64, adGroup *AdGroup) (*AdGroupResponse, *Response, error) {
+	url := fmt.Sprintf("/campaigns/%d/adgroups", campaignID)
 	res := new(AdGroupResponse)
 	resp, err := s.client.post(ctx, url, adGroup, res)
+
 	return res, resp, err
 }
 
+// GetAllAdGroupsQuery defines query parameter for GetAllAdGroups endpoint.
 type GetAllAdGroupsQuery struct {
 	Limit  int32 `url:"limit,omitempty"`
 	Offset int32 `url:"offset,omitempty"`
 }
 
+// AdGroupUpdateRequest is the response to ad group update requests
+//
+// https://developer.apple.com/documentation/apple_search_ads/adgroupupdate
 type AdGroupUpdateRequest struct {
 	AutomatedKeywordsOptIn bool              `json:"automatedKeywordsOptIn,omitempty"`
 	CpaGoal                *Money            `json:"cpaGoal,omitempty"`
@@ -214,23 +282,28 @@ type AdGroupUpdateRequest struct {
 	TargetingDimensions    *TargetDimensions `json:"targetingDimensions"`
 }
 
+// ConditionOperator is the operator values compare attributes to a list of specified values.
 type ConditionOperator string
 
 const (
+	ConditionOperatorBetween     ConditionOperator = "BETWEEN"
+	ConditionOperatorContains    ConditionOperator = "CONTAINS"
+	ConditionOperatorContainsAll ConditionOperator = "CONTAINS_ALL"
+	ConditionOperatorContainsAny ConditionOperator = "CONTAINS_ANY"
+	ConditionOperatorEndsWith    ConditionOperator = "ENDSWITH"
 	ConditionOperatorEquals      ConditionOperator = "EQUALS"
 	ConditionOperatorGreaterThan ConditionOperator = "GREATER_THAN"
 	ConditionOperatorLessThan    ConditionOperator = "LESS_THAN"
+	ConditionOperatorStartsWith  ConditionOperator = "STARTSWITH"
 	ConditionOperatorIn          ConditionOperator = "IN"
 	ConditionOperatorLike        ConditionOperator = "LIKE"
-	ConditionOperatorStartsWith  ConditionOperator = "STARTSWITH"
-	ConditionOperatorContains    ConditionOperator = "CONTAINS"
-	ConditionOperatorEndsWith    ConditionOperator = "ENDSWITH"
 	ConditionOperatorNotEqual    ConditionOperator = "NOT_EQUALS"
 	ConditionOperatorIs          ConditionOperator = "IS"
-	ConditionOperatorContainsAny ConditionOperator = "CONTAINS_ANY"
-	ConditionOperatorContainsAll ConditionOperator = "CONTAINS_ALL"
 )
 
+// Selector is the selector objects available to filter returned data
+//
+// https://developer.apple.com/documentation/apple_search_ads/selector
 type Selector struct {
 	Conditions []*Condition `json:"conditions,omitempty"`
 	Fields     []string     `json:"fields,omitempty"`
@@ -238,24 +311,36 @@ type Selector struct {
 	Pagination *Pagination  `json:"pagination,omitempty"`
 }
 
+// Condition is the list of condition objects that allow users to filter a list of records
+//
+// https://developer.apple.com/documentation/apple_search_ads/condition
 type Condition struct {
 	Field    string            `json:"field"`
 	Operator ConditionOperator `json:"operator"`
 	Values   []string          `json:"values"`
 }
 
+// SortOrder is the order of grouped results.
 type SortOrder string
 
 const (
-	SortingOrderAscending  SortOrder = "ASCENDING"
+	// SortingOrderAscending is for sort order of Ascending.
+	SortingOrderAscending SortOrder = "ASCENDING"
+	// SortingOrderDescending is for sort order of Descending.
 	SortingOrderDescending SortOrder = "DESCENDING"
 )
 
+// Sorting is the order of grouped results
+//
+// https://developer.apple.com/documentation/apple_search_ads/sorting
 type Sorting struct {
 	Field     string    `json:"field"`
 	SortOrder SortOrder `json:"sortOrder"`
 }
 
+// Pagination is the procedure to refine returned results using limit and offset parameters
+//
+// https://developer.apple.com/documentation/apple_search_ads/pagination
 type Pagination struct {
 	Limit  uint32 `json:"limit"`
 	Offset uint32 `json:"offset"`
@@ -264,48 +349,53 @@ type Pagination struct {
 // FindAdGroups fetches ad groups within a campaign
 //
 // https://developer.apple.com/documentation/apple_search_ads/find_ad_groups
-func (s *AdGroupService) FindAdGroups(ctx context.Context, campaignId int64, selector *Selector) (*AdGroupListResponse, *Response, error) {
-	url := fmt.Sprintf("/campaigns/%d/adgroups/find", campaignId)
+func (s *AdGroupService) FindAdGroups(ctx context.Context, campaignID int64, selector *Selector) (*AdGroupListResponse, *Response, error) {
+	url := fmt.Sprintf("/campaigns/%d/adgroups/find", campaignID)
 	res := new(AdGroupListResponse)
 	resp, err := s.client.post(ctx, url, selector, res)
+
 	return res, resp, err
 }
 
 // GetAdGroup fetches a specific ad group with a campaign and ad group identifier
 //
 // https://developer.apple.com/documentation/apple_search_ads/get_an_ad_group
-func (s *AdGroupService) GetAdGroup(ctx context.Context, campaignId int64, adGroupId int64) (*AdGroupResponse, *Response, error) {
-	url := fmt.Sprintf("/campaigns/%d/adgroups/%d", campaignId, adGroupId)
+func (s *AdGroupService) GetAdGroup(ctx context.Context, campaignID int64, adGroupID int64) (*AdGroupResponse, *Response, error) {
+	url := fmt.Sprintf("/campaigns/%d/adgroups/%d", campaignID, adGroupID)
 	res := new(AdGroupResponse)
 	resp, err := s.client.get(ctx, url, nil, res)
+
 	return res, resp, err
 }
 
 // GetAllAdGroups fetches all ad groups with a campaign identifier.
 //
 // https://developer.apple.com/documentation/apple_search_ads/get_all_ad_groups
-func (s *AdGroupService) GetAllAdGroups(ctx context.Context, campaignId int64, params *GetAllAdGroupsQuery) (*AdGroupListResponse, *Response, error) {
-	url := fmt.Sprintf("/campaigns/%d/adgroups", campaignId)
+func (s *AdGroupService) GetAllAdGroups(ctx context.Context, campaignID int64, params *GetAllAdGroupsQuery) (*AdGroupListResponse, *Response, error) {
+	url := fmt.Sprintf("/campaigns/%d/adgroups", campaignID)
 	res := new(AdGroupListResponse)
 	resp, err := s.client.get(ctx, url, &params, res)
+
 	return res, resp, err
 }
 
 // UpdateAdGroup updates an ad group with an ad group identifier.
 //
 // https://developer.apple.com/documentation/apple_search_ads/update_an_ad_group
-func (s *AdGroupService) UpdateAdGroup(ctx context.Context, campaignId int64, adGroupId int64, req *AdGroupUpdateRequest) (*AdGroupResponse, *Response, error) {
-	url := fmt.Sprintf("/campaigns/%d/adgroups/%d", campaignId, adGroupId)
+func (s *AdGroupService) UpdateAdGroup(ctx context.Context, campaignID int64, adGroupID int64, req *AdGroupUpdateRequest) (*AdGroupResponse, *Response, error) {
+	url := fmt.Sprintf("/campaigns/%d/adgroups/%d", campaignID, adGroupID)
 	res := new(AdGroupResponse)
 	resp, err := s.client.put(ctx, url, req, res)
+
 	return res, resp, err
 }
 
 // DeleteAdGroup deletes an ad group with a campaign and ad group identifier.
 //
 // https://developer.apple.com/documentation/apple_search_ads/delete_an_adgroup
-func (s *AdGroupService) DeleteAdGroup(ctx context.Context, campaignId int64, adGroupId int64) (*Response, error) {
-	url := fmt.Sprintf("/campaigns/%d/adgroups/%d", campaignId, adGroupId)
+func (s *AdGroupService) DeleteAdGroup(ctx context.Context, campaignID int64, adGroupID int64) (*Response, error) {
+	url := fmt.Sprintf("/campaigns/%d/adgroups/%d", campaignID, adGroupID)
 	resp, err := s.client.delete(ctx, url, nil)
+
 	return resp, err
 }

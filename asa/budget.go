@@ -67,10 +67,10 @@ type BudgetOrder struct {
 	Budget            *Money                   `json:"budget,omitempty"`
 	ClientName        string                   `json:"clientName,omitempty"`
 	EndDate           DateTime                 `json:"endDate,omitempty"`
-	Id                int64                    `json:"id,omitempty"`
+	ID                int64                    `json:"id,omitempty"`
 	Name              string                   `json:"name,omitempty"`
 	OrderNumber       string                   `json:"orderNumber,omitempty"`
-	ParentOrgId       int64                    `json:"parentOrgId,omitempty"`
+	ParentOrgID       int64                    `json:"parentOrgId,omitempty"`
 	PrimaryBuyerEmail string                   `json:"primaryBuyerEmail"`
 	PrimaryBuyerName  string                   `json:"primaryBuyerName"`
 	StartDate         DateTime                 `json:"startDate"`
@@ -81,10 +81,11 @@ type BudgetOrder struct {
 // GetBudgetOrder Fetches a specific budget order using a budget order identifier
 //
 // https://developer.apple.com/documentation/apple_search_ads/get_a_budget_order
-func (s *BudgetService) GetBudgetOrder(ctx context.Context, boId int64) (*BudgetOrderInfoResponse, *Response, error) {
-	url := fmt.Sprintf("budgetorders/%d", boId)
+func (s *BudgetService) GetBudgetOrder(ctx context.Context, boID int64) (*BudgetOrderInfoResponse, *Response, error) {
+	url := fmt.Sprintf("budgetorders/%d", boID)
 	res := new(BudgetOrderInfoResponse)
 	resp, err := s.client.get(ctx, url, nil, res)
+
 	return res, resp, err
 }
 
@@ -94,6 +95,9 @@ type GetAllBudgetOrdersQuery struct {
 	Offset int32 `url:"offset,omitempty"`
 }
 
+// BudgetOrderInfoListResponse is the response details to budget order requests
+//
+// https://developer.apple.com/documentation/apple_search_ads/budgetorderinfolistresponse
 type BudgetOrderInfoListResponse struct {
 	Data       []*BudgetOrderInfo `json:"data"`
 	Error      *ErrorResponseBody `json:"error"`
@@ -104,8 +108,9 @@ type BudgetOrderInfoListResponse struct {
 //
 // https://developer.apple.com/documentation/apple_search_ads/get_all_budget_orders
 func (s *BudgetService) GetAllBudgetOrders(ctx context.Context, params *GetAllBudgetOrdersQuery) (*BudgetOrderInfoListResponse, *Response, error) {
-	url := fmt.Sprintf("budgetorders")
+	url := "budgetorders"
 	res := new(BudgetOrderInfoListResponse)
 	resp, err := s.client.get(ctx, url, params, res)
+
 	return res, resp, err
 }

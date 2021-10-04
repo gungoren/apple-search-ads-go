@@ -21,6 +21,9 @@ import (
 	"fmt"
 )
 
+// ReportingService handles communication with build-related methods of the Apple Search Ads API
+//
+// https://developer.apple.com/documentation/apple_search_ads/reports
 type ReportingService service
 
 type ReportingRequestGranularity string
@@ -51,6 +54,9 @@ const (
 	ReportingRequestGroupByTypeLocality        ReportingRequestGroupBy = "locality"
 )
 
+// ReportingRequest is the report request body
+//
+// https://developer.apple.com/documentation/apple_search_ads/reportingrequest
 type ReportingRequest struct {
 	StartTime                  DateTime                     `json:"startTime"`
 	EndTime                    DateTime                     `json:"endTime"`
@@ -64,25 +70,34 @@ type ReportingRequest struct {
 }
 
 type ReportingResponseBody struct {
-	ReportingCampaign ReportingCampaign `json:"data"`
-	Pagination        PageDetail        `json:"pagination"`
+	ReportingCampaign *ReportingResponse `json:"data,omitempty"`
+	Pagination        *PageDetail        `json:"pagination,omitempty"`
 }
 
-type ReportingCampaign struct {
-	ReportingDataResponse ReportingDataResponse `json:"reportingDataResponse"`
+// ReportingResponse is a container for report metrics
+//
+// https://developer.apple.com/documentation/apple_search_ads/reportingresponse
+type ReportingResponse struct {
+	ReportingDataResponse *ReportingDataResponse `json:"reportingDataResponse,omitempty"`
 }
 
+// ReportingDataResponse is the total metrics for a report
+//
+// https://developer.apple.com/documentation/apple_search_ads/reportingdataresponse
 type ReportingDataResponse struct {
-	Rows        []Row           `json:"row"`
+	Rows        []Row           `json:"row,omitempty"`
 	GrandTotals *GrandTotalsRow `json:"grandTotals,omitempty"`
 }
 
+// Row is the report metrics organized by time granularity.
+//
+// https://developer.apple.com/documentation/apple_search_ads/row
 type Row struct {
-	Other       bool                `json:"other"`
+	Other       bool                `json:"other,omitempty"`
 	Granularity []*ExtendedSpendRow `json:"granularity,omitempty"`
 	Total       *SpendRow           `json:"total,omitempty"`
-	Metadata    *MetadataObject     `json:"metadata,omitempty"`
-	Insights    *KeywordInsights    `json:"insights"`
+	Metadata    *MetaDataObject     `json:"metadata,omitempty"`
+	Insights    *InsightsObject     `json:"insights,omitempty"`
 }
 
 type ReportingKeywordMatchType string
@@ -100,59 +115,74 @@ const (
 	SearchTermSourceTargeted SearchTermSource = "TARGETED"
 )
 
-type Application struct {
+// CampaignAppDetail is the app data to fetch from campaign-level reports
+//
+// https://developer.apple.com/documentation/apple_search_ads/campaignappdetail
+type CampaignAppDetail struct {
 	AppName string `json:"appName"`
 	AdamID  int64  `json:"adamId"`
 }
 
-type MetadataObject struct {
-	AdGroupID                          int64                                      `json:"adGroupID"`
-	AdGroupName                        string                                     `json:"adGroupName"`
-	CampaignID                         int64                                      `json:"campaignId"`
-	CampaignName                       string                                     `json:"campaignName"`
-	Deleted                            bool                                       `json:"deleted"`
-	CampaignStatus                     CampaignStatus                             `json:"campaignStatus"`
-	App                                *Application                               `json:"app,omitempty"`
-	ServingStatus                      CampaignServingStatus                      `json:"servingStatus"`
-	ServingStateReasons                []CampaignServingStateReason               `json:"servingStateReasons"`
-	CountriesOrRegions                 []Region                                   `json:"countriesOrRegions"`
-	ModificationTime                   DateTime                                   `json:"modificationTime"`
-	TotalBudget                        Money                                      `json:"totalBudget"`
-	DailyBudget                        Money                                      `json:"dailyBudget"`
-	DisplayStatus                      CampaignDisplayStatus                      `json:"displayStatus"`
-	SupplySources                      []CampaignSupplySource                     `json:"supplySources"`
-	AdChannelType                      CampaignAdChannelType                      `json:"adChannelType"`
-	OrgID                              int                                        `json:"orgId"`
-	CountryOrRegionServingStateReasons CampaignCountryOrRegionServingStateReasons `json:"countryOrRegionServingStateReasons"`
-	BillingEvent                       string                                     `json:"billingEvent"`
-	KeywordID                          int64                                      `json:"keywordID"`
-	MatchType                          *ReportingKeywordMatchType                 `json:"matchType"`
-	CountryOrRegion                    Region                                     `json:"countryOrRegion"`
-	SearchTermText                     []string                                   `json:"SearchTermText"`
-	SearchTermSource                   *SearchTermSource                          `json:"searchTermSource"`
+// MetaDataObject is the report response objects
+//
+// https://developer.apple.com/documentation/apple_search_ads/metadataobject
+type MetaDataObject struct {
+	AdGroupID                          int64                                       `json:"adGroupID,omitempty"`
+	AdGroupName                        string                                      `json:"adGroupName,omitempty"`
+	CampaignID                         int64                                       `json:"campaignId,omitempty"`
+	CampaignName                       string                                      `json:"campaignName,omitempty"`
+	Deleted                            bool                                        `json:"deleted,omitempty"`
+	CampaignStatus                     CampaignStatus                              `json:"campaignStatus,omitempty"`
+	App                                *CampaignAppDetail                          `json:"app,omitempty"`
+	ServingStatus                      CampaignServingStatus                       `json:"servingStatus,omitempty"`
+	ServingStateReasons                []CampaignServingStateReason                `json:"servingStateReasons,omitempty"`
+	CountriesOrRegions                 []Region                                    `json:"countriesOrRegions,omitempty"`
+	ModificationTime                   DateTime                                    `json:"modificationTime,omitempty"`
+	TotalBudget                        *Money                                      `json:"totalBudget,omitempty"`
+	DailyBudget                        *Money                                      `json:"dailyBudget,omitempty"`
+	DisplayStatus                      CampaignDisplayStatus                       `json:"displayStatus,omitempty"`
+	SupplySources                      []CampaignSupplySource                      `json:"supplySources,omitempty"`
+	AdChannelType                      CampaignAdChannelType                       `json:"adChannelType,omitempty"`
+	OrgID                              int                                         `json:"orgId,omitempty"`
+	CountryOrRegionServingStateReasons *CampaignCountryOrRegionServingStateReasons `json:"countryOrRegionServingStateReasons,omitempty"`
+	BillingEvent                       string                                      `json:"billingEvent,omitempty"`
+	KeywordID                          int64                                       `json:"keywordID,omitempty"`
+	MatchType                          *ReportingKeywordMatchType                  `json:"matchType,omitempty"`
+	CountryOrRegion                    *Region                                     `json:"countryOrRegion,omitempty"`
+	SearchTermText                     []string                                    `json:"SearchTermText,omitempty"`
+	SearchTermSource                   *SearchTermSource                           `json:"searchTermSource,omitempty"`
 }
 
+// GrandTotalsRow is the summary of cumulative metrics
+//
+// https://developer.apple.com/documentation/apple_search_ads/grandtotalsrow
 type GrandTotalsRow struct {
-	Other bool     `json:"other"`
-	Total SpendRow `json:"total"`
+	Other bool      `json:"other,omitempty"`
+	Total *SpendRow `json:"total,omitempty"`
 }
 
+// SpendRow is the reporting response metrics
+//
+// https://developer.apple.com/documentation/apple_search_ads/spendrow
 type SpendRow struct {
-	AvgCPA         Money   `json:"avgCPA"`
-	AvgCPT         Money   `json:"avgCPT"`
-	AvgCPM         Money   `json:"avgCPM"`
-	ConversionRate float64 `json:"conversionRate"`
-	Impressions    int64   `json:"impressions"`
-	Installs       int64   `json:"installs"`
-	LatOffInstalls int64   `json:"latOffInstalls"`
-	LatOnInstalls  int64   `json:"latOnInstalls"`
-	LocalSpend     Money   `json:"localSpend"`
-	NewDownloads   int64   `json:"newDownloads"`
-	ReDownloads    int64   `json:"redownloads"`
-	Taps           int64   `json:"taps"`
-	Ttr            float64 `json:"ttr"`
+	AvgCPA         *Money  `json:"avgCPA,omitempty"`
+	AvgCPT         *Money  `json:"avgCPT,omitempty"`
+	AvgCPM         *Money  `json:"avgCPM,omitempty"`
+	ConversionRate float64 `json:"conversionRate,omitempty"`
+	Impressions    int64   `json:"impressions,omitempty"`
+	Installs       int64   `json:"installs,omitempty"`
+	LatOffInstalls int64   `json:"latOffInstalls,omitempty"`
+	LatOnInstalls  int64   `json:"latOnInstalls,omitempty"`
+	LocalSpend     *Money  `json:"localSpend,omitempty"`
+	NewDownloads   int64   `json:"newDownloads,omitempty"`
+	ReDownloads    int64   `json:"redownloads,omitempty"`
+	Taps           int64   `json:"taps,omitempty"`
+	Ttr            float64 `json:"ttr,omitempty"`
 }
 
+// ExtendedSpendRow is the descriptions of metrics with dates
+//
+// https://developer.apple.com/documentation/apple_search_ads/extendedspendrow
 type ExtendedSpendRow struct {
 	AvgCPA         *Money  `json:"avgCPA,omitempty"`
 	AvgCPT         *Money  `json:"avgCPT,omitempty"`
@@ -170,46 +200,72 @@ type ExtendedSpendRow struct {
 	Date           Date    `json:"date,omitempty"`
 }
 
-type KeywordInsights struct {
-	BidRecommendation KeywordBidRecommendation `json:"bidRecommendation"`
+// InsightsObject is a parent object for bid recommendations
+//
+// https://developer.apple.com/documentation/apple_search_ads/insightsobject
+type InsightsObject struct {
+	BidRecommendation *KeywordBidRecommendation `json:"bidRecommendation,omitempty"`
 }
 
+// KeywordBidRecommendation is the bid recommendation range for a keyword
+//
+// https://developer.apple.com/documentation/apple_search_ads/keywordbidrecommendation
 type KeywordBidRecommendation struct {
-	BidMax *Money `json:"bidMax"`
-	BidMin *Money `json:"bidMin"`
+	BidMax *Money `json:"bidMax,omitempty"`
+	BidMin *Money `json:"bidMin,omitempty"`
 }
 
+// GetCampaignLevelReports fetches reports for campaigns
+//
+// https://developer.apple.com/documentation/apple_search_ads/get_campaign-level_reports
 func (s *ReportingService) GetCampaignLevelReports(ctx context.Context, params *ReportingRequest) (*ReportingResponseBody, *Response, error) {
 	url := "reports/campaigns"
 	res := new(ReportingResponseBody)
 	resp, err := s.client.post(ctx, url, &params, res)
+
 	return res, resp, err
 }
 
-func (s *ReportingService) GetAdGroupLevelReports(ctx context.Context, campaignId int64, params *ReportingRequest) (*ReportingResponseBody, *Response, error) {
-	url := fmt.Sprintf("reports/campaigns/%d/adgroups", campaignId)
+// GetAdGroupLevelReports fetches reports for ad groups within a campaig
+//
+// https://developer.apple.com/documentation/apple_search_ads/get_ad_group-level_reports
+func (s *ReportingService) GetAdGroupLevelReports(ctx context.Context, campaignID int64, params *ReportingRequest) (*ReportingResponseBody, *Response, error) {
+	url := fmt.Sprintf("reports/campaigns/%d/adgroups", campaignID)
 	res := new(ReportingResponseBody)
 	resp, err := s.client.post(ctx, url, &params, res)
+
 	return res, resp, err
 }
 
-func (s *ReportingService) GetKeywordLevelReports(ctx context.Context, campaignId int64, params *ReportingRequest) (*ReportingResponseBody, *Response, error) {
-	url := fmt.Sprintf("reports/campaigns/%d/keywords", campaignId)
+// GetKeywordLevelReports fetches reports for targeting keywords within a campaign
+//
+// https://developer.apple.com/documentation/apple_search_ads/get_keyword-level_reports
+func (s *ReportingService) GetKeywordLevelReports(ctx context.Context, campaignID int64, params *ReportingRequest) (*ReportingResponseBody, *Response, error) {
+	url := fmt.Sprintf("reports/campaigns/%d/keywords", campaignID)
 	res := new(ReportingResponseBody)
 	resp, err := s.client.post(ctx, url, &params, res)
+
 	return res, resp, err
 }
 
-func (s *ReportingService) GetSearchTermLevelReports(ctx context.Context, campaignId int64, params *ReportingRequest) (*ReportingResponseBody, *Response, error) {
-	url := fmt.Sprintf("reports/campaigns/%d/searchterms", campaignId)
+// GetSearchTermLevelReports fetches reports for search terms within a campaign
+//
+// https://developer.apple.com/documentation/apple_search_ads/get_search_term-level_reports
+func (s *ReportingService) GetSearchTermLevelReports(ctx context.Context, campaignID int64, params *ReportingRequest) (*ReportingResponseBody, *Response, error) {
+	url := fmt.Sprintf("reports/campaigns/%d/searchterms", campaignID)
 	res := new(ReportingResponseBody)
 	resp, err := s.client.post(ctx, url, &params, res)
+
 	return res, resp, err
 }
 
-func (s *ReportingService) GetCreativeSetLevelReports(ctx context.Context, campaignId int64, params *ReportingRequest) (*ReportingResponseBody, *Response, error) {
-	url := fmt.Sprintf("reports/campaigns/%d/creativesets", campaignId)
+// GetCreativeSetLevelReports fetches reports for Creative Sets within a campaign
+//
+// https://developer.apple.com/documentation/apple_search_ads/get_creative_set-level_reports
+func (s *ReportingService) GetCreativeSetLevelReports(ctx context.Context, campaignID int64, params *ReportingRequest) (*ReportingResponseBody, *Response, error) {
+	url := fmt.Sprintf("reports/campaigns/%d/creativesets", campaignID)
 	res := new(ReportingResponseBody)
 	resp, err := s.client.post(ctx, url, &params, res)
+
 	return res, resp, err
 }

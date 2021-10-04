@@ -20,13 +20,14 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/stretchr/testify/assert"
 	"io"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
 	"strings"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 const marshaledMockPayload = `{"value":"TEST"}`
@@ -326,7 +327,7 @@ func testEndpointWithNoContent(t *testing.T, endpoint func(ctx context.Context, 
 	assert.NotNil(t, resp)
 }
 
-func testEndpointExpectingError(t *testing.T, marshalledGot string, endpoint func(ctx context.Context, client *Client) (interface{}, *Response, error)) {
+/*func testEndpointExpectingError(t *testing.T, marshalledGot string, endpoint func(ctx context.Context, client *Client) (interface{}, *Response, error)) {
 	t.Helper()
 
 	client, server := newServer(marshalledGot, http.StatusOK, true)
@@ -342,4 +343,4 @@ func testEndpointCustomBehavior(marshalledGot string, behavior func(ctx context.
 	client, server := newServer(marshalledGot, http.StatusOK, true)
 	defer server.Close()
 	behavior(context.Background(), client)
-}
+}*/

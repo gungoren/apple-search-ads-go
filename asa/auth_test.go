@@ -18,12 +18,12 @@ package asa
 
 import (
 	"fmt"
-	"github.com/stretchr/testify/assert"
 	"net/http"
 	"testing"
 	"time"
-)
 
+	"github.com/stretchr/testify/assert"
+)
 
 /*
 //TODO: handle this error

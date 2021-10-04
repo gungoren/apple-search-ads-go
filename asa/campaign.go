@@ -26,6 +26,7 @@ import (
 // https://developer.apple.com/documentation/apple_search_ads/campaigns
 type CampaignService service
 
+// GetAllCampaignQuery defines query parameter for GetAllCampaigns endpoint.
 type GetAllCampaignQuery struct {
 	Limit  int32 `url:"limit,omitempty"`
 	Offset int32 `url:"offset,omitempty"`
@@ -93,12 +94,16 @@ const (
 	CampaignServingStateReasonAdGroupMissing              CampaignServingStateReason = "AD_GROUP_MISSING"
 )
 
+// CampaignSupplySource is the supply source of ads to use in a campaign.
 type CampaignSupplySource string
 
 const (
+	// CampaignSupplySourceAppstoreSearchResults is for a campaign supply source on APPSTORE_SEARCH_RESULTS.
 	CampaignSupplySourceAppstoreSearchResults CampaignSupplySource = "APPSTORE_SEARCH_RESULTS"
-	CampaignSupplySourceNews                  CampaignSupplySource = "NEWS"
-	CampaignSupplySourceStocks                CampaignSupplySource = "STOCKS"
+	// CampaignSupplySourceNews is for a campaign supply source on NEWS.
+	CampaignSupplySourceNews CampaignSupplySource = "NEWS"
+	// CampaignSupplySourceStocks is for a campaign supply source on STOCKS.
+	CampaignSupplySourceStocks CampaignSupplySource = "STOCKS"
 )
 
 type CampaignServingStatus string
@@ -115,6 +120,9 @@ const (
 	CampaignStatusPaused  CampaignStatus = "PAUSED"
 )
 
+// CampaignCountryOrRegionServingStateReasons is the reasons why a campaign can’t run
+//
+// https://developer.apple.com/documentation/apple_search_ads/campaign/countryorregionservingstatereasons
 type CampaignCountryOrRegionServingStateReasons map[Region]CampaignCountryOrRegionServingStateReason
 
 type CampaignCountryOrRegionServingStateReason string
@@ -128,31 +136,37 @@ const (
 	CampaignCountryOrRegionServingStateReasonSapinLawFrenchBiz        CampaignCountryOrRegionServingStateReason = "SAPIN_LAW_FRENCH_BIZ"
 )
 
+// Campaign is the response to a request to create and fetch campaigns
+//
+// https://developer.apple.com/documentation/apple_search_ads/campaign
 type Campaign struct {
-	AdamId                             int64                                      `json:"adamId"`
-	AdChannelType                      CampaignAdChannelType                      `json:"adChannelType"`
-	BillingEvent                       string                                     `json:"billingEvent"`
-	BudgetAmount                       Money                                      `json:"budgetAmount"`
-	BudgetOrders                       []int64                                    `json:"budgetOrders"`
-	CountriesOrRegions                 []Region                                   `json:"countriesOrRegions"`
-	CountryOrRegionServingStateReasons CampaignCountryOrRegionServingStateReasons `json:"countryOrRegionServingStateReasons"`
-	DailyBudgetAmount                  *Money                                     `json:"dailyBudgetAmount"`
-	Deleted                            bool                                       `json:"deleted"`
-	DisplayStatus                      CampaignDisplayStatus                      `json:"displayStatus"`
-	EndTime                            *DateTime                                  `json:"endTime"`
-	Id                                 int64                                      `json:"id"`
-	LocInvoiceDetails                  LOCInvoiceDetails                          `json:"locInvoiceDetails"`
-	ModificationTime                   DateTime                                   `json:"modificationTime"`
-	Name                               string                                     `json:"name"`
-	OrgId                              int64                                      `json:"orgId"`
-	PaymentModel                       PaymentModel                               `json:"paymentModel"`
-	ServingStateReasons                []CampaignServingStateReason               `json:"servingStateReasons"`
-	ServingStatus                      CampaignServingStatus                      `json:"servingStatus"`
-	StartTime                          DateTime                                   `json:"startTime"`
-	Status                             CampaignStatus                             `json:"status"`
-	SupplySources                      []CampaignSupplySource                     `json:"supplySources"`
+	AdamID                             int64                                      `json:"adamId,omitempty"`
+	AdChannelType                      CampaignAdChannelType                      `json:"adChannelType,omitempty"`
+	BillingEvent                       string                                     `json:"billingEvent,omitempty"`
+	BudgetAmount                       *Money                                     `json:"budgetAmount,omitempty"`
+	BudgetOrders                       []int64                                    `json:"budgetOrders,omitempty"`
+	CountriesOrRegions                 []Region                                   `json:"countriesOrRegions,omitempty"`
+	CountryOrRegionServingStateReasons CampaignCountryOrRegionServingStateReasons `json:"countryOrRegionServingStateReasons,omitempty"`
+	DailyBudgetAmount                  *Money                                     `json:"dailyBudgetAmount,omitempty"`
+	Deleted                            bool                                       `json:"deleted,omitempty"`
+	DisplayStatus                      CampaignDisplayStatus                      `json:"displayStatus,omitempty"`
+	EndTime                            *DateTime                                  `json:"endTime,omitempty"`
+	ID                                 int64                                      `json:"id,omitempty"`
+	LocInvoiceDetails                  *LOCInvoiceDetails                         `json:"locInvoiceDetails,omitempty"`
+	ModificationTime                   DateTime                                   `json:"modificationTime,omitempty"`
+	Name                               string                                     `json:"name,omitempty"`
+	OrgID                              int64                                      `json:"orgId,omitempty"`
+	PaymentModel                       PaymentModel                               `json:"paymentModel,omitempty"`
+	ServingStateReasons                []CampaignServingStateReason               `json:"servingStateReasons,omitempty"`
+	ServingStatus                      CampaignServingStatus                      `json:"servingStatus,omitempty"`
+	StartTime                          DateTime                                   `json:"startTime,omitempty"`
+	Status                             CampaignStatus                             `json:"status,omitempty"`
+	SupplySources                      []CampaignSupplySource                     `json:"supplySources,omitempty"`
 }
 
+// LOCInvoiceDetails is the response to a request to fetch campaign details for a standard invoicing payment model
+//
+// https://developer.apple.com/documentation/apple_search_ads/locinvoicedetails
 type LOCInvoiceDetails struct {
 	BillingContactEmail string `json:"billingContactEmail,omitempty"`
 	BuyerEmail          string `json:"buyerEmail,omitempty"`
@@ -161,26 +175,39 @@ type LOCInvoiceDetails struct {
 	OrderNumber         string `json:"orderNumber,omitempty"`
 }
 
+// CampaignResponse is a container for the campaign response body
+//
+// https://developer.apple.com/documentation/apple_search_ads/campaignresponse
 type CampaignResponse struct {
 	Campaign   *Campaign          `json:"data,omitempty"`
 	Error      *ErrorResponseBody `json:"error,omitempty"`
 	Pagination *PageDetail        `json:"pagination,omitempty"`
 }
 
+// CampaignListResponse is the response details of campaign requests
+//
+// https://developer.apple.com/documentation/apple_search_ads/campaignlistresponse
 type CampaignListResponse struct {
-	Error      ErrorResponseBody `json:"error,omitempty"`
-	Pagination PageDetail        `json:"pagination,omitempty"`
-	Campaigns  []Campaign        `json:"data,omitempty"`
+	Error      *ErrorResponseBody `json:"error,omitempty"`
+	Pagination *PageDetail        `json:"pagination,omitempty"`
+	Campaigns  []Campaign         `json:"data,omitempty"`
 }
 
+// ErrorResponseBody is a container for the error response body
+//
+// https://developer.apple.com/documentation/apple_search_ads/errorresponsebody
 type ErrorResponseBody struct {
 	Errors []ErrorResponseItem `json:"errors,omitempty"`
 }
 
-type GeneralErrorResponse struct {
+// APIErrorResponse A container for the error response body
+//
+// https://developer.apple.com/documentation/apple_search_ads/apierrorresponse
+type APIErrorResponse struct {
 	Error ErrorResponseBody `json:"error,omitempty"`
 }
 
+// ErrorResponseItemMessageCode is a system-assigned error code.
 type ErrorResponseItemMessageCode string
 
 const (
@@ -188,45 +215,71 @@ const (
 	ErrorResponseItemMessageCodeInvalidDateFormat ErrorResponseItemMessageCode = "INVALID_DATE_FORMAT"
 )
 
+// ErrorResponseItem is the error response details in the response body
+//
+// https://developer.apple.com/documentation/apple_search_ads/errorresponseitem
 type ErrorResponseItem struct {
 	Field       string                       `json:"field"`
 	Message     string                       `json:"message"`
 	MessageCode ErrorResponseItemMessageCode `json:"messageCode"`
 }
 
+// GetAllCampaigns Fetches all of an organization’s assigned campaigns
+//
+// https://developer.apple.com/documentation/apple_search_ads/get_all_campaigns
 func (s *CampaignService) GetAllCampaigns(ctx context.Context, params *GetAllCampaignQuery) (*CampaignListResponse, *Response, error) {
 	res := new(CampaignListResponse)
 	resp, err := s.client.get(ctx, "campaigns", &params, res)
+
 	return res, resp, err
 }
 
-func (s *CampaignService) GetCampaign(ctx context.Context, campaignId int64) (*CampaignResponse, *Response, error) {
-	url := fmt.Sprintf("campaigns/%d", campaignId)
+// GetCampaign Fetches a specific campaign by campaign identifier
+//
+// https://developer.apple.com/documentation/apple_search_ads/get_a_campaign
+func (s *CampaignService) GetCampaign(ctx context.Context, campaignID int64) (*CampaignResponse, *Response, error) {
+	url := fmt.Sprintf("campaigns/%d", campaignID)
 	res := new(CampaignResponse)
 	resp, err := s.client.get(ctx, url, nil, res)
+
 	return res, resp, err
 }
 
+// FindCampaigns Fetches campaigns with selector operators
+//
+// https://developer.apple.com/documentation/apple_search_ads/find_campaigns
 func (s *CampaignService) FindCampaigns(ctx context.Context, selector *Selector) (*CampaignListResponse, *Response, error) {
-	url := fmt.Sprintf("campaigns/find")
+	url := "campaigns/find"
 	res := new(CampaignListResponse)
 	resp, err := s.client.post(ctx, url, selector, res)
+
 	return res, resp, err
 }
 
-func (s *CampaignService) DeleteCampaign(ctx context.Context, campaignId int64) (*Response, error) {
-	url := fmt.Sprintf("campaigns/%d", campaignId)
+// DeleteCampaign Deletes a specific campaign by campaign identifier
+//
+// https://developer.apple.com/documentation/apple_search_ads/delete_a_campaign
+func (s *CampaignService) DeleteCampaign(ctx context.Context, campaignID int64) (*Response, error) {
+	url := fmt.Sprintf("campaigns/%d", campaignID)
 	resp, err := s.client.delete(ctx, url, nil)
+
 	return resp, err
 }
 
+// CreateCampaign Creates a campaign to promote an app
+//
+// https://developer.apple.com/documentation/apple_search_ads/create_a_campaign
 func (s *CampaignService) CreateCampaign(ctx context.Context, campaign *Campaign) (*CampaignResponse, *Response, error) {
-	url := fmt.Sprintf("campaigns")
+	url := "campaigns"
 	res := new(CampaignResponse)
 	resp, err := s.client.post(ctx, url, campaign, res)
+
 	return res, resp, err
 }
 
+// CampaignUpdate is the list of campaign fields that are updatable
+//
+// https://developer.apple.com/documentation/apple_search_ads/campaignupdate
 type CampaignUpdate struct {
 	BudgetAmount       *Money            `json:"budgetAmount,omitempty"`
 	BudgetOrders       int64             `json:"budgetOrders,omitempty"`
@@ -237,14 +290,21 @@ type CampaignUpdate struct {
 	Status             *CampaignStatus   `json:"status,omitempty"`
 }
 
+// UpdateCampaignRequest is the payload properties to clear Geo Targeting from a campaign
+//
+// https://developer.apple.com/documentation/apple_search_ads/updatecampaignrequest
 type UpdateCampaignRequest struct {
 	Campaign                                 *CampaignUpdate `json:"campaign"`
 	ClearGeoTargetingOnCountryOrRegionChange bool            `json:"clearGeoTargetingOnCountryOrRegionChange"`
 }
 
-func (s *CampaignService) UpdateCampaign(ctx context.Context, campaignId int64, req *UpdateCampaignRequest) (*CampaignResponse, *Response, error) {
-	url := fmt.Sprintf("campaigns/%d", campaignId)
+// UpdateCampaign Updates a campaign with a campaign identifier
+//
+// https://developer.apple.com/documentation/apple_search_ads/update_a_campaign
+func (s *CampaignService) UpdateCampaign(ctx context.Context, campaignID int64, req *UpdateCampaignRequest) (*CampaignResponse, *Response, error) {
+	url := fmt.Sprintf("campaigns/%d", campaignID)
 	res := new(CampaignResponse)
 	resp, err := s.client.put(ctx, url, req, res)
+
 	return res, resp, err
 }

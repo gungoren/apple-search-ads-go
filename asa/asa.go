@@ -21,8 +21,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/cenkalti/backoff/v4"
-	"github.com/google/go-querystring/query"
 	"io"
 	"log"
 	"net/http"
@@ -32,6 +30,9 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/cenkalti/backoff/v4"
+	"github.com/google/go-querystring/query"
 )
 
 const (
@@ -179,11 +180,11 @@ func newRequestBodyWithIncluded(data interface{}, included interface{}) *request
 
 type requestOption func(*http.Request)
 
-func withAccept(typ string) requestOption {
+/*func withAccept(typ string) requestOption {
 	return func(req *http.Request) {
 		req.Header.Set("Accept", typ)
 	}
-}
+}*/
 
 func withContentType(typ string) requestOption {
 	return func(req *http.Request) {
@@ -502,6 +503,9 @@ func (e ErrorResponseError) String(level int) string {
 	return str.String()
 }
 
+// PageDetail is the number of items that return in the page
+//
+// https://developer.apple.com/documentation/apple_search_ads/pagedetail
 type PageDetail struct {
 	TotalResults int `json:"totalResults"`
 	StartIndex   int `json:"startIndex"`

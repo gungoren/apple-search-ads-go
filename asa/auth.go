@@ -17,16 +17,18 @@ along with apple-search-ads-go.  If not, see <http://www.gnu.org/licenses/>.
 package asa
 
 import (
+	"context"
 	"crypto/ecdsa"
 	"crypto/x509"
 	"encoding/json"
 	"encoding/pem"
 	"errors"
 	"fmt"
-	"github.com/dgrijalva/jwt-go/v4"
 	"io/ioutil"
 	"net/http"
 	"time"
+
+	"github.com/dgrijalva/jwt-go/v4"
 )
 
 // ErrMissingPEM happens when the bytes cannot be decoded as a PEM block.
@@ -40,7 +42,7 @@ var ErrInvalidPrivateKey = errors.New("key could not be parsed as a valid ecdsa.
 type AuthTransport struct {
 	Transport    http.RoundTripper
 	jwtGenerator jwtGenerator
-	orgID       string
+	orgID        string
 }
 
 type jwtGenerator interface {
@@ -87,7 +89,7 @@ func NewTokenConfig(orgID string, keyID string, teamID string, clientID string, 
 	return &AuthTransport{
 		Transport:    newTransport(),
 		jwtGenerator: gen,
-		orgID: orgID,
+		orgID:        orgID,
 	}, err
 }
 
@@ -156,7 +158,8 @@ func (g *standardJWTGenerator) Token() (string, error) {
 
 func (g *standardJWTGenerator) generateAccessToken(token string) (*accessToken, error) {
 	url := fmt.Sprintf("https://appleid.apple.com/auth/oauth2/token?grant_type=client_credentials&client_id=%s&client_secret=%s&scope=searchadsorg", g.clientID, token)
-	req, err := http.NewRequest(http.MethodPost, url, nil)
+	req, err := http.NewRequestWithContext(context.Background(), http.MethodPost, url, nil)
+
 	if err != nil {
 		return nil, err
 	}
@@ -181,8 +184,9 @@ func (g *standardJWTGenerator) generateAccessToken(token string) (*accessToken, 
 	if err := json.Unmarshal(b, accessToken); err != nil {
 		return nil, err
 	}
-	expiresTime := time.Now().Add(time.Second * time.Duration(accessToken.ExpiresIn))
-	accessToken.expiresAfter = expiresTime
+
+	accessToken.expiresAfter = time.Now().Add(time.Second * time.Duration(accessToken.ExpiresIn))
+
 	return accessToken, nil
 }
 

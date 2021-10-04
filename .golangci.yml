@@ -17,3 +17,8 @@ linters:
     - scopelint
     - testpackage
     - wrapcheck
+    - tagliatelle
+linters-settings:
+  errcheck:
+    exclude-functions:
+      - (io.Closer).Close
