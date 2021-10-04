@@ -60,7 +60,7 @@ func main() {
 		if offset != 0 {
 			params.Offset = offset
 		}
-		adGroupsResponse, _, err := client.AdGroups.GetAllAdGroups(ctx, campaign.Id, params)
+		adGroupsResponse, _, err := client.AdGroups.GetAllAdGroups(ctx, campaign.ID, params)
 		if err != nil {
 			log.Fatal(err)
 		}
