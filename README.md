@@ -17,10 +17,10 @@ import "github.com/gungoren/apple-search-ads-go/asa"
 Construct a new Apple Search Ads client, then use the various services on the client to access different parts of the Apple Search Ads API. For example:
 
 ```go
-client := asc.NewClient(nil)
+client := asa.NewClient(nil)
 
 // list all apps with the bundle ID "com.sky.MyApp"
-apps, _, err := client.Apps.ListApps(&asc.ListAppsQuery{
+apps, _, err := client.Apps.ListApps(&asa.ListAppsQuery{
     FilterBundleID: []string{"com.sky.MyApp"},
 })
 ```
@@ -51,14 +51,14 @@ func main() {
     // The bytes of the PKCS#8 private key created on Apple Search Ads. Keep this key safe as you can only download it once.
     privateKey = os.ReadFile("path/to/key")
 
-    auth, err = asc.NewTokenConfig(keyID, issuerID, expiryDuration, privateKey)
+    auth, err = asa.NewTokenConfig(keyID, issuerID, expiryDuration, privateKey)
     if err != nil {
         return nil, err
     }
-    client := asc.NewClient(auth.Client())
+    client := asa.NewClient(auth.Client())
 
     // list all apps with the bundle ID "com.sky.MyApp" in the authenticated user's team
-    apps, _, err := client.Apps.ListApps(&asc.ListAppsQuery{
+    apps, _, err := client.Apps.ListApps(&asa.ListAppsQuery{
         FilterBundleID: []string{"com.sky.MyApp"},
     })
 }
@@ -77,14 +77,14 @@ Learn more about rate limiting at <https://developer.apple.com/documentation/app
 All requests for resource collections (apps, builds, beta groups, etc.) support pagination. Responses for paginated resources will contain a `Links` property of type `PagedDocumentLinks`, with `Reference` URLs for first, next, and self. A `Reference` can have its cursor extracted with the `Cursor()` method, and that can be passed to a query param using its `Cursor` field. You can also find more information about the per-page limit and total count of resources in the response's `Meta` field of type `PagingInformation`.
 
 ```go
-auth, _ = asc.NewTokenConfig(keyID, issuerID, expiryDuration, privateKey)
-client := asc.NewClient(auth.Client())
+auth, _ = asa.NewTokenConfig(keyID, issuerID, expiryDuration, privateKey)
+client := asa.NewClient(auth.Client())
 
-opt := &asc.ListAppsQuery{
+opt := &asa.ListAppsQuery{
     FilterBundleID: []string{"com.sky.MyApp"},
 }
 
-var allApps []asc.App
+var allApps []asa.App
 for {
     apps, _, err := apps, _, err := client.Apps.ListApps(opt)
 	if err != nil {
