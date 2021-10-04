@@ -16,8 +16,6 @@ along with apple-search-ads-go.  If not, see <http://www.gnu.org/licenses/>.
 
 package asa
 
-import "time"
-
 type ReportingResponseBody struct {
 	ReportingCampaign ReportingCampaign `json:"data"`
 	Pagination        PageDetail        `json:"pagination"`
@@ -66,7 +64,7 @@ type MetadataObject struct {
 	ServingStatus                      CampaignServingStatus                      `json:"servingStatus"`
 	ServingStateReasons                []CampaignServingStateReason               `json:"servingStateReasons"`
 	CountriesOrRegions                 []Region                                   `json:"countriesOrRegions"`
-	ModificationTime                   time.Time                                  `json:"modificationTime"`
+	ModificationTime                   DateTime                                   `json:"modificationTime"`
 	TotalBudget                        Money                                      `json:"totalBudget"`
 	DailyBudget                        Money                                      `json:"dailyBudget"`
 	DisplayStatus                      CampaignDisplayStatus                      `json:"displayStatus"`
@@ -104,20 +102,20 @@ type SpendRow struct {
 }
 
 type ExtendedSpendRow struct {
-	AvgCPA         *Money    `json:"avgCPA,omitempty"`
-	AvgCPT         *Money    `json:"avgCPT,omitempty"`
-	AvgCPM         *Money    `json:"avgCPM,omitempty"`
-	ConversionRate float64   `json:"conversionRate,omitempty"`
-	Impressions    int64     `json:"impressions,omitempty"`
-	Installs       int64     `json:"installs,omitempty"`
-	LatOffInstalls int64     `json:"latOffInstalls,omitempty"`
-	LatOnInstalls  int64     `json:"latOnInstalls,omitempty"`
-	LocalSpend     *Money    `json:"localSpend,omitempty"`
-	NewDownloads   int64     `json:"newDownloads,omitempty"`
-	ReDownloads    int64     `json:"redownloads,omitempty"`
-	Taps           int64     `json:"taps,omitempty"`
-	Ttr            float64   `json:"ttr,omitempty"`
-	Date           time.Time `json:"date,omitempty"`
+	AvgCPA         *Money  `json:"avgCPA,omitempty"`
+	AvgCPT         *Money  `json:"avgCPT,omitempty"`
+	AvgCPM         *Money  `json:"avgCPM,omitempty"`
+	ConversionRate float64 `json:"conversionRate,omitempty"`
+	Impressions    int64   `json:"impressions,omitempty"`
+	Installs       int64   `json:"installs,omitempty"`
+	LatOffInstalls int64   `json:"latOffInstalls,omitempty"`
+	LatOnInstalls  int64   `json:"latOnInstalls,omitempty"`
+	LocalSpend     *Money  `json:"localSpend,omitempty"`
+	NewDownloads   int64   `json:"newDownloads,omitempty"`
+	ReDownloads    int64   `json:"redownloads,omitempty"`
+	Taps           int64   `json:"taps,omitempty"`
+	Ttr            float64 `json:"ttr,omitempty"`
+	Date           Date    `json:"date,omitempty"`
 }
 
 type KeywordInsights struct {

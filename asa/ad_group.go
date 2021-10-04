@@ -19,7 +19,6 @@ package asa
 import (
 	"context"
 	"fmt"
-	"time"
 )
 
 // AdGroupService handles communication with build-related methods of the Apple Search Ads API
@@ -95,15 +94,15 @@ type AdGroup struct {
 	DefaultBidAmount       *Money               `json:"defaultBidAmount"`
 	Deleted                bool                 `json:"deleted"`
 	DisplayStatus          AdGroupDisplayStatus `json:"displayStatus"`
-	EndTime                time.Time            `json:"endTime,omitempty"`
+	EndTime                DateTime             `json:"endTime,omitempty"`
 	Id                     int64                `json:"id,omitempty"`
-	ModificationTime       time.Time            `json:"modificationTime,omitempty"`
+	ModificationTime       DateTime             `json:"modificationTime,omitempty"`
 	Name                   string               `json:"name,omitempty"`
 	OrgId                  int64                `json:"orgId,omitempty"`
 	PricingModel           AdGroupPricingModel  `json:"pricingModel"`
 	ServingStateReasons    []ServingStateReason `json:"servingStateReasons,omitempty"`
 	ServingStatus          AdGroupServingStatus `json:"servingStatus"`
-	StartTime              time.Time            `json:"startTime,omitempty"`
+	StartTime              DateTime             `json:"startTime,omitempty"`
 	Status                 AdGroupStatus        `json:"status,omitempty"`
 	TargetDimensions       *TargetDimensions    `json:"targetDimensions,omitempty"`
 }
@@ -197,9 +196,9 @@ type AdGroupUpdateRequest struct {
 	AutomatedKeywordsOptIn bool              `json:"automatedKeywordsOptIn,omitempty"`
 	CpaGoal                *Money            `json:"cpaGoal,omitempty"`
 	DefaultBidAmount       *Money            `json:"defaultBidAmount,omitempty"`
-	EndTime                time.Time         `json:"endTime,omitempty"`
+	EndTime                DateTime          `json:"endTime,omitempty"`
 	Name                   string            `json:"name,omitempty"`
-	StartTime              time.Time         `json:"startTime,omitempty"`
+	StartTime              DateTime          `json:"startTime,omitempty"`
 	Status                 AdGroupStatus     `json:"status,omitempty"`
 	TargetingDimensions    *TargetDimensions `json:"targetingDimensions"`
 }

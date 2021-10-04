@@ -19,7 +19,6 @@ package asa
 import (
 	"context"
 	"fmt"
-	"time"
 )
 
 type ReportingService service
@@ -53,8 +52,8 @@ const (
 )
 
 type ReportingRequest struct {
-	StartTime                  time.Time                    `json:"startTime"`
-	EndTime                    time.Time                    `json:"endTime"`
+	StartTime                  DateTime                     `json:"startTime"`
+	EndTime                    DateTime                     `json:"endTime"`
 	Granularity                *ReportingRequestGranularity `json:"granularity,omitempty"`
 	TimeZone                   *ReportingRequestTimeZone    `json:"timeZone,omitempty"`
 	GroupBy                    []ReportingRequestGroupBy    `json:"groupBy,omitempty"`
@@ -63,7 +62,6 @@ type ReportingRequest struct {
 	ReturnRowTotals            bool                         `json:"returnRowTotals"`
 	Selector                   *Selector                    `json:"selector,omitempty"`
 }
-
 
 func (s *ReportingService) GetCampaignLevelReports(ctx context.Context, params *ReportingRequest) (*ReportingResponseBody, *Response, error) {
 	url := "reports/campaigns"

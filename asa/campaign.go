@@ -19,7 +19,6 @@ package asa
 import (
 	"context"
 	"fmt"
-	"time"
 )
 
 type CampaignService service
@@ -124,16 +123,16 @@ type Campaign struct {
 	DailyBudgetAmount                  *Money                                     `json:"dailyBudgetAmount"`
 	Deleted                            bool                                       `json:"deleted"`
 	DisplayStatus                      CampaignDisplayStatus                      `json:"displayStatus"`
-	EndTime                            *time.Time                                 `json:"endTime"`
+	EndTime                            *DateTime                                  `json:"endTime"`
 	Id                                 int64                                      `json:"id"`
 	LocInvoiceDetails                  LOCInvoiceDetails                          `json:"locInvoiceDetails"`
-	ModificationTime                   time.Time                                  `json:"modificationTime"`
+	ModificationTime                   DateTime                                   `json:"modificationTime"`
 	Name                               string                                     `json:"name"`
 	OrgId                              int64                                      `json:"orgId"`
 	PaymentModel                       PaymentModel                               `json:"paymentModel"`
 	ServingStateReasons                []CampaignServingStateReason               `json:"servingStateReasons"`
 	ServingStatus                      CampaignServingStatus                      `json:"servingStatus"`
-	StartTime                          time.Time                                  `json:"startTime"`
+	StartTime                          DateTime                                   `json:"startTime"`
 	Status                             CampaignStatus                             `json:"status"`
 	SupplySources                      []CampaignSupplySource                     `json:"supplySources"`
 }
