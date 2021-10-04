@@ -1,3 +1,5 @@
+// +build integration
+
 /**
 Copyright (C) 2021 Mehmet Gungoren.
 This file is part of apple-search-ads-go, a package for working with Apple's
