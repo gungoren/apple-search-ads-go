@@ -173,6 +173,22 @@ func TestPatch(t *testing.T) {
 	assert.Equal(t, mockPayload{"TEST"}, unmarshaled)
 }
 
+func TestPut(t *testing.T) {
+	t.Parallel()
+
+	client, server := newServer(marshaledMockPayload, http.StatusOK, true)
+	defer server.Close()
+
+	body := mockBody{"TEST"}
+
+	var unmarshaled mockPayload
+	resp, err := client.put(context.Background(), "test", newRequestBody(body), &unmarshaled)
+
+	assert.NoError(t, err)
+	assert.NotNil(t, resp)
+	assert.Equal(t, mockPayload{"TEST"}, unmarshaled)
+}
+
 func TestDelete(t *testing.T) {
 	t.Parallel()
 
