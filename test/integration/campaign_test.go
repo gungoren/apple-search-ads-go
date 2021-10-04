@@ -31,7 +31,7 @@ func TestListCampaigns(t *testing.T) {
 	assert.NotEmpty(t, campaignListResponse.Campaigns, "ListCampaigns returned no campaignListResponse")
 
 	firstCampaign := campaignListResponse.Campaigns[0]
-	campaignResponse, _, err := client.Campaigns.GetCampaign(context.Background(), firstCampaign.Id)
+	campaignResponse, _, err := client.Campaigns.GetCampaign(context.Background(), firstCampaign.ID)
 	assert.NoError(t, err, "GetCampaign responded with an error")
 	assert.NotNil(t, campaignResponse.Campaign.Name)
 
