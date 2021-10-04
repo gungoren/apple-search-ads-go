@@ -76,8 +76,8 @@ func TestNewTokenConfigPrivateKeyNotPKCS8(t *testing.T) {
 	var badKey = []byte(`
 -----BEGIN EC PRIVATE KEY-----
 MHcCAQEEIIXpcxwADKgwJSwxz24ypAMDFUHPrirqhcx0vimrl9L2oAoGCCqGSM49
-AwEHoUQDQgAE7Ee8TlNaDqWa6O/Yw/nqHVEiJwYS+wt5cd7DC85nhsDxaU8M2Uy5
-oH1YGuY57H3BQ3zLPVPsN+A8xnInGDa8yQ==
+AwEHoUQDQgAE7Ee8TlNaDqWa6O/Yw/nqHVEiJwYS+wt5cd7DC85nhsDxaU8M2asd
+oH1YGuY57H3BQ3zLPVPsN+A8xnInGDa8yQ
 -----END EC PRIVATE KEY-----
 `)
 
