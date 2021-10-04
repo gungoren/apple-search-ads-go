@@ -178,3 +178,77 @@ func (s *KeywordService) CreateNegativeKeywords(ctx context.Context, campaignId 
 	resp, err := s.client.post(ctx, url, keyword, res)
 	return res, resp, err
 }
+
+// FindNegativeKeywords Fetches negative keywords in a campaign’s ad groups
+//
+// https://developer.apple.com/documentation/apple_search_ads/find_ad_group_negative_keywords
+func (s *KeywordService) FindNegativeKeywords(ctx context.Context, campaignId int64, selector *Selector) (*NegativeKeywordListResponse, *Response, error) {
+	url := fmt.Sprintf("/campaigns/%d/adgroups/negativekeywords/find", campaignId)
+	res := new(NegativeKeywordListResponse)
+	resp, err := s.client.post(ctx, url, selector, res)
+	return res, resp, err
+}
+
+// NegativeKeywordResponse is a container for the negative keyword response body
+//
+// https://developer.apple.com/documentation/apple_search_ads/negativekeywordresponse
+type NegativeKeywordResponse struct {
+	Data       *NegativeKeyword   `json:"data,omitempty"`
+	Error      *ErrorResponseBody `json:"error,omitempty"`
+	PageDetail *PageDetail        `json:"pageDetail,omitempty"`
+}
+
+// GetNegativeKeyword Fetches a specific negative keyword in an ad group
+//
+// https://developer.apple.com/documentation/apple_search_ads/get_an_ad_group_negative_keyword
+func (s *KeywordService) GetNegativeKeyword(ctx context.Context, campaignId int64, adGroupId int64, keywordId int64) (*NegativeKeywordResponse, *Response, error) {
+	url := fmt.Sprintf("/campaigns/%d/adgroups/%d/negativekeywords/%d", campaignId, adGroupId, keywordId)
+	res := new(NegativeKeywordResponse)
+	resp, err := s.client.get(ctx, url, nil, res)
+	return res, resp, err
+}
+
+// GetAllNegativeKeywordsQuery defines query parameter for GetAllNegativeKeywords endpoint.
+type GetAllNegativeKeywordsQuery struct {
+	Limit  int32 `url:"limit,omitempty"`
+	Offset int32 `url:"offset,omitempty"`
+}
+
+// GetAllNegativeKeywords Fetches all negative keywords in ad groups
+//
+// https://developer.apple.com/documentation/apple_search_ads/get_all_ad_group_negative_keywords
+func (s *KeywordService) GetAllNegativeKeywords(ctx context.Context, campaignId int64, adGroupId int64, params *GetAllNegativeKeywordsQuery) (*NegativeKeywordListResponse, *Response, error) {
+	url := fmt.Sprintf("/campaigns/%d/adgroups/%d/negativekeywords/", campaignId, adGroupId)
+	res := new(NegativeKeywordListResponse)
+	resp, err := s.client.get(ctx, url, params, res)
+	return res, resp, err
+}
+
+// UpdateNegativeKeywords Updates negative keywords in an ad group
+//
+// https://developer.apple.com/documentation/apple_search_ads/update_ad_group_negative_keywords
+func (s *KeywordService) UpdateNegativeKeywords(ctx context.Context, campaignId int64, adGroupId int64, updateRequests []*NegativeKeyword) (*NegativeKeywordListResponse, *Response, error) {
+	url := fmt.Sprintf("/campaigns/%d/adgroups/%d/negativekeywords/bulk", campaignId, adGroupId)
+	res := new(NegativeKeywordListResponse)
+	resp, err := s.client.put(ctx, url, updateRequests, res)
+	return res, resp, err
+}
+
+// IntegerResponse is a common integer type response
+//
+// https://developer.apple.com/documentation/apple_search_ads/integerresponse
+type IntegerResponse struct {
+	Data       int32              `json:"data"`
+	Error      *ErrorResponseBody `json:"error"`
+	PageDetail PageDetail         `json:"pageDetail"`
+}
+
+// DeleteNegativeKeywords Deletes negative keywords from an ad group
+//
+// https://developer.apple.com/documentation/apple_search_ads/delete_ad_group_negative_keywords
+func (s *KeywordService) DeleteNegativeKeywords(ctx context.Context, campaignId int64, adGroupId int64, keywordIds []int64) (*IntegerResponse, *Response, error) {
+	url := fmt.Sprintf("/campaigns/%d/adgroups/%d/negativekeywords/delete/bulk", campaignId, adGroupId)
+	res := new(IntegerResponse)
+	resp, err := s.client.post(ctx, url, keywordIds, res)
+	return res, resp, err
+}

@@ -68,3 +68,43 @@ func TestCreateNegativeKeywords(t *testing.T) {
 		return client.Keywords.CreateNegativeKeywords(ctx, 1, []*NegativeKeyword{})
 	})
 }
+
+func TestFindNegativeKeywords(t *testing.T) {
+	t.Parallel()
+
+	testEndpointWithResponse(t, "{}", &NegativeKeywordListResponse{}, func(ctx context.Context, client *Client) (interface{}, *Response, error) {
+		return client.Keywords.FindNegativeKeywords(ctx, 1, &Selector{})
+	})
+}
+
+func TestGetNegativeKeyword(t *testing.T) {
+	t.Parallel()
+
+	testEndpointWithResponse(t, "{}", &NegativeKeywordResponse{}, func(ctx context.Context, client *Client) (interface{}, *Response, error) {
+		return client.Keywords.GetNegativeKeyword(ctx, 1, 99, 10001)
+	})
+}
+
+func TestGetAllNegativeKeywords(t *testing.T) {
+	t.Parallel()
+
+	testEndpointWithResponse(t, "{}", &NegativeKeywordListResponse{}, func(ctx context.Context, client *Client) (interface{}, *Response, error) {
+		return client.Keywords.GetAllNegativeKeywords(ctx, 1, 99, &GetAllNegativeKeywordsQuery{})
+	})
+}
+
+func TestUpdateNegativeKeywords(t *testing.T) {
+	t.Parallel()
+
+	testEndpointWithResponse(t, "{}", &NegativeKeywordListResponse{}, func(ctx context.Context, client *Client) (interface{}, *Response, error) {
+		return client.Keywords.UpdateNegativeKeywords(ctx, 1, 99, []*NegativeKeyword{})
+	})
+}
+
+func TestDeleteNegativeKeywords(t *testing.T) {
+	t.Parallel()
+
+	testEndpointWithResponse(t, "{}", &NegativeKeywordListResponse{}, func(ctx context.Context, client *Client) (interface{}, *Response, error) {
+		return client.Keywords.DeleteNegativeKeywords(ctx, 1, 99, []int64{})
+	})
+}
