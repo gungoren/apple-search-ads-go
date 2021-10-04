@@ -61,3 +61,11 @@ func TestCreateAdGroup(t *testing.T) {
 		return client.AdGroups.CreateAdGroup(ctx, 1, &AdGroup{})
 	})
 }
+
+func TestFindAdGroups(t *testing.T) {
+	t.Parallel()
+
+	testEndpointWithResponse(t, "{}", &AdGroupListResponse{}, func(ctx context.Context, client *Client) (interface{}, *Response, error) {
+		return client.AdGroups.FindAdGroups(ctx, 1, &Selector{})
+	})
+}
