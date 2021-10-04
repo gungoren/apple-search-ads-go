@@ -104,7 +104,7 @@ func TestUpdateNegativeKeywords(t *testing.T) {
 func TestDeleteNegativeKeywords(t *testing.T) {
 	t.Parallel()
 
-	testEndpointWithResponse(t, "{}", &NegativeKeywordListResponse{}, func(ctx context.Context, client *Client) (interface{}, *Response, error) {
+	testEndpointWithResponse(t, "{}", &IntegerResponse{}, func(ctx context.Context, client *Client) (interface{}, *Response, error) {
 		return client.Keywords.DeleteNegativeKeywords(ctx, 1, 99, []int64{})
 	})
 }
