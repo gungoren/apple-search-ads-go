@@ -185,6 +185,9 @@ type AdGroupListResponse struct {
 	PageDetail *PageDetail        `json:"pageDetail,omitempty"`
 }
 
+// CreateAdGroup creates an ad group as part of a campaign
+//
+// https://developer.apple.com/documentation/apple_search_ads/create_an_ad_group
 func (s *AdGroupService) CreateAdGroup(ctx context.Context, campaignId int64, adGroup *AdGroup) (*AdGroupResponse, *Response, error) {
 	url := fmt.Sprintf("/campaigns/%d/adgroups", campaignId)
 	res := new(AdGroupResponse)
@@ -255,6 +258,9 @@ type Pagination struct {
 	Offset uint32 `json:"offset"`
 }
 
+// FindAdGroups fetches ad groups within a campaign
+//
+// https://developer.apple.com/documentation/apple_search_ads/find_ad_groups
 func (s *AdGroupService) FindAdGroups(ctx context.Context, campaignId int64, selector *Selector) (*AdGroupListResponse, *Response, error) {
 	url := fmt.Sprintf("/campaigns/%d/adgroups/find", campaignId)
 	res := new(AdGroupListResponse)
@@ -262,6 +268,9 @@ func (s *AdGroupService) FindAdGroups(ctx context.Context, campaignId int64, sel
 	return res, resp, err
 }
 
+// GetAdGroup fetches a specific ad group with a campaign and ad group identifier
+//
+// https://developer.apple.com/documentation/apple_search_ads/get_an_ad_group
 func (s *AdGroupService) GetAdGroup(ctx context.Context, campaignId int64, adGroupId int64) (*AdGroupResponse, *Response, error) {
 	url := fmt.Sprintf("/campaigns/%d/adgroups/%d", campaignId, adGroupId)
 	res := new(AdGroupResponse)
@@ -269,6 +278,9 @@ func (s *AdGroupService) GetAdGroup(ctx context.Context, campaignId int64, adGro
 	return res, resp, err
 }
 
+// GetAllAdGroups fetches all ad groups with a campaign identifier.
+//
+// https://developer.apple.com/documentation/apple_search_ads/get_all_ad_groups
 func (s *AdGroupService) GetAllAdGroups(ctx context.Context, campaignId int64, params *GetAllAdGroupsQuery) (*AdGroupListResponse, *Response, error) {
 	url := fmt.Sprintf("/campaigns/%d/adgroups", campaignId)
 	res := new(AdGroupListResponse)
@@ -276,6 +288,9 @@ func (s *AdGroupService) GetAllAdGroups(ctx context.Context, campaignId int64, p
 	return res, resp, err
 }
 
+// UpdateAdGroup updates an ad group with an ad group identifier.
+//
+// https://developer.apple.com/documentation/apple_search_ads/update_an_ad_group
 func (s *AdGroupService) UpdateAdGroup(ctx context.Context, campaignId int64, adGroupId int64, req *AdGroupUpdateRequest) (*AdGroupResponse, *Response, error) {
 	url := fmt.Sprintf("/campaigns/%d/adgroups/%d", campaignId, adGroupId)
 	res := new(AdGroupResponse)
@@ -283,6 +298,9 @@ func (s *AdGroupService) UpdateAdGroup(ctx context.Context, campaignId int64, ad
 	return res, resp, err
 }
 
+// DeleteAdGroup deletes an ad group with a campaign and ad group identifier.
+//
+// https://developer.apple.com/documentation/apple_search_ads/delete_an_adgroup
 func (s *AdGroupService) DeleteAdGroup(ctx context.Context, campaignId int64, adGroupId int64) (*Response, error) {
 	url := fmt.Sprintf("/campaigns/%d/adgroups/%d", campaignId, adGroupId)
 	resp, err := s.client.delete(ctx, url, nil)
