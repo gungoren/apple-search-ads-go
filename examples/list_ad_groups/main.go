@@ -68,9 +68,9 @@ func main() {
 		for _, adGroup := range adGroupsResponse.AdGroup {
 			fmt.Println(adGroup.Name)
 		}
-		pageDetail := adGroupsResponse.PageDetail
-		if pageDetail.TotalResults > int(params.Offset)+pageDetail.ItemsPerPage {
-			offset = int32(pageDetail.StartIndex + pageDetail.ItemsPerPage)
+		pagination := adGroupsResponse.Pagination
+		if pagination.TotalResults > int(params.Offset)+pagination.ItemsPerPage {
+			offset = int32(pagination.StartIndex + pagination.ItemsPerPage)
 		} else {
 			break
 		}
