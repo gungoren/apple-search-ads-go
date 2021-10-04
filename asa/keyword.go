@@ -66,7 +66,7 @@ type Keyword struct {
 type KeywordListResponse struct {
 	Keywords   []*Keyword         `json:"data,omitempty"`
 	Error      *ErrorResponseBody `json:"error,omitempty"`
-	PageDetail *PageDetail        `json:"pageDetail,omitempty"`
+	Pagination *PageDetail        `json:"pagination,omitempty"`
 }
 
 // CreateTargetingKeywords Creates targeting keywords in ad groups
@@ -95,7 +95,7 @@ func (s *KeywordService) FindTargetingKeywords(ctx context.Context, campaignId i
 type KeywordResponse struct {
 	Data       *Keyword           `json:"data,omitempty"`
 	Error      *ErrorResponseBody `json:"error,omitempty"`
-	PageDetail *PageDetail        `json:"pageDetail,omitempty"`
+	Pagination *PageDetail        `json:"pagination,omitempty"`
 }
 
 // GetTargetingKeyword Fetches a specific targeting keyword in an ad group
@@ -166,7 +166,7 @@ type NegativeKeyword struct {
 type NegativeKeywordListResponse struct {
 	Keywords   []*NegativeKeyword `json:"data,omitempty"`
 	Error      *ErrorResponseBody `json:"error,omitempty"`
-	PageDetail *PageDetail        `json:"pageDetail,omitempty"`
+	Pagination *PageDetail        `json:"pagination,omitempty"`
 }
 
 // CreateNegativeKeywords Creates negative keywords for a campaign
@@ -195,7 +195,7 @@ func (s *KeywordService) FindNegativeKeywords(ctx context.Context, campaignId in
 type NegativeKeywordResponse struct {
 	Data       *NegativeKeyword   `json:"data,omitempty"`
 	Error      *ErrorResponseBody `json:"error,omitempty"`
-	PageDetail *PageDetail        `json:"pageDetail,omitempty"`
+	Pagination *PageDetail        `json:"pagination,omitempty"`
 }
 
 // GetNegativeKeyword Fetches a specific negative keyword in an ad group
@@ -238,9 +238,9 @@ func (s *KeywordService) UpdateNegativeKeywords(ctx context.Context, campaignId 
 //
 // https://developer.apple.com/documentation/apple_search_ads/integerresponse
 type IntegerResponse struct {
-	Data       int32              `json:"data"`
-	Error      *ErrorResponseBody `json:"error"`
-	PageDetail PageDetail         `json:"pageDetail"`
+	Data       int32              `json:"data,omitempty"`
+	Error      *ErrorResponseBody `json:"error,omitempty"`
+	Pagination *PageDetail         `json:"pagination,omitempty"`
 }
 
 // DeleteNegativeKeywords Deletes negative keywords from an ad group

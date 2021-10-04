@@ -26,10 +26,13 @@ import (
 // https://developer.apple.com/documentation/apple_search_ads/ad_groups
 type AdGroupService service
 
+// AdGroupResponse is a container for the ad group response body
+//
+// https://developer.apple.com/documentation/apple_search_ads/adgroupresponse
 type AdGroupResponse struct {
-	Error      *GeneralErrorResponse `json:"error,omitempty"`
-	PageDetail *PageDetail           `json:"pageDetail,omitempty"`
 	AdGroup    *AdGroup              `json:"data,omitempty"`
+	Error      *GeneralErrorResponse `json:"error,omitempty"`
+	Pagination *PageDetail           `json:"pagination,omitempty"`
 }
 
 // AdGroupDisplayStatus defines model for AdGroupDisplayStatus.
@@ -182,7 +185,7 @@ type LocalityCriteria struct {
 type AdGroupListResponse struct {
 	AdGroup    []AdGroup          `json:"data,omitempty"`
 	Error      *ErrorResponseBody `json:"error,omitempty"`
-	PageDetail *PageDetail        `json:"pageDetail,omitempty"`
+	Pagination *PageDetail        `json:"pagination,omitempty"`
 }
 
 // CreateAdGroup creates an ad group as part of a campaign

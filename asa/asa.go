@@ -54,6 +54,7 @@ type Client struct {
 	AdGroups  *AdGroupService
 	Reporting *ReportingService
 	Keywords  *KeywordService
+	Budget    *BudgetService
 }
 
 // NewClient creates a new Client instance.
@@ -80,6 +81,7 @@ func NewClient(httpClient *http.Client) *Client {
 	c.AdGroups = (*AdGroupService)(&c.common)
 	c.Reporting = (*ReportingService)(&c.common)
 	c.Keywords = (*KeywordService)(&c.common)
+	c.Budget = (*BudgetService)(&c.common)
 
 	return c
 }

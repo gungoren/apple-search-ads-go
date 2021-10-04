@@ -21,6 +21,9 @@ import (
 	"fmt"
 )
 
+// CampaignService handles communication with build-related methods of the Apple Search Ads API
+//
+// https://developer.apple.com/documentation/apple_search_ads/campaigns
 type CampaignService service
 
 type GetAllCampaignQuery struct {
@@ -151,31 +154,31 @@ type Campaign struct {
 }
 
 type LOCInvoiceDetails struct {
-	BillingContactEmail string `json:"billingContactEmail"`
-	BuyerEmail          string `json:"buyerEmail"`
-	BuyerName           string `json:"buyerName"`
-	ClientName          string `json:"clientName"`
-	OrderNumber         string `json:"orderNumber"`
+	BillingContactEmail string `json:"billingContactEmail,omitempty"`
+	BuyerEmail          string `json:"buyerEmail,omitempty"`
+	BuyerName           string `json:"buyerName,omitempty"`
+	ClientName          string `json:"clientName,omitempty"`
+	OrderNumber         string `json:"orderNumber,omitempty"`
 }
 
 type CampaignResponse struct {
-	Error      ErrorResponseBody `json:"error"`
-	Pagination PageDetail        `json:"pagination"`
-	Campaign   Campaign          `json:"data"`
+	Campaign   *Campaign          `json:"data,omitempty"`
+	Error      *ErrorResponseBody `json:"error,omitempty"`
+	Pagination *PageDetail        `json:"pagination,omitempty"`
 }
 
 type CampaignListResponse struct {
-	Error      ErrorResponseBody `json:"error"`
-	Pagination PageDetail        `json:"pagination"`
-	Campaigns  []Campaign        `json:"data"`
+	Error      ErrorResponseBody `json:"error,omitempty"`
+	Pagination PageDetail        `json:"pagination,omitempty"`
+	Campaigns  []Campaign        `json:"data,omitempty"`
 }
 
 type ErrorResponseBody struct {
-	Errors []ErrorResponseItem `json:"errors"`
+	Errors []ErrorResponseItem `json:"errors,omitempty"`
 }
 
 type GeneralErrorResponse struct {
-	Error ErrorResponseBody `json:"error"`
+	Error ErrorResponseBody `json:"error,omitempty"`
 }
 
 type ErrorResponseItemMessageCode string
