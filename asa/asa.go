@@ -41,7 +41,7 @@ const (
 	headerRateLimit = "X-Rate-Limit"
 )
 
-// Client is the root instance of the App Store Connect API.
+// Client is the root instance of the Apple Search Ads API.
 type Client struct {
 	client    *http.Client
 	baseURL   *url.URL
@@ -87,7 +87,7 @@ func (c *Client) SetHTTPDebug(flag bool) {
 	c.httpDebug = flag
 }
 
-// Response is a App Store Connect API response. This wraps the standard http.Response
+// Response is a Apple Search Ads API response. This wraps the standard http.Response
 // returned from Apple and provides convenient access to things like rate limit.
 type Response struct {
 	*http.Response

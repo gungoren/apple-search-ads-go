@@ -38,7 +38,7 @@ func main() {
 		log.Fatalf("client config failed: %s", err)
 	}
 
-	// Create the App Store Connect client
+	// Create the Apple Search Ads client
 	client := asa.NewClient(auth.Client())
 
 	campaign, err := util.GetCampaign(ctx, client, &asa.Selector{

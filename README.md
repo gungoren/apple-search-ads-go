@@ -64,7 +64,7 @@ func main() {
 }
 ```
 
-The authenticated client created here will automatically regenerate the token if it expires. Also note that all Apple Search Ads APIs are scoped to the credentials of the pre-configured key, so you can't use this API to make queries against the entire App Store. For more information on creating the necessary credentials for the Apple Search Ads API, see the documentation at <https://developer.apple.com/documentation/apple_search_ads/implementing_oauth_for_the_apple_search_ads_api>.
+The authenticated client created here will automatically regenerate the token if it expires. Also note that all Apple Search Ads APIs are scoped to the credentials of the pre-configured key, so you can't use this API to make queries against the entire Apple Search Ads. For more information on creating the necessary credentials for the Apple Search Ads API, see the documentation at <https://developer.apple.com/documentation/apple_search_ads/implementing_oauth_for_the_apple_search_ads_api>.
 
 ### Rate Limiting
 
