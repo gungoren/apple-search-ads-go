@@ -58,8 +58,7 @@ func tokenConfig() *asa.AuthTransport {
 			return nil
 		}
 	} else {
-		fmt.Println("no private key provided to either the ASC_INTEGRATION_PRIVATE_KEY or ASC_INTEGRATION_PRIVATE_KEY_PATH environment variables")
-		//log.Fatalf()
+		fmt.Println("no private key provided to either the ASA_INTEGRATION_PRIVATE_KEY or ASA_INTEGRATION_PRIVATE_KEY_PATH environment variables")
 		return nil
 	}
 	orgID := os.Getenv(envOrgID)
