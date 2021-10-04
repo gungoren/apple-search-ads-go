@@ -45,6 +45,8 @@ jobs:
       - name: Upload Coverage to Codecov
         if: success()
         uses: codecov/codecov-action@v1
+        env:
+          CODECOV_TOKEN: ${{ secrets.ASA_CODECOV_TOKEN }}
         with:
           file: ./coverage.out
 
