@@ -35,9 +35,9 @@ import (
 )
 
 const (
-	defaultBaseURL = "https://api.searchads.apple.com/api/v4/"
-	userAgent      = "apple-search-ads-go"
-	defaultTimeout = 30 * time.Second
+	defaultBaseURL  = "https://api.searchads.apple.com/api/v4/"
+	userAgent       = "apple-search-ads-go"
+	defaultTimeout  = 30 * time.Second
 	headerRateLimit = "X-Rate-Limit"
 )
 
@@ -53,6 +53,7 @@ type Client struct {
 	Campaigns *CampaignService
 	AdGroups  *AdGroupService
 	Reporting *ReportingService
+	Keywords  *KeywordService
 }
 
 // NewClient creates a new Client instance.
@@ -78,6 +79,7 @@ func NewClient(httpClient *http.Client) *Client {
 	c.Campaigns = (*CampaignService)(&c.common)
 	c.AdGroups = (*AdGroupService)(&c.common)
 	c.Reporting = (*ReportingService)(&c.common)
+	c.Keywords = (*KeywordService)(&c.common)
 
 	return c
 }
