@@ -21,8 +21,3 @@ type PageDetail struct {
 	StartIndex   int `json:"startIndex"`
 	ItemsPerPage int `json:"itemsPerPage"`
 }
-
-type Money struct {
-	Amount   string `json:"amount"`
-	Currency string `json:"currency"`
-}

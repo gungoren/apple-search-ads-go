@@ -15,3 +15,8 @@ along with apple-search-ads-go.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 package asa
+
+type Money struct {
+	Amount   string `json:"amount"`
+	Currency string `json:"currency"`
+}
