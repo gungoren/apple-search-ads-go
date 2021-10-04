@@ -498,6 +498,12 @@ func (e ErrorResponseError) String(level int) string {
 	return str.String()
 }
 
+type PageDetail struct {
+	TotalResults int `json:"totalResults"`
+	StartIndex   int `json:"startIndex"`
+	ItemsPerPage int `json:"itemsPerPage"`
+}
+
 // Close closes an open descriptor.
 func closeDesc(c io.Closer) {
 	if err := c.Close(); err != nil {

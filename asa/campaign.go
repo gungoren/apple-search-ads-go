@@ -112,6 +112,19 @@ const (
 	CampaignStatusPaused  CampaignStatus = "PAUSED"
 )
 
+type CampaignCountryOrRegionServingStateReasons map[Region]CampaignCountryOrRegionServingStateReason
+
+type CampaignCountryOrRegionServingStateReason string
+
+const (
+	CampaignCountryOrRegionServingStateReasonAppNotEligible           CampaignCountryOrRegionServingStateReason = "APP_NOT_ELIGIBLE"
+	CampaignCountryOrRegionServingStateReasonAppNotEligibleSearchAds  CampaignCountryOrRegionServingStateReason = "APP_NOT_ELIGIBLE_SEARCHADS"
+	CampaignCountryOrRegionServingStateReasonAppNotPublishedYet       CampaignCountryOrRegionServingStateReason = "APP_NOT_PUBLISHED_YET"
+	CampaignCountryOrRegionServingStateReasonSapinLawAgentUnknown     CampaignCountryOrRegionServingStateReason = "SAPIN_LAW_AGENT_UNKNOWN"
+	CampaignCountryOrRegionServingStateReasonSapinLawFrenchBizUnknown CampaignCountryOrRegionServingStateReason = "SAPIN_LAW_FRENCH_BIZ_UNKNOWN"
+	CampaignCountryOrRegionServingStateReasonSapinLawFrenchBiz        CampaignCountryOrRegionServingStateReason = "SAPIN_LAW_FRENCH_BIZ"
+)
+
 type Campaign struct {
 	AdamId                             int64                                      `json:"adamId"`
 	AdChannelType                      CampaignAdChannelType                      `json:"adChannelType"`
@@ -151,6 +164,33 @@ type CampaignResponse struct {
 	Campaign   Campaign          `json:"data"`
 }
 
+type CampaignListResponse struct {
+	Error      ErrorResponseBody `json:"error"`
+	Pagination PageDetail        `json:"pagination"`
+	Campaigns  []Campaign        `json:"data"`
+}
+
+type ErrorResponseBody struct {
+	Errors []ErrorResponseItem `json:"errors"`
+}
+
+type GeneralErrorResponse struct {
+	Error ErrorResponseBody `json:"error"`
+}
+
+type ErrorResponseItemMessageCode string
+
+const (
+	ErrorResponseItemMessageCodeUnauthorized      ErrorResponseItemMessageCode = "UNAUTHORIZED"
+	ErrorResponseItemMessageCodeInvalidDateFormat ErrorResponseItemMessageCode = "INVALID_DATE_FORMAT"
+)
+
+type ErrorResponseItem struct {
+	Field       string                       `json:"field"`
+	Message     string                       `json:"message"`
+	MessageCode ErrorResponseItemMessageCode `json:"messageCode"`
+}
+
 func (s *CampaignService) GetAllCampaigns(ctx context.Context, params *GetAllCampaignQuery) (*CampaignListResponse, *Response, error) {
 	res := new(CampaignListResponse)
 	resp, err := s.client.get(ctx, "campaigns", &params, res)
@@ -182,6 +222,21 @@ func (s *CampaignService) CreateCampaign(ctx context.Context, campaign *Campaign
 	res := new(CampaignResponse)
 	resp, err := s.client.post(ctx, url, campaign, res)
 	return res, resp, err
+}
+
+type CampaignUpdate struct {
+	BudgetAmount       *Money            `json:"budgetAmount,omitempty"`
+	BudgetOrders       int64             `json:"budgetOrders,omitempty"`
+	CountriesOrRegions []string          `json:"countriesOrRegions,omitempty"`
+	DailyBudgetAmount  *Money            `json:"dailyBudgetAmount,omitempty"`
+	LOCInvoiceDetails  LOCInvoiceDetails `json:"locInvoiceDetails,omitempty"`
+	Name               string            `json:"name,omitempty"`
+	Status             *CampaignStatus   `json:"status,omitempty"`
+}
+
+type UpdateCampaignRequest struct {
+	Campaign                                 *CampaignUpdate `json:"campaign"`
+	ClearGeoTargetingOnCountryOrRegionChange bool            `json:"clearGeoTargetingOnCountryOrRegionChange"`
 }
 
 func (s *CampaignService) UpdateCampaign(ctx context.Context, campaignId int64, req *UpdateCampaignRequest) (*CampaignResponse, *Response, error) {

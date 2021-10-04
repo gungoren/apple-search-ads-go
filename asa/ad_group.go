@@ -87,6 +87,11 @@ const (
 	AdGroupStatusPaused  AdGroupStatus = "PAUSED"
 )
 
+type Money struct {
+	Amount   string `json:"amount"`
+	Currency string `json:"currency"`
+}
+
 type AdGroup struct {
 	AutomatedKeywordsOptIn bool                 `json:"automatedKeywordsOptIn,omitempty"`
 	CampaignID             int64                `json:"campaignID,omitempty"`
@@ -201,6 +206,53 @@ type AdGroupUpdateRequest struct {
 	StartTime              DateTime          `json:"startTime,omitempty"`
 	Status                 AdGroupStatus     `json:"status,omitempty"`
 	TargetingDimensions    *TargetDimensions `json:"targetingDimensions"`
+}
+
+type ConditionOperator string
+
+const (
+	ConditionOperatorEquals      ConditionOperator = "EQUALS"
+	ConditionOperatorGreaterThan ConditionOperator = "GREATER_THAN"
+	ConditionOperatorLessThan    ConditionOperator = "LESS_THAN"
+	ConditionOperatorIn          ConditionOperator = "IN"
+	ConditionOperatorLike        ConditionOperator = "LIKE"
+	ConditionOperatorStartsWith  ConditionOperator = "STARTSWITH"
+	ConditionOperatorContains    ConditionOperator = "CONTAINS"
+	ConditionOperatorEndsWith    ConditionOperator = "ENDSWITH"
+	ConditionOperatorNotEqual    ConditionOperator = "NOT_EQUALS"
+	ConditionOperatorIs          ConditionOperator = "IS"
+	ConditionOperatorContainsAny ConditionOperator = "CONTAINS_ANY"
+	ConditionOperatorContainsAll ConditionOperator = "CONTAINS_ALL"
+)
+
+type Selector struct {
+	Conditions []*Condition `json:"conditions,omitempty"`
+	Fields     []string     `json:"fields,omitempty"`
+	OrderBy    []*Sorting   `json:"orderBy,omitempty"`
+	Pagination *Pagination  `json:"pagination,omitempty"`
+}
+
+type Condition struct {
+	Field    string            `json:"field"`
+	Operator ConditionOperator `json:"operator"`
+	Values   []string          `json:"values"`
+}
+
+type SortOrder string
+
+const (
+	SortingOrderAscending  SortOrder = "ASCENDING"
+	SortingOrderDescending SortOrder = "DESCENDING"
+)
+
+type Sorting struct {
+	Field     string    `json:"field"`
+	SortOrder SortOrder `json:"sortOrder"`
+}
+
+type Pagination struct {
+	Limit  uint32 `json:"limit"`
+	Offset uint32 `json:"offset"`
 }
 
 func (s *AdGroupService) FindAdGroups(ctx context.Context, campaignId int64, selector *Selector) (*AdGroupListResponse, *Response, error) {
