@@ -18,6 +18,8 @@ linters:
     - testpackage
     - wrapcheck
     - tagliatelle
+    - unparam
+    - errname
 linters-settings:
   errcheck:
     exclude-functions:

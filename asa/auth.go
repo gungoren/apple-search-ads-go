@@ -37,6 +37,9 @@ var ErrMissingPEM = errors.New("no PEM blob found")
 // ErrInvalidPrivateKey happens when a key cannot be parsed as a ECDSA PKCS8 private key.
 var ErrInvalidPrivateKey = errors.New("key could not be parsed as a valid ecdsa.PrivateKey")
 
+// ErrHTTPTokenBadRequest happens when apple generate token http request failed.
+var ErrHTTPTokenBadRequest = errors.New("generate auth token failed with")
+
 // AuthTransport is an http.RoundTripper implementation that stores the JWT created.
 // If the token expires, the Rotate function should be called to update the stored token.
 type AuthTransport struct {
@@ -177,7 +180,7 @@ func (g *standardJWTGenerator) generateAccessToken(token string) (*accessToken, 
 
 	b, _ := ioutil.ReadAll(resp.Body)
 	if resp.StatusCode >= http.StatusBadRequest {
-		return nil, errors.New(string(b))
+		return nil, fmt.Errorf("http error %w: %s", ErrHTTPTokenBadRequest, string(b))
 	}
 
 	accessToken := &accessToken{}

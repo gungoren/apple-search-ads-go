@@ -163,7 +163,7 @@ type MetaDataObject struct {
 	App                                *CampaignAppDetail                          `json:"app,omitempty"`
 	ServingStatus                      CampaignServingStatus                       `json:"servingStatus,omitempty"`
 	ServingStateReasons                []CampaignServingStateReason                `json:"servingStateReasons,omitempty"`
-	CountriesOrRegions                 []Region                                    `json:"countriesOrRegions,omitempty"`
+	CountriesOrRegions                 []string                                    `json:"countriesOrRegions,omitempty"`
 	ModificationTime                   DateTime                                    `json:"modificationTime,omitempty"`
 	TotalBudget                        *Money                                      `json:"totalBudget,omitempty"`
 	DailyBudget                        *Money                                      `json:"dailyBudget,omitempty"`
@@ -175,7 +175,7 @@ type MetaDataObject struct {
 	BillingEvent                       string                                      `json:"billingEvent,omitempty"`
 	KeywordID                          int64                                       `json:"keywordID,omitempty"`
 	MatchType                          *ReportingKeywordMatchType                  `json:"matchType,omitempty"`
-	CountryOrRegion                    *Region                                     `json:"countryOrRegion,omitempty"`
+	CountryOrRegion                    string                                      `json:"countryOrRegion,omitempty"`
 	SearchTermText                     []string                                    `json:"SearchTermText,omitempty"`
 	SearchTermSource                   *SearchTermSource                           `json:"searchTermSource,omitempty"`
 }

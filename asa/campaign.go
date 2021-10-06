@@ -32,66 +32,100 @@ type GetAllCampaignQuery struct {
 	Offset int32 `url:"offset,omitempty"`
 }
 
+// CampaignAdChannelType is the channel type of ad in a campaign.
 type CampaignAdChannelType string
 
 const (
-	CampaignAdChannelTypeSearch  CampaignAdChannelType = "SEARCH"
+	// CampaignAdChannelTypeSearch When supplySources is APPSTORE_SEARCH_RESULTS, the adChannelType must be SEARCH.
+	CampaignAdChannelTypeSearch CampaignAdChannelType = "SEARCH"
+	// CampaignAdChannelTypeDisplay When supplySources is APPSTORE_SEARCH_TAB, the adChannelType must be DISPLAY.
 	CampaignAdChannelTypeDisplay CampaignAdChannelType = "DISPLAY"
 )
 
-type Region string
-
-const (
-	RegionUS Region = "US"
-)
-
+// CampaignDisplayStatus is the status of the campaign.
 type CampaignDisplayStatus string
 
 const (
+	// CampaignDisplayStatusRunning is for a campaign status on RUNNING.
 	CampaignDisplayStatusRunning CampaignDisplayStatus = "RUNNING"
-	CampaignDisplayStatusOnHold  CampaignDisplayStatus = "ON_HOLD"
-	CampaignDisplayStatusPaused  CampaignDisplayStatus = "PAUSED"
+	// CampaignDisplayStatusOnHold is for a campaign status on ON_HOLD.
+	CampaignDisplayStatusOnHold CampaignDisplayStatus = "ON_HOLD"
+	// CampaignDisplayStatusPaused is for a campaign status on PAUSED.
+	CampaignDisplayStatusPaused CampaignDisplayStatus = "PAUSED"
+	// CampaignDisplayStatusDeleted is for a campaign status on DELETED.
 	CampaignDisplayStatusDeleted CampaignDisplayStatus = "DELETED"
 )
 
+// PaymentModel is the payment model that you set through the Search Ads UI.
 type PaymentModel string
 
 const (
-	PaymentModelPayG   PaymentModel = "PAYG"
-	PaymentModelLoc    PaymentModel = "LOC"
+	// PaymentModelPayG is a pay-as-you-go payment mode.
+	PaymentModelPayG PaymentModel = "PAYG"
+	// PaymentModelLoc is a line-of-credit payment model.
+	PaymentModelLoc PaymentModel = "LOC"
+	// PaymentModelNotSet is represent there is no set payment method.
 	PaymentModelNotSet PaymentModel = ""
 )
 
+// CampaignServingStateReason is a reason that displays when a campaign can’t run.
 type CampaignServingStateReason string
 
 const (
-	CampaignServingStateReasonNoPaymentMethodOnFile       CampaignServingStateReason = "NO_PAYMENT_METHOD_ON_FILE"
-	CampaignServingStateReasonMissingBoOrInvoicingFields  CampaignServingStateReason = "MISSING_BO_OR_INVOICING_FIELDS"
-	CampaignServingStateReasonPausedByUser                CampaignServingStateReason = "PAUSED_BY_USER"
-	CampaignServingStateReasonDeletedByUser               CampaignServingStateReason = "DELETED_BY_USER"
-	CampaignServingStateReasonCampaignEndDateReached      CampaignServingStateReason = "CAMPAIGN_END_DATE_REACHED"
-	CampaignServingStateReasonCampaignStartDateInFuture   CampaignServingStateReason = "CAMPAIGN_START_DATE_IN_FUTURE"
-	CampaignServingStateReasonDailyCapExhausted           CampaignServingStateReason = "DAILY_CAP_EXHAUSTED"
-	CampaignServingStateReasonTotalBudgetExhausted        CampaignServingStateReason = "TOTAL_BUDGET_EXHAUSTED"
-	CampaignServingStateReasonCreditCardDeclined          CampaignServingStateReason = "CREDIT_CARD_DECLINED"
-	CampaignServingStateReasonAppNotEligible              CampaignServingStateReason = "APP_NOT_ELIGIBLE"
-	CampaignServingStateReasonAppNotEligibleSearchads     CampaignServingStateReason = "APP_NOT_ELIGIBLE_SEARCHADS"
-	CampaignServingStateReasonAppNotPublishedYet          CampaignServingStateReason = "APP_NOT_PUBLISHED_YET"
-	CampaignServingStateReasonBoStartDateInFuture         CampaignServingStateReason = "BO_START_DATE_IN_FUTURE"
-	CampaignServingStateReasonBoEndDateReached            CampaignServingStateReason = "BO_END_DATE_REACHED"
-	CampaignServingStateReasonBoExhausted                 CampaignServingStateReason = "BO_EXHAUSTED"
-	CampaignServingStateReasonOrgPaymentTypeChanged       CampaignServingStateReason = "ORG_PAYMENT_TYPE_CHANGED"
+	// CampaignServingStateReasonNoPaymentMethodOnFile is for a campaign serving state reason for NO_PAYMENT_METHOD_ON_FILE.
+	CampaignServingStateReasonNoPaymentMethodOnFile CampaignServingStateReason = "NO_PAYMENT_METHOD_ON_FILE"
+	// CampaignServingStateReasonMissingBoOrInvoicingFields is for a campaign serving state reason for MISSING_BO_OR_INVOICING_FIELDS.
+	CampaignServingStateReasonMissingBoOrInvoicingFields CampaignServingStateReason = "MISSING_BO_OR_INVOICING_FIELDS"
+	// CampaignServingStateReasonPausedByUser is for a campaign serving state reason for PAUSED_BY_USER.
+	CampaignServingStateReasonPausedByUser CampaignServingStateReason = "PAUSED_BY_USER"
+	// CampaignServingStateReasonDeletedByUser is for a campaign serving state reason for DELETED_BY_USER.
+	CampaignServingStateReasonDeletedByUser CampaignServingStateReason = "DELETED_BY_USER"
+	// CampaignServingStateReasonCampaignEndDateReached is for a campaign serving state reason for CAMPAIGN_END_DATE_REACHED.
+	CampaignServingStateReasonCampaignEndDateReached CampaignServingStateReason = "CAMPAIGN_END_DATE_REACHED"
+	// CampaignServingStateReasonCampaignStartDateInFuture is for a campaign serving state reason for CAMPAIGN_START_DATE_IN_FUTURE.
+	CampaignServingStateReasonCampaignStartDateInFuture CampaignServingStateReason = "CAMPAIGN_START_DATE_IN_FUTURE"
+	// CampaignServingStateReasonDailyCapExhausted is for a campaign serving state reason for DAILY_CAP_EXHAUSTED.
+	CampaignServingStateReasonDailyCapExhausted CampaignServingStateReason = "DAILY_CAP_EXHAUSTED"
+	// CampaignServingStateReasonTotalBudgetExhausted is for a campaign serving state reason for TOTAL_BUDGET_EXHAUSTED.
+	CampaignServingStateReasonTotalBudgetExhausted CampaignServingStateReason = "TOTAL_BUDGET_EXHAUSTED"
+	// CampaignServingStateReasonCreditCardDeclined is for a campaign serving state reason for CREDIT_CARD_DECLINED.
+	CampaignServingStateReasonCreditCardDeclined CampaignServingStateReason = "CREDIT_CARD_DECLINED"
+	// CampaignServingStateReasonAppNotEligible is for a campaign serving state reason for APP_NOT_ELIGIBLE.
+	CampaignServingStateReasonAppNotEligible CampaignServingStateReason = "APP_NOT_ELIGIBLE"
+	// CampaignServingStateReasonAppNotEligibleSearchads is for a campaign serving state reason for APP_NOT_ELIGIBLE_SEARCHADS.
+	CampaignServingStateReasonAppNotEligibleSearchads CampaignServingStateReason = "APP_NOT_ELIGIBLE_SEARCHADS"
+	// CampaignServingStateReasonAppNotPublishedYet is for a campaign serving state reason for APP_NOT_PUBLISHED_YET.
+	CampaignServingStateReasonAppNotPublishedYet CampaignServingStateReason = "APP_NOT_PUBLISHED_YET"
+	// CampaignServingStateReasonBoStartDateInFuture is for a campaign serving state reason for BO_START_DATE_IN_FUTURE.
+	CampaignServingStateReasonBoStartDateInFuture CampaignServingStateReason = "BO_START_DATE_IN_FUTURE"
+	// CampaignServingStateReasonBoEndDateReached is for a campaign serving state reason for BO_END_DATE_REACHED.
+	CampaignServingStateReasonBoEndDateReached CampaignServingStateReason = "BO_END_DATE_REACHED"
+	// CampaignServingStateReasonBoExhausted is for a campaign serving state reason for BO_EXHAUSTED.
+	CampaignServingStateReasonBoExhausted CampaignServingStateReason = "BO_EXHAUSTED"
+	// CampaignServingStateReasonOrgPaymentTypeChanged is for a campaign serving state reason for ORG_PAYMENT_TYPE_CHANGED.
+	CampaignServingStateReasonOrgPaymentTypeChanged CampaignServingStateReason = "ORG_PAYMENT_TYPE_CHANGED"
+	// CampaignServingStateReasonOrgSuspendedPolicyViolation is for a campaign serving state reason for ORG_SUSPENDED_POLICY_VIOLATION.
 	CampaignServingStateReasonOrgSuspendedPolicyViolation CampaignServingStateReason = "ORG_SUSPENDED_POLICY_VIOLATION"
-	CampaignServingStateReasonOrgSuspendedFraud           CampaignServingStateReason = "ORG_SUSPENDED_FRAUD"
-	CampaignServingStateReasonOrgChargeBackDisputed       CampaignServingStateReason = "ORG_CHARGE_BACK_DISPUTED"
-	CampaignServingStateReasonPausedBySystem              CampaignServingStateReason = "PAUSED_BY_SYSTEM"
-	CampaignServingStateReasonLocExhausted                CampaignServingStateReason = "LOC_EXHAUSTED"
-	CampaignServingStateReasonTaxVerificationPending      CampaignServingStateReason = "TAX_VERIFICATION_PENDING"
-	CampaignServingStateReasonSapinLawAgentUnknown        CampaignServingStateReason = "SAPIN_LAW_AGENT_UNKNOWN"
-	CampaignServingStateReasonSapinLawFrenchBizUnknown    CampaignServingStateReason = "SAPIN_LAW_FRENCH_BIZ_UNKNOWN"
-	CampaignServingStateReasonSapinLawFrenchBiz           CampaignServingStateReason = "SAPIN_LAW_FRENCH_BIZ"
-	CampaignServingStateReasonNoEligibleCountries         CampaignServingStateReason = "NO_ELIGIBLE_COUNTRIES"
-	CampaignServingStateReasonAdGroupMissing              CampaignServingStateReason = "AD_GROUP_MISSING"
+	// CampaignServingStateReasonOrgSuspendedFraud is for a campaign serving state reason for ORG_SUSPENDED_FRAUD.
+	CampaignServingStateReasonOrgSuspendedFraud CampaignServingStateReason = "ORG_SUSPENDED_FRAUD"
+	// CampaignServingStateReasonOrgChargeBackDisputed is for a campaign serving state reason for ORG_CHARGE_BACK_DISPUTED.
+	CampaignServingStateReasonOrgChargeBackDisputed CampaignServingStateReason = "ORG_CHARGE_BACK_DISPUTED"
+	// CampaignServingStateReasonPausedBySystem is for a campaign serving state reason for PAUSED_BY_SYSTEM.
+	CampaignServingStateReasonPausedBySystem CampaignServingStateReason = "PAUSED_BY_SYSTEM"
+	// CampaignServingStateReasonLocExhausted is for a campaign serving state reason for LOC_EXHAUSTED.
+	CampaignServingStateReasonLocExhausted CampaignServingStateReason = "LOC_EXHAUSTED"
+	// CampaignServingStateReasonTaxVerificationPending is for a campaign serving state reason for TAX_VERIFICATION_PENDING.
+	CampaignServingStateReasonTaxVerificationPending CampaignServingStateReason = "TAX_VERIFICATION_PENDING"
+	// CampaignServingStateReasonSapinLawAgentUnknown is for a campaign serving state reason for SAPIN_LAW_AGENT_UNKNOWN.
+	CampaignServingStateReasonSapinLawAgentUnknown CampaignServingStateReason = "SAPIN_LAW_AGENT_UNKNOWN"
+	// CampaignServingStateReasonSapinLawFrenchBizUnknown is for a campaign serving state reason for SAPIN_LAW_FRENCH_BIZ_UNKNOWN.
+	CampaignServingStateReasonSapinLawFrenchBizUnknown CampaignServingStateReason = "SAPIN_LAW_FRENCH_BIZ_UNKNOWN"
+	// CampaignServingStateReasonSapinLawFrenchBiz is for a campaign serving state reason for SAPIN_LAW_FRENCH_BIZ.
+	CampaignServingStateReasonSapinLawFrenchBiz CampaignServingStateReason = "SAPIN_LAW_FRENCH_BIZ"
+	// CampaignServingStateReasonNoEligibleCountries is for a campaign serving state reason for NO_ELIGIBLE_COUNTRIES.
+	CampaignServingStateReasonNoEligibleCountries CampaignServingStateReason = "NO_ELIGIBLE_COUNTRIES"
+	// CampaignServingStateReasonAdGroupMissing is for a campaign serving state reason for AD_GROUP_MISSING.
+	CampaignServingStateReasonAdGroupMissing CampaignServingStateReason = "AD_GROUP_MISSING"
 )
 
 // CampaignSupplySource is the supply source of ads to use in a campaign.
@@ -106,34 +140,47 @@ const (
 	CampaignSupplySourceStocks CampaignSupplySource = "STOCKS"
 )
 
+// CampaignServingStatus is the status of the campaign.
 type CampaignServingStatus string
 
 const (
-	CampaignServingStatusRunning    CampaignServingStatus = "RUNNING"
+	// CampaignServingStatusRunning is for a campaign serving status source on RUNNING.
+	CampaignServingStatusRunning CampaignServingStatus = "RUNNING"
+	// CampaignServingStatusNotRunning is for a campaign supply source on NOT_RUNNING.
 	CampaignServingStatusNotRunning CampaignServingStatus = "NOT_RUNNING"
 )
 
+// CampaignStatus is the user-controlled status to enable or pause the campaign.
 type CampaignStatus string
 
 const (
+	// CampaignStatusEnabled is for a campaign status on ENABLED.
 	CampaignStatusEnabled CampaignStatus = "ENABLED"
-	CampaignStatusPaused  CampaignStatus = "PAUSED"
+	// CampaignStatusPaused is for a campaign status source on PAUSED.
+	CampaignStatusPaused CampaignStatus = "PAUSED"
 )
 
 // CampaignCountryOrRegionServingStateReasons is the reasons why a campaign can’t run
 //
 // https://developer.apple.com/documentation/apple_search_ads/campaign/countryorregionservingstatereasons
-type CampaignCountryOrRegionServingStateReasons map[Region]CampaignCountryOrRegionServingStateReason
+type CampaignCountryOrRegionServingStateReasons map[string]CampaignCountryOrRegionServingStateReason
 
+// CampaignCountryOrRegionServingStateReason is a reason that returns when a campaign can’t run for a specified country or region.
 type CampaignCountryOrRegionServingStateReason string
 
 const (
-	CampaignCountryOrRegionServingStateReasonAppNotEligible           CampaignCountryOrRegionServingStateReason = "APP_NOT_ELIGIBLE"
-	CampaignCountryOrRegionServingStateReasonAppNotEligibleSearchAds  CampaignCountryOrRegionServingStateReason = "APP_NOT_ELIGIBLE_SEARCHADS"
-	CampaignCountryOrRegionServingStateReasonAppNotPublishedYet       CampaignCountryOrRegionServingStateReason = "APP_NOT_PUBLISHED_YET"
-	CampaignCountryOrRegionServingStateReasonSapinLawAgentUnknown     CampaignCountryOrRegionServingStateReason = "SAPIN_LAW_AGENT_UNKNOWN"
+	// CampaignCountryOrRegionServingStateReasonAppNotEligible is for a campaign country or region serving state reason on APP_NOT_ELIGIBLE.
+	CampaignCountryOrRegionServingStateReasonAppNotEligible CampaignCountryOrRegionServingStateReason = "APP_NOT_ELIGIBLE"
+	// CampaignCountryOrRegionServingStateReasonAppNotEligibleSearchAds is for a campaign country or region serving state reason on APP_NOT_ELIGIBLE_SEARCHADS.
+	CampaignCountryOrRegionServingStateReasonAppNotEligibleSearchAds CampaignCountryOrRegionServingStateReason = "APP_NOT_ELIGIBLE_SEARCHADS"
+	// CampaignCountryOrRegionServingStateReasonAppNotPublishedYet is for a campaign country or region serving state reason on APP_NOT_PUBLISHED_YET.
+	CampaignCountryOrRegionServingStateReasonAppNotPublishedYet CampaignCountryOrRegionServingStateReason = "APP_NOT_PUBLISHED_YET"
+	// CampaignCountryOrRegionServingStateReasonSapinLawAgentUnknown is for a campaign country or region serving state reason on SAPIN_LAW_AGENT_UNKNOWN.
+	CampaignCountryOrRegionServingStateReasonSapinLawAgentUnknown CampaignCountryOrRegionServingStateReason = "SAPIN_LAW_AGENT_UNKNOWN"
+	// CampaignCountryOrRegionServingStateReasonSapinLawFrenchBizUnknown is for a campaign country or region serving state reason on SAPIN_LAW_FRENCH_BIZ_UNKNOWN.
 	CampaignCountryOrRegionServingStateReasonSapinLawFrenchBizUnknown CampaignCountryOrRegionServingStateReason = "SAPIN_LAW_FRENCH_BIZ_UNKNOWN"
-	CampaignCountryOrRegionServingStateReasonSapinLawFrenchBiz        CampaignCountryOrRegionServingStateReason = "SAPIN_LAW_FRENCH_BIZ"
+	// CampaignCountryOrRegionServingStateReasonSapinLawFrenchBiz is for a campaign country or region serving state reason on SAPIN_LAW_FRENCH_BIZ.
+	CampaignCountryOrRegionServingStateReasonSapinLawFrenchBiz CampaignCountryOrRegionServingStateReason = "SAPIN_LAW_FRENCH_BIZ"
 )
 
 // Campaign is the response to a request to create and fetch campaigns
@@ -145,7 +192,7 @@ type Campaign struct {
 	BillingEvent                       string                                     `json:"billingEvent,omitempty"`
 	BudgetAmount                       *Money                                     `json:"budgetAmount,omitempty"`
 	BudgetOrders                       []int64                                    `json:"budgetOrders,omitempty"`
-	CountriesOrRegions                 []Region                                   `json:"countriesOrRegions,omitempty"`
+	CountriesOrRegions                 []string                                   `json:"countriesOrRegions,omitempty"`
 	CountryOrRegionServingStateReasons CampaignCountryOrRegionServingStateReasons `json:"countryOrRegionServingStateReasons,omitempty"`
 	DailyBudgetAmount                  *Money                                     `json:"dailyBudgetAmount,omitempty"`
 	Deleted                            bool                                       `json:"deleted,omitempty"`
@@ -211,7 +258,9 @@ type APIErrorResponse struct {
 type ErrorResponseItemMessageCode string
 
 const (
-	ErrorResponseItemMessageCodeUnauthorized      ErrorResponseItemMessageCode = "UNAUTHORIZED"
+	// ErrorResponseItemMessageCodeUnauthorized is for an error response item message code on UNAUTHORIZED.
+	ErrorResponseItemMessageCodeUnauthorized ErrorResponseItemMessageCode = "UNAUTHORIZED"
+	// ErrorResponseItemMessageCodeInvalidDateFormat is for an error response item message code on INVALID_DATE_FORMAT.
 	ErrorResponseItemMessageCodeInvalidDateFormat ErrorResponseItemMessageCode = "INVALID_DATE_FORMAT"
 )
 
@@ -219,9 +268,9 @@ const (
 //
 // https://developer.apple.com/documentation/apple_search_ads/errorresponseitem
 type ErrorResponseItem struct {
-	Field       string                       `json:"field"`
-	Message     string                       `json:"message"`
-	MessageCode ErrorResponseItemMessageCode `json:"messageCode"`
+	Field       string                       `json:"field,omitempty"`
+	Message     string                       `json:"message,omitempty"`
+	MessageCode ErrorResponseItemMessageCode `json:"messageCode,omitempty"`
 }
 
 // GetAllCampaigns Fetches all of an organization’s assigned campaigns
