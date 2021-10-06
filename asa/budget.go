@@ -30,9 +30,9 @@ type BudgetService service
 //
 // https://developer.apple.com/documentation/apple_search_ads/budgetorderinforesponse
 type BudgetOrderInfoResponse struct {
-	Data       *BudgetOrderInfo   `json:"data"`
-	Error      *ErrorResponseBody `json:"error"`
-	Pagination PageDetail         `json:"pagination"`
+	BudgetOrder *BudgetOrderInfo   `json:"data"`
+	Error       *ErrorResponseBody `json:"error"`
+	Pagination  PageDetail         `json:"pagination"`
 }
 
 // BudgetOrderInfo is the response to a request for specific details of a budget order
@@ -108,9 +108,9 @@ type GetAllBudgetOrdersQuery struct {
 //
 // https://developer.apple.com/documentation/apple_search_ads/budgetorderinfolistresponse
 type BudgetOrderInfoListResponse struct {
-	Data       []*BudgetOrderInfo `json:"data"`
-	Error      *ErrorResponseBody `json:"error"`
-	Pagination PageDetail         `json:"pagination"`
+	BudgetOrderInfos []*BudgetOrderInfo `json:"data"`
+	Error            *ErrorResponseBody `json:"error"`
+	Pagination       PageDetail         `json:"pagination"`
 }
 
 // GetAllBudgetOrders Fetches all assigned budget orders for an organization

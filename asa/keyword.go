@@ -95,7 +95,7 @@ func (s *KeywordService) FindTargetingKeywords(ctx context.Context, campaignID i
 //
 // https://developer.apple.com/documentation/apple_search_ads/keywordresponse
 type KeywordResponse struct {
-	Data       *Keyword           `json:"data,omitempty"`
+	Keyword    *Keyword           `json:"data,omitempty"`
 	Error      *ErrorResponseBody `json:"error,omitempty"`
 	Pagination *PageDetail        `json:"pagination,omitempty"`
 }
@@ -222,9 +222,9 @@ func (s *KeywordService) FindAdGroupNegativeKeywords(ctx context.Context, campai
 //
 // https://developer.apple.com/documentation/apple_search_ads/negativekeywordresponse
 type NegativeKeywordResponse struct {
-	Data       *NegativeKeyword   `json:"data,omitempty"`
-	Error      *ErrorResponseBody `json:"error,omitempty"`
-	Pagination *PageDetail        `json:"pagination,omitempty"`
+	NegativeKeyword *NegativeKeyword   `json:"data,omitempty"`
+	Error           *ErrorResponseBody `json:"error,omitempty"`
+	Pagination      *PageDetail        `json:"pagination,omitempty"`
 }
 
 // GetNegativeKeyword Fetches a specific negative keyword in a campaign

@@ -56,6 +56,8 @@ type Client struct {
 	Reporting *ReportingService
 	Keywords  *KeywordService
 	Budget    *BudgetService
+	App       *AppService
+	Geo       *GeoService
 }
 
 // NewClient creates a new Client instance.
@@ -83,6 +85,8 @@ func NewClient(httpClient *http.Client) *Client {
 	c.Reporting = (*ReportingService)(&c.common)
 	c.Keywords = (*KeywordService)(&c.common)
 	c.Budget = (*BudgetService)(&c.common)
+	c.App = (*AppService)(&c.common)
+	c.Geo = (*GeoService)(&c.common)
 
 	return c
 }
@@ -240,6 +244,29 @@ func (c *Client) get(ctx context.Context, url string, query interface{}, v inter
 
 // post sends a POST request to the API as configured.
 func (c *Client) post(ctx context.Context, url string, body interface{}, v interface{}) (*Response, error) {
+	req, err := c.newRequest(ctx, "POST", url, body, withContentType("application/json"))
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := c.do(ctx, req, v)
+	if err != nil {
+		return resp, err
+	}
+
+	return resp, err
+}
+
+// post sends a POST request to the API as configured.
+func (c *Client) postWithQuery(ctx context.Context, url string, query interface{}, body interface{}, v interface{}) (*Response, error) {
+	var err error
+	if query != nil {
+		url, err = appendingQueryOptions(url, query)
+		if err != nil {
+			return nil, err
+		}
+	}
+
 	req, err := c.newRequest(ctx, "POST", url, body, withContentType("application/json"))
 	if err != nil {
 		return nil, err
