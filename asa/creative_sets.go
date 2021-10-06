@@ -94,7 +94,7 @@ const (
 //
 // https://developer.apple.com/documentation/apple_search_ads/mediaappprevieworscreenshots
 type MediaAppPreviewOrScreenshots struct {
-	AssetGenId   string                                  `json:"assetGenId,omitempty"`
+	AssetGenID   string                                  `json:"assetGenId,omitempty"`
 	AssetType    MediaAppPreviewOrScreenshotsAssetType   `json:"assetType"`
 	AssetURL     string                                  `json:"assetURL,omitempty"`
 	Orientation  MediaAppPreviewOrScreenshotsOrientation `json:"orientation"`
