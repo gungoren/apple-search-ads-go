@@ -26,23 +26,23 @@ import (
 // https://developer.apple.com/documentation/apple_search_ads/targeting_keywords_and_negative_keywords
 type KeywordService service
 
-// KeywordMatchType defines model for Keyword Match Type.
-//
-// https://developer.apple.com/documentation/apple_search_ads/keyword
+// KeywordMatchType is an automated keyword and bidding strategy.
 type KeywordMatchType string
 
 const (
+	// KeywordMatchTypeBroad is used this value to ensure your ads don’t run on relevant, close variants of a keyword, such as singulars, plurals, misspellings, synonyms, related searches, and phrases that include that term (fully or partially).
 	KeywordMatchTypeBroad KeywordMatchType = "Broad"
+	// KeywordMatchTypeExact is used this value for the most control over searches your ad may appear in. You can target a specific term and its close variants, such as common misspellings and plurals. Your ad may receive fewer impressions as a result, but your tap-through rates (TTRs) and conversions on those impressions may be higher because you’re reaching users most interested in your app.
 	KeywordMatchTypeExact KeywordMatchType = "Exact"
 )
 
 // KeywordStatus defines model for Keyword Status.
-//
-// https://developer.apple.com/documentation/apple_search_ads/keyword
 type KeywordStatus string
 
 const (
+	// KeywordStatusActive is for a keyword status on Active state.
 	KeywordStatusActive KeywordStatus = "ACTIVE"
+	// KeywordStatusPaused is for a keyword status on Paused state.
 	KeywordStatusPaused KeywordStatus = "PAUSED"
 )
 

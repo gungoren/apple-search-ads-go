@@ -42,21 +42,30 @@ type BudgetOrderInfo struct {
 	Bo *BudgetOrder `json:"bo"`
 }
 
+// BudgetOrderStatus is the system-controlled status indicator for the budget order.
 type BudgetOrderStatus string
 
 const (
-	BudgetOrderStatusActive    BudgetOrderStatus = "ACTIVE"
-	BudgetOrderStatusCanceled  BudgetOrderStatus = "CANCELED"
+	// BudgetOrderStatusActive is for a budget order status on Active.
+	BudgetOrderStatusActive BudgetOrderStatus = "ACTIVE"
+	// BudgetOrderStatusCanceled is for a budget order status on Canceled.
+	BudgetOrderStatusCanceled BudgetOrderStatus = "CANCELED"
+	// BudgetOrderStatusExhausted is for a budget order status on Exhausted.
 	BudgetOrderStatusExhausted BudgetOrderStatus = "EXHAUSTED"
-	BudgetOrderStatusInActive  BudgetOrderStatus = "INACTIVE"
-	BudgetOrderStatusComplete  BudgetOrderStatus = "COMPLETED"
+	// BudgetOrderStatusInActive is for a budget order status on InActive.
+	BudgetOrderStatusInActive BudgetOrderStatus = "INACTIVE"
+	// BudgetOrderStatusComplete is for a budget order status on Completed.
+	BudgetOrderStatusComplete BudgetOrderStatus = "COMPLETED"
 )
 
+// BudgetOrderSupplySources is the supply source of ads to use in a budget order and a campaign.
 type BudgetOrderSupplySources string
 
 const (
+	// BudgetOrderSupplySourcesAppStoreSearchResults is for a budget order supply sources on App Store Search Results.
 	BudgetOrderSupplySourcesAppStoreSearchResults BudgetOrderSupplySources = "APPSTORE_SEARCH_RESULTS"
-	BudgetOrderSupplySourcesAppStoreSearchTab     BudgetOrderSupplySources = "APPSTORE_SEARCH_TAB"
+	// BudgetOrderSupplySourcesAppStoreSearchTab is for a budget order supply sources on App Store Search Tab.
+	BudgetOrderSupplySourcesAppStoreSearchTab BudgetOrderSupplySources = "APPSTORE_SEARCH_TAB"
 )
 
 // BudgetOrder is the response to requests for budget order details

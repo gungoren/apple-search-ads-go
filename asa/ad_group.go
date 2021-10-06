@@ -286,19 +286,32 @@ type AdGroupUpdateRequest struct {
 type ConditionOperator string
 
 const (
-	ConditionOperatorBetween     ConditionOperator = "BETWEEN"
-	ConditionOperatorContains    ConditionOperator = "CONTAINS"
+	// ConditionOperatorBetween is the attribute matches the values within a specified range. The values can be numbers, text, or dates.
+	ConditionOperatorBetween ConditionOperator = "BETWEEN"
+	// ConditionOperatorContains is the attribute matches the value in the specified list.
+	ConditionOperatorContains ConditionOperator = "CONTAINS"
+	// ConditionOperatorContainsAll is the attribute has all of the values in the specified list.
 	ConditionOperatorContainsAll ConditionOperator = "CONTAINS_ALL"
+	// ConditionOperatorContainsAny is the attribute contains any of the values in the specified list.
 	ConditionOperatorContainsAny ConditionOperator = "CONTAINS_ANY"
-	ConditionOperatorEndsWith    ConditionOperator = "ENDSWITH"
-	ConditionOperatorEquals      ConditionOperator = "EQUALS"
+	// ConditionOperatorEndsWith is the attribute matches the suffix of a string.
+	ConditionOperatorEndsWith ConditionOperator = "ENDSWITH"
+	// ConditionOperatorEquals is the attribute contains exact values.
+	ConditionOperatorEquals ConditionOperator = "EQUALS"
+	// ConditionOperatorGreaterThan is the value is greater than the specified value.
 	ConditionOperatorGreaterThan ConditionOperator = "GREATER_THAN"
-	ConditionOperatorLessThan    ConditionOperator = "LESS_THAN"
-	ConditionOperatorStartsWith  ConditionOperator = "STARTSWITH"
-	ConditionOperatorIn          ConditionOperator = "IN"
-	ConditionOperatorLike        ConditionOperator = "LIKE"
-	ConditionOperatorNotEqual    ConditionOperator = "NOT_EQUALS"
-	ConditionOperatorIs          ConditionOperator = "IS"
+	// ConditionOperatorLessThan is the value is less than the specified value.
+	ConditionOperatorLessThan ConditionOperator = "LESS_THAN"
+	// ConditionOperatorStartsWith is the attribute matches the prefix of a string.
+	ConditionOperatorStartsWith ConditionOperator = "STARTSWITH"
+	// ConditionOperatorIn is the attribute matches any value in a list of specified values.
+	ConditionOperatorIn ConditionOperator = "IN"
+	// ConditionOperatorLike is the attribute like the value in the specified value.
+	ConditionOperatorLike ConditionOperator = "LIKE"
+	// ConditionOperatorNotEqual is the attribute not contains exact values.
+	ConditionOperatorNotEqual ConditionOperator = "NOT_EQUALS"
+	// ConditionOperatorIs is the attribute contains any of the values in the specified list.
+	ConditionOperatorIs ConditionOperator = "IS"
 )
 
 // Selector is the selector objects available to filter returned data
@@ -315,9 +328,9 @@ type Selector struct {
 //
 // https://developer.apple.com/documentation/apple_search_ads/condition
 type Condition struct {
-	Field    string            `json:"field"`
-	Operator ConditionOperator `json:"operator"`
-	Values   []string          `json:"values"`
+	Field    string            `json:"field,omitempty"`
+	Operator ConditionOperator `json:"operator,omitempty"`
+	Values   []string          `json:"values,omitempty"`
 }
 
 // SortOrder is the order of grouped results.

@@ -176,7 +176,7 @@ func (g *standardJWTGenerator) generateAccessToken(token string) (*accessToken, 
 	defer resp.Body.Close()
 
 	b, _ := ioutil.ReadAll(resp.Body)
-	if resp.StatusCode >= 400 {
+	if resp.StatusCode >= http.StatusBadRequest {
 		return nil, errors.New(string(b))
 	}
 

@@ -26,32 +26,48 @@ import (
 // https://developer.apple.com/documentation/apple_search_ads/reports
 type ReportingService service
 
+// ReportingRequestGranularity is the report data organized by hour, day, week, and month.
 type ReportingRequestGranularity string
 
 const (
-	ReportingRequestGranularityTypeHourly  ReportingRequestGranularity = "HOURLY"
-	ReportingRequestGranularityTypeDaily   ReportingRequestGranularity = "DAILY"
-	ReportingRequestGranularityTypeWeekly  ReportingRequestGranularity = "WEEKLY"
+	// ReportingRequestGranularityTypeHourly is for a reporting request granularity on Hourly.
+	ReportingRequestGranularityTypeHourly ReportingRequestGranularity = "HOURLY"
+	// ReportingRequestGranularityTypeDaily is for a reporting request granularity on Daily.
+	ReportingRequestGranularityTypeDaily ReportingRequestGranularity = "DAILY"
+	// ReportingRequestGranularityTypeWeekly is for a reporting request granularity on Weekly.
+	ReportingRequestGranularityTypeWeekly ReportingRequestGranularity = "WEEKLY"
+	// ReportingRequestGranularityTypeMonthly is for a reporting request granularity on Monthly.
 	ReportingRequestGranularityTypeMonthly ReportingRequestGranularity = "MONTHLY"
 )
 
+// ReportingRequestTimeZone is the default timeZone during account creation through the Apple Search Ads UI.
 type ReportingRequestTimeZone string
 
 const (
-	ReportingRequestTimeZoneUTC  ReportingRequestTimeZone = "UTC"
+	// ReportingRequestTimeZoneUTC is for a reporting request timezone on UTC.
+	ReportingRequestTimeZoneUTC ReportingRequestTimeZone = "UTC"
+	// ReportingRequestTimeZoneORTZ is for a reporting request timezone on ORTZ (organization time zone).
 	ReportingRequestTimeZoneORTZ ReportingRequestTimeZone = "ORTZ"
 )
 
+// ReportingRequestGroupBy is used to group responses by selected dimensions.
 type ReportingRequestGroupBy string
 
 const (
-	ReportingRequestGroupByTypeAdminArea       ReportingRequestGroupBy = "adminArea"
-	ReportingRequestGroupByTypeAgeRange        ReportingRequestGroupBy = "ageRange"
-	ReportingRequestGroupByTypeCountryCode     ReportingRequestGroupBy = "countryCode"
+	// ReportingRequestGroupByTypeAdminArea is for a reporting request group by on adminArea.
+	ReportingRequestGroupByTypeAdminArea ReportingRequestGroupBy = "adminArea"
+	// ReportingRequestGroupByTypeAgeRange is for a reporting request group by on ageRange.
+	ReportingRequestGroupByTypeAgeRange ReportingRequestGroupBy = "ageRange"
+	// ReportingRequestGroupByTypeCountryCode is for a reporting request group by on countryCode.
+	ReportingRequestGroupByTypeCountryCode ReportingRequestGroupBy = "countryCode"
+	// ReportingRequestGroupByTypeCountryOrRegion is for a reporting request group by on countryOrRegion.
 	ReportingRequestGroupByTypeCountryOrRegion ReportingRequestGroupBy = "countryOrRegion"
-	ReportingRequestGroupByTypeDeviceClass     ReportingRequestGroupBy = "deviceClass"
-	ReportingRequestGroupByTypeGender          ReportingRequestGroupBy = "gender"
-	ReportingRequestGroupByTypeLocality        ReportingRequestGroupBy = "locality"
+	// ReportingRequestGroupByTypeDeviceClass is for a reporting request group by on deviceClass.
+	ReportingRequestGroupByTypeDeviceClass ReportingRequestGroupBy = "deviceClass"
+	// ReportingRequestGroupByTypeGender is for a reporting request group by on gender.
+	ReportingRequestGroupByTypeGender ReportingRequestGroupBy = "gender"
+	// ReportingRequestGroupByTypeLocality is for a reporting request group by on locality.
+	ReportingRequestGroupByTypeLocality ReportingRequestGroupBy = "locality"
 )
 
 // ReportingRequest is the report request body
@@ -69,9 +85,13 @@ type ReportingRequest struct {
 	Selector                   *Selector                    `json:"selector,omitempty"`
 }
 
+// ReportingResponseBody is a container for the report response body
+//
+// https://developer.apple.com/documentation/apple_search_ads/reportingresponsebody
 type ReportingResponseBody struct {
 	ReportingCampaign *ReportingResponse `json:"data,omitempty"`
 	Pagination        *PageDetail        `json:"pagination,omitempty"`
+	Error             *ErrorResponseBody `json:"error,omitempty"`
 }
 
 // ReportingResponse is a container for report metrics
@@ -100,18 +120,25 @@ type Row struct {
 	Insights    *InsightsObject     `json:"insights,omitempty"`
 }
 
+// ReportingKeywordMatchType is an automated keyword and bidding strategy.
 type ReportingKeywordMatchType string
 
 const (
-	ReportingKeywordMatchTypeAuto  ReportingKeywordMatchType = "AUTO"
+	// ReportingKeywordMatchTypeAuto Use this value to specify that the system serves impressions with optimized keywords, in addition to those you explicitly add to the ad group.
+	ReportingKeywordMatchTypeAuto ReportingKeywordMatchType = "AUTO"
+	// ReportingKeywordMatchTypeExact Use this value to ensure your ads don’t run on relevant, close variants of a keyword, such as singulars, plurals, misspellings, synonyms, related searches, and phrases that include that term.
 	ReportingKeywordMatchTypeExact ReportingKeywordMatchType = "EXACT"
+	// ReportingKeywordMatchTypeBroad Use this value for the most control over searches your ad may appear in. You can target a specific term and its close variants, such as common misspellings and plurals. Your ad may receive fewer impressions as a result, but your tap-through rates (TTRs) and conversions on those impressions may be higher because you’re reaching users most interested in your app.
 	ReportingKeywordMatchTypeBroad ReportingKeywordMatchType = "BROAD"
 )
 
+// SearchTermSource is the source of the keyword to use as a search term.
 type SearchTermSource string
 
 const (
-	SearchTermSourceAuto     SearchTermSource = "AUTO"
+	// SearchTermSourceAuto is the value to use to ensure Search Match automatically matches your ads.
+	SearchTermSourceAuto SearchTermSource = "AUTO"
+	// SearchTermSourceTargeted is a bidded keyword.
 	SearchTermSourceTargeted SearchTermSource = "TARGETED"
 )
 
