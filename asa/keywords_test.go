@@ -69,6 +69,14 @@ func TestCreateNegativeKeywords(t *testing.T) {
 	})
 }
 
+func TestCreateAdGroupNegativeKeywords(t *testing.T) {
+	t.Parallel()
+
+	testEndpointWithResponse(t, "{}", &NegativeKeywordListResponse{}, func(ctx context.Context, client *Client) (interface{}, *Response, error) {
+		return client.Keywords.CreateAdGroupNegativeKeywords(ctx, 1, 99, []*NegativeKeyword{})
+	})
+}
+
 func TestFindNegativeKeywords(t *testing.T) {
 	t.Parallel()
 
@@ -77,11 +85,27 @@ func TestFindNegativeKeywords(t *testing.T) {
 	})
 }
 
+func TestFindAdGroupNegativeKeywords(t *testing.T) {
+	t.Parallel()
+
+	testEndpointWithResponse(t, "{}", &NegativeKeywordListResponse{}, func(ctx context.Context, client *Client) (interface{}, *Response, error) {
+		return client.Keywords.FindAdGroupNegativeKeywords(ctx, 1, &Selector{})
+	})
+}
+
 func TestGetNegativeKeyword(t *testing.T) {
 	t.Parallel()
 
 	testEndpointWithResponse(t, "{}", &NegativeKeywordResponse{}, func(ctx context.Context, client *Client) (interface{}, *Response, error) {
-		return client.Keywords.GetNegativeKeyword(ctx, 1, 99, 10001)
+		return client.Keywords.GetNegativeKeyword(ctx, 1, 10001)
+	})
+}
+
+func TestGetAdGroupNegativeKeyword(t *testing.T) {
+	t.Parallel()
+
+	testEndpointWithResponse(t, "{}", &NegativeKeywordResponse{}, func(ctx context.Context, client *Client) (interface{}, *Response, error) {
+		return client.Keywords.GetAdGroupNegativeKeyword(ctx, 1, 99, 10001)
 	})
 }
 
@@ -89,7 +113,15 @@ func TestGetAllNegativeKeywords(t *testing.T) {
 	t.Parallel()
 
 	testEndpointWithResponse(t, "{}", &NegativeKeywordListResponse{}, func(ctx context.Context, client *Client) (interface{}, *Response, error) {
-		return client.Keywords.GetAllNegativeKeywords(ctx, 1, 99, &GetAllNegativeKeywordsQuery{})
+		return client.Keywords.GetAllNegativeKeywords(ctx, 1, &GetAllNegativeKeywordsQuery{})
+	})
+}
+
+func TestGetAllAdGroupNegativeKeywords(t *testing.T) {
+	t.Parallel()
+
+	testEndpointWithResponse(t, "{}", &NegativeKeywordListResponse{}, func(ctx context.Context, client *Client) (interface{}, *Response, error) {
+		return client.Keywords.GetAllAdGroupNegativeKeywords(ctx, 1, 99, &GetAllNegativeKeywordsQuery{})
 	})
 }
 
@@ -97,7 +129,15 @@ func TestUpdateNegativeKeywords(t *testing.T) {
 	t.Parallel()
 
 	testEndpointWithResponse(t, "{}", &NegativeKeywordListResponse{}, func(ctx context.Context, client *Client) (interface{}, *Response, error) {
-		return client.Keywords.UpdateNegativeKeywords(ctx, 1, 99, []*NegativeKeyword{})
+		return client.Keywords.UpdateNegativeKeywords(ctx, 1, []*NegativeKeyword{})
+	})
+}
+
+func TestUpdateAdGroupNegativeKeywords(t *testing.T) {
+	t.Parallel()
+
+	testEndpointWithResponse(t, "{}", &NegativeKeywordListResponse{}, func(ctx context.Context, client *Client) (interface{}, *Response, error) {
+		return client.Keywords.UpdateAdGroupNegativeKeywords(ctx, 1, 99, []*NegativeKeyword{})
 	})
 }
 
@@ -105,6 +145,14 @@ func TestDeleteNegativeKeywords(t *testing.T) {
 	t.Parallel()
 
 	testEndpointWithResponse(t, "{}", &IntegerResponse{}, func(ctx context.Context, client *Client) (interface{}, *Response, error) {
-		return client.Keywords.DeleteNegativeKeywords(ctx, 1, 99, []int64{})
+		return client.Keywords.DeleteNegativeKeywords(ctx, 1, []int64{})
+	})
+}
+
+func TestDeleteAdGroupNegativeKeywords(t *testing.T) {
+	t.Parallel()
+
+	testEndpointWithResponse(t, "{}", &IntegerResponse{}, func(ctx context.Context, client *Client) (interface{}, *Response, error) {
+		return client.Keywords.DeleteAdGroupNegativeKeywords(ctx, 1, 99, []int64{})
 	})
 }
