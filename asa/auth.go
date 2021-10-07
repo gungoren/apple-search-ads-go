@@ -53,6 +53,7 @@ type jwtGenerator interface {
 	AccessToken() (string, error)
 	IsTokenValid() bool
 	IsAccessTokenValid() bool
+	Client() *authClient
 }
 
 type standardJWTGenerator struct {
@@ -64,7 +65,7 @@ type standardJWTGenerator struct {
 
 	accessToken *accessToken
 	token       string
-	client      *http.Client
+	client      *authClient
 }
 
 type accessToken struct {
@@ -177,8 +178,25 @@ func (g *standardJWTGenerator) AccessToken() (string, error) {
 	return accessTkn.AccessToken, nil
 }
 
+func (g *standardJWTGenerator) Client() *authClient {
+	if g.client == nil {
+		g.client = &authClient{
+			client:  &http.Client{},
+			baseURL: defaultAuthURL,
+		}
+	}
+
+	return g.client
+}
+
+type authClient struct {
+	client  *http.Client
+	baseURL string
+}
+
 func (g *standardJWTGenerator) generateAccessToken(token string) (*accessToken, error) {
-	url := fmt.Sprintf("https://appleid.apple.com/auth/oauth2/token?grant_type=client_credentials&client_id=%s&client_secret=%s&scope=searchadsorg", g.clientID, token)
+	authClient := g.Client()
+	url := fmt.Sprintf("%s/oauth2/token?grant_type=client_credentials&client_id=%s&client_secret=%s&scope=searchadsorg", authClient.baseURL, g.clientID, token)
 	req, err := http.NewRequestWithContext(context.Background(), http.MethodPost, url, nil)
 
 	if err != nil {
@@ -188,11 +206,7 @@ func (g *standardJWTGenerator) generateAccessToken(token string) (*accessToken, 
 	req.Header.Add("Host", "appleid.apple.com")
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
-	if g.client == nil {
-		g.client = &http.Client{}
-	}
-
-	resp, err := g.client.Do(req)
+	resp, err := authClient.client.Do(req)
 
 	if err != nil {
 		return nil, err

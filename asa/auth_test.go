@@ -19,6 +19,8 @@ package asa
 import (
 	"fmt"
 	"net/http"
+	"net/http/httptest"
+	"net/url"
 	"strings"
 	"testing"
 	"time"
@@ -100,13 +102,62 @@ func TestAuthTransport(t *testing.T) {
 	assert.Equal(t, want, got)
 }
 
+func TestGenerateAccessToken(t *testing.T) {
+	t.Parallel()
+
+	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+
+		token := "{\"access_token\":\"eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIiwia2lkIjpudWxsfQ..lXm332TFi0u2E9YZ.bVVBvsjcavoQbBnQVeDiqEzmUIlaH9zLKY6rl36A_TD8wvgvWxpyBXMQuhs-qWG_dxQ5nfuJEIxOp8bIndfLE_4a3AiYtW0BsppO3vkWxMe0HWnzglkFbKUHU3PaJbLHpimmnLvQr44wUAeNcv1LmUPaSWT4pfaBzv3dMe3PNHJJCLVLfzNlWTmPxViIivQt3xyiQ9laBO6qIQiKs9zX7KE3holGpJ-Wvo39U6ZmGs7uK9BoNBPaFtd_q914mb9ChHAKcQaxF3Gadtu_Z5rYFg.vD0iQuRwHGYVnDy27qexCw\",\"token_type\": \"Bearer\",\"expires_in\": 3600,\"scope\": \"searchadsorg\"}"
+		_, _ = fmt.Fprintln(w, token)
+	}))
+	defer server.Close()
+
+	var privPEMData = []byte(`
+-----BEGIN EC PRIVATE KEY-----
+MHcCAQEEID03iksZiO87BzijZdC2dz4GF+LxK6hOCVVsjxunKqcQoAoGCCqGSM49
+AwEHoUQDQgAEFqu+MZYeAD3Zx9PfuAFG+fNmuy1IKXVtslFwgFgnz5BtuuZuycUP
+LWfXSp67hz35UIbgO6NANWf4tzZ6fhTThA==
+-----END EC PRIVATE KEY-----
+`)
+
+	tokenConfig, err := NewTokenConfig("TEST_ORG_ID", "TEST_KEY_ID", "TEST_TEAM_ID", "TEST_CLIENT_ID", 20*time.Minute, privPEMData)
+	assert.NoError(t, err)
+
+	jwtGenerator, ok := tokenConfig.jwtGenerator.(*standardJWTGenerator)
+	if !ok {
+		assert.Errorf(t, nil, "jwtGenerator could not cast to standardJWTGenetator")
+	}
+
+	base, _ := url.Parse(server.URL)
+	jwtGenerator.client = &authClient{
+		client:  server.Client(),
+		baseURL: base.String(),
+	}
+
+	tok, err := tokenConfig.jwtGenerator.AccessToken()
+	assert.NoError(t, err)
+
+	components := strings.Split(tok, ".")
+	assert.Equal(t, 5, len(components))
+
+	tokCached, err := tokenConfig.jwtGenerator.AccessToken()
+	assert.NoError(t, err)
+	assert.Equal(t, tok, tokCached)
+}
+
 type mockJWTGenerator struct {
 	token       string
 	accessToken *accessToken
+	client      *authClient
 }
 
 func (g *mockJWTGenerator) Token() (string, error) {
 	return g.token, nil
+}
+
+func (g *mockJWTGenerator) Client() *authClient {
+	return g.client
 }
 
 func (g *mockJWTGenerator) AccessToken() (string, error) {
