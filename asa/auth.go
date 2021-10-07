@@ -17,7 +17,6 @@ along with apple-search-ads-go.  If not, see <http://www.gnu.org/licenses/>.
 package asa
 
 import (
-	"context"
 	"crypto/ecdsa"
 	"crypto/x509"
 	"encoding/json"
@@ -50,7 +49,9 @@ type AuthTransport struct {
 
 type jwtGenerator interface {
 	Token() (string, error)
-	IsValid() bool
+	AccessToken() (string, error)
+	IsTokenValid() bool
+	IsAccessTokenValid() bool
 }
 
 type standardJWTGenerator struct {
@@ -61,6 +62,8 @@ type standardJWTGenerator struct {
 	privateKey     *ecdsa.PrivateKey
 
 	accessToken *accessToken
+	token       string
+	client      *http.Client
 }
 
 type accessToken struct {
@@ -87,7 +90,6 @@ func NewTokenConfig(orgID string, keyID string, teamID string, clientID string, 
 		privateKey:     key,
 		expireDuration: expireDuration,
 	}
-	_, err = gen.Token()
 
 	return &AuthTransport{
 		Transport:    newTransport(),
@@ -112,7 +114,7 @@ func parsePrivateKey(blob []byte) (*ecdsa.PrivateKey, error) {
 
 // RoundTrip implements the http.RoundTripper interface to set the Authorization header.
 func (t AuthTransport) RoundTrip(req *http.Request) (*http.Response, error) {
-	token, err := t.jwtGenerator.Token()
+	token, err := t.jwtGenerator.AccessToken()
 	if err != nil {
 		return nil, err
 	}
@@ -137,14 +139,29 @@ func (t *AuthTransport) transport() http.RoundTripper {
 }
 
 func (g *standardJWTGenerator) Token() (string, error) {
-	if g.IsValid() {
-		return g.accessToken.AccessToken, nil
+	if g.IsTokenValid() {
+		return g.token, nil
 	}
 
 	t := jwt.NewWithClaims(jwt.SigningMethodES256, g.claims())
 	t.Header["kid"] = g.keyID
 
 	token, err := t.SignedString(g.privateKey)
+	if err != nil {
+		return "", err
+	}
+
+	g.token = token
+
+	return token, nil
+}
+
+func (g *standardJWTGenerator) AccessToken() (string, error) {
+	if g.IsAccessTokenValid() {
+		return g.accessToken.AccessToken, nil
+	}
+
+	token, err := g.Token()
 	if err != nil {
 		return "", err
 	}
@@ -156,12 +173,12 @@ func (g *standardJWTGenerator) Token() (string, error) {
 
 	g.accessToken = accessTkn
 
-	return token, nil
+	return accessTkn.AccessToken, nil
 }
 
 func (g *standardJWTGenerator) generateAccessToken(token string) (*accessToken, error) {
 	url := fmt.Sprintf("https://appleid.apple.com/auth/oauth2/token?grant_type=client_credentials&client_id=%s&client_secret=%s&scope=searchadsorg", g.clientID, token)
-	req, err := http.NewRequestWithContext(context.Background(), http.MethodPost, url, nil)
+	req, err := http.NewRequest(http.MethodPost, url, nil)
 
 	if err != nil {
 		return nil, err
@@ -170,8 +187,10 @@ func (g *standardJWTGenerator) generateAccessToken(token string) (*accessToken, 
 	req.Header.Add("Host", "appleid.apple.com")
 	req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 
-	client := &http.Client{}
-	resp, err := client.Do(req)
+	if g.client == nil {
+		g.client = &http.Client{}
+	}
+	resp, err := g.client.Do(req)
 
 	if err != nil {
 		return nil, err
@@ -193,7 +212,25 @@ func (g *standardJWTGenerator) generateAccessToken(token string) (*accessToken, 
 	return accessToken, nil
 }
 
-func (g *standardJWTGenerator) IsValid() bool {
+func (g *standardJWTGenerator) IsTokenValid() bool {
+	if g.token == "" {
+		return false
+	}
+
+	parsed, err := jwt.Parse(
+		g.token,
+		jwt.KnownKeyfunc(jwt.SigningMethodES256, g.privateKey),
+		jwt.WithAudience("https://appleid.apple.com"),
+		jwt.WithIssuer(g.issuerID),
+	)
+	if err != nil {
+		return false
+	}
+
+	return parsed.Valid
+}
+
+func (g *standardJWTGenerator) IsAccessTokenValid() bool {
 	if g.accessToken == nil || g.accessToken.AccessToken == "" {
 		return false
 	}

@@ -19,14 +19,13 @@ package asa
 import (
 	"fmt"
 	"net/http"
+	"strings"
 	"testing"
 	"time"
 
 	"github.com/stretchr/testify/assert"
 )
 
-/*
-//TODO: handle this error
 func TestNewTokenConfig(t *testing.T) {
 	t.Parallel()
 
@@ -61,7 +60,7 @@ LWfXSp67hz35UIbgO6NANWf4tzZ6fhTThA==
 	tokCached, err := token.jwtGenerator.Token()
 	assert.NoError(t, err)
 	assert.Equal(t, tok, tokCached)
-}*/
+}
 
 func TestNewTokenConfigBadPEM(t *testing.T) {
 	t.Parallel()
@@ -90,7 +89,7 @@ func TestAuthTransport(t *testing.T) {
 
 	token := "TEST.TEST.TEST"
 	transport := AuthTransport{
-		jwtGenerator: &mockJWTGenerator{token: token},
+		jwtGenerator: &mockJWTGenerator{accessToken: &accessToken{AccessToken: token}},
 	}
 	client := transport.Client()
 
@@ -101,30 +100,23 @@ func TestAuthTransport(t *testing.T) {
 	assert.Equal(t, want, got)
 }
 
-func TestAuthTransportCustomTransport(t *testing.T) {
-	t.Parallel()
-
-	token := "TEST.TEST.TEST"
-	transport := AuthTransport{
-		jwtGenerator: &mockJWTGenerator{token: token},
-	}
-	client := transport.Client()
-
-	req, _ := http.NewRequest("GET", "", nil) // nolint: noctx
-	_, _ = client.Do(req)                     // nolint: bodyclose
-
-	got, want := req.Header.Get("Authorization"), fmt.Sprintf("Bearer %s", token)
-	assert.Equal(t, want, got)
-}
-
 type mockJWTGenerator struct {
-	token string
+	token       string
+	accessToken *accessToken
 }
 
 func (g *mockJWTGenerator) Token() (string, error) {
 	return g.token, nil
 }
 
-func (g *mockJWTGenerator) IsValid() bool {
+func (g *mockJWTGenerator) AccessToken() (string, error) {
+	return g.accessToken.AccessToken, nil
+}
+
+func (g *mockJWTGenerator) IsTokenValid() bool {
+	return true
+}
+
+func (g *mockJWTGenerator) IsAccessTokenValid() bool {
 	return true
 }
