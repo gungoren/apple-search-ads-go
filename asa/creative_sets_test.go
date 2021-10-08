@@ -20,3 +20,11 @@ func TestGetAppPreviewDeviceSizes(t *testing.T) {
 		return client.CreativeSets.GetAppPreviewDeviceSizes(ctx)
 	})
 }
+
+func TestCreateAdGroupCreativeSets(t *testing.T) {
+	t.Parallel()
+
+	testEndpointWithResponse(t, "{}", &AdGroupCreativeSetResponse{}, func(ctx context.Context, client *Client) (interface{}, *Response, error) {
+		return client.CreativeSets.CreateAdGroupCreativeSets(ctx, 1, 99, &CreateAdGroupCreativeSetRequest{})
+	})
+}

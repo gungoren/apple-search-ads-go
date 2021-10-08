@@ -131,3 +131,69 @@ func (s *CreativeSetsService) GetAppPreviewDeviceSizes(ctx context.Context) (*Ap
 
 	return res, resp, err
 }
+
+// CreateAdGroupCreativeSetRequest is the response to a request to create an ad group Creative Set
+//
+// https://developer.apple.com/documentation/apple_search_ads/createadgroupcreativesetrequest
+type CreateAdGroupCreativeSetRequest struct {
+	CreativeSet *CreativeSetCreate `json:"creativeSet,omitempty"`
+}
+
+// CreativeSetCreate is the response to creating a Creative Set
+//
+// https://developer.apple.com/documentation/apple_search_ads/creativesetcreate
+type CreativeSetCreate struct {
+	AdamID       int64    `json:"adamId,omitempty"`
+	Name         string   `json:"name,omitempty"`
+	LanguageCode string   `json:"languageCode,omitempty"`
+	AssetsGenIds []string `json:"assetsGenIds,omitempty"`
+}
+
+// AdGroupCreativeSetResponse is a container for the ad group Creative Set response body
+//
+// https://developer.apple.com/documentation/apple_search_ads/adgroupcreativesetresponse
+type AdGroupCreativeSetResponse struct {
+	AdGroupCreativeSet *AdGroupCreativeSet `json:"data,omitempty"`
+	Error              *ErrorResponseBody  `json:"error,omitempty"`
+	Pagination         *PageDetail         `json:"pagination,omitempty"`
+}
+
+// AdGroupCreativeSet is the assignment relationship between an ad group and a Creative Set
+//
+// https://developer.apple.com/documentation/apple_search_ads/adgroupcreativeset
+type AdGroupCreativeSet struct {
+	AdGroupID            int64                            `json:"adGroupId,omitempty"`
+	CampaignID           int64                            `json:"campaignId,omitempty"`
+	CreativeSetID        int64                            `json:"creativeSetId,omitempty"`
+	Deleted              bool                             `json:"deleted"`
+	ID                   int64                            `json:"id"`
+	ModificationTime     DateTime                         `json:"modificationTime"`
+	ServingStatus        AdGroupServingStatus             `json:"servingStatus"`
+	ServingStatusReasons []CreativeSetsServingStateReason `json:"servingStatusReasons"`
+	Status               AdGroupStatus                    `json:"status"`
+}
+
+// CreativeSetsServingStateReason is a reason when a adgroupcreativeset is not running.
+type CreativeSetsServingStateReason string
+
+const (
+	// CreativeSetsServingStateReasonPausedBySystem is for a adgroup creative set serving state reason for PAUSED_BY_SYSTEM.
+	CreativeSetsServingStateReasonPausedBySystem CreativeSetsServingStateReason = "PAUSED_BY_SYSTEM"
+	// CreativeSetsServingStateReasonPausedByUser is for a adgroup creative set serving state reason for PAUSED_BY_USER.
+	CreativeSetsServingStateReasonPausedByUser CreativeSetsServingStateReason = "PAUSED_BY_USER"
+	// CreativeSetsServingStateReasonDeletedByUser is for a adgroup creative set serving state reason for DELETED_BY_USER.
+	CreativeSetsServingStateReasonDeletedByUser CreativeSetsServingStateReason = "DELETED_BY_USER"
+	// CreativeSetsServingStateReasonCreativeSetInvalid is for a adgroup creative set serving state reason for CREATIVE_SET_INVALID.
+	CreativeSetsServingStateReasonCreativeSetInvalid CreativeSetsServingStateReason = "CREATIVE_SET_INVALID"
+)
+
+// CreateAdGroupCreativeSets Creates a Creative Set and assigns it to an ad group
+//
+// https://developer.apple.com/documentation/apple_search_ads/create_ad_group_creative_sets
+func (s *CreativeSetsService) CreateAdGroupCreativeSets(ctx context.Context, campaignID int64, adgroupID int64, body *CreateAdGroupCreativeSetRequest) (*AdGroupCreativeSetResponse, *Response, error) {
+	url := fmt.Sprintf("/campaigns/%d/adgroups/%d/adgroupcreativesets/creativesets", campaignID, adgroupID)
+	res := new(AdGroupCreativeSetResponse)
+	resp, err := s.client.post(ctx, url, body, res)
+
+	return res, resp, err
+}
