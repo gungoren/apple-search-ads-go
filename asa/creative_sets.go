@@ -197,3 +197,30 @@ func (s *CreativeSetsService) CreateAdGroupCreativeSets(ctx context.Context, cam
 
 	return res, resp, err
 }
+
+// FindAdGroupCreativeSetRequest Selector objects available to filter returned data.
+//
+// https://developer.apple.com/documentation/apple_search_ads/findadgroupcreativesetrequest
+type FindAdGroupCreativeSetRequest struct {
+	Selector *Selector `json:"selector"`
+}
+
+// AdGroupCreativeSetListResponse is the response details of ad group Creative Set requests
+//
+// https://developer.apple.com/documentation/apple_search_ads/adgroupcreativesetlistresponse
+type AdGroupCreativeSetListResponse struct {
+	AdGroupCreativeSet []*AdGroupCreativeSet `json:"data,omitempty"`
+	Error              *ErrorResponseBody    `json:"error,omitempty"`
+	Pagination         *PageDetail           `json:"pagination,omitempty"`
+}
+
+// FindAdGroupCreativeSets Fetches all assigned Creative Sets for ad groups
+//
+// https://developer.apple.com/documentation/apple_search_ads/find_ad_group_creative_sets
+func (s *CreativeSetsService) FindAdGroupCreativeSets(ctx context.Context, campaignID int64, body *FindAdGroupCreativeSetRequest) (*AdGroupCreativeSetListResponse, *Response, error) {
+	url := fmt.Sprintf("/campaigns/%d/adgroupcreativesets/find", campaignID)
+	res := new(AdGroupCreativeSetListResponse)
+	resp, err := s.client.post(ctx, url, body, res)
+
+	return res, resp, err
+}
