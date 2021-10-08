@@ -253,3 +253,78 @@ func (s *CreativeSetsService) DeleteAdGroupCreativeSets(ctx context.Context, cam
 
 	return res, resp, err
 }
+
+// CreativeSetResponse is the response to update a Creative Set request
+//
+// https://developer.apple.com/documentation/apple_search_ads/creativesetresponse
+type CreativeSetResponse struct {
+	CreativeSet *CreativeSet       `json:"data,omitempty"`
+	Error       *ErrorResponseBody `json:"error,omitempty"`
+}
+
+// CreativeSetStatus is the user-controlled status to enable or pause the Creative Set.
+type CreativeSetStatus string
+
+const (
+	// CreativeSetStatusValid is for a creative set status on Valid.
+	CreativeSetStatusValid CreativeSetStatus = "VALID"
+	// CreativeSetStatusInvalid is for a creative set status on InValid.
+	CreativeSetStatusInvalid CreativeSetStatus = "INVALID"
+)
+
+// CreativeSetStatusReason is the reason for the Creative Set status.
+type CreativeSetStatusReason string
+
+const (
+	// CreativeSetStatusReasonAssetDeleted is for a creative set status reason on Asset Deleted.
+	CreativeSetStatusReasonAssetDeleted CreativeSetStatusReason = "ASSET_DELETED"
+)
+
+// CreativeSet is the basic details of a Creative Set
+//
+// https://developer.apple.com/documentation/apple_search_ads/creativeset
+type CreativeSet struct {
+	ID                int64                     `json:"id,omitempty"`
+	Name              string                    `json:"name,omitempty"`
+	AdamID            int64                     `json:"adamID,omitempty"`
+	CreativeSetAssets []*CreativeSetAsset       `json:"creativeSetAssets,omitempty"`
+	LanguageCode      string                    `json:"languageCode,omitempty"`
+	OrgID             int64                     `json:"orgID,omitempty"`
+	Status            CreativeSetStatus         `json:"status,omitempty"`
+	StatusReasons     []CreativeSetStatusReason `json:"statusReasons,omitempty"`
+}
+
+// CreativeSetAsset is the assets of a Creative Set
+//
+// https://developer.apple.com/documentation/apple_search_ads/creativesetasset
+type CreativeSetAsset struct {
+	Asset *Asset `json:"asset,omitempty"`
+	ID    int64  `json:"id,omitempty"`
+}
+
+// Asset is the assets for creating Creative Sets
+//
+// https://developer.apple.com/documentation/apple_search_ads/asset
+type Asset struct {
+	AppPreviewDevice string                                  `json:"appPreviewDevice,omitempty"`
+	AssetGenID       string                                  `json:"assetGenId,omitempty"`
+	Deleted          bool                                    `json:"deleted"`
+	Orientation      MediaAppPreviewOrScreenshotsOrientation `json:"orientation"`
+	Type             MediaAppPreviewOrScreenshotsAssetType   `json:"type"`
+}
+
+// GetCreativeSetVariationQuery defines query parameter for GetCreativeSetVariation endpoint.
+type GetCreativeSetVariationQuery struct {
+	IncludeDeletedCreativeSetAssets bool `url:"includeDeletedCreativeSetAssets,omitempty"`
+}
+
+// GetCreativeSetVariation Get a Creative Set Ad Variation
+//
+//https://developer.apple.com/documentation/apple_search_ads/get_a_creative_set_ad_variation
+func (s *CreativeSetsService) GetCreativeSetVariation(ctx context.Context, creativeSetID int64, params *GetCreativeSetVariationQuery) (*CreativeSetResponse, *Response, error) {
+	url := fmt.Sprintf("/creativesets/%d", creativeSetID)
+	res := new(CreativeSetResponse)
+	resp, err := s.client.get(ctx, url, params, res)
+
+	return res, resp, err
+}

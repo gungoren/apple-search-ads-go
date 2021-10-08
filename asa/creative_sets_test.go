@@ -52,3 +52,11 @@ func TestDeleteAdGroupCreativeSets(t *testing.T) {
 		return client.CreativeSets.DeleteAdGroupCreativeSets(ctx, 1, 99, []int64{10001})
 	})
 }
+
+func TestGetCreativeSetVariation(t *testing.T) {
+	t.Parallel()
+
+	testEndpointWithResponse(t, "{}", &CreativeSetResponse{}, func(ctx context.Context, client *Client) (interface{}, *Response, error) {
+		return client.CreativeSets.GetCreativeSetVariation(ctx, 101, &GetCreativeSetVariationQuery{})
+	})
+}
