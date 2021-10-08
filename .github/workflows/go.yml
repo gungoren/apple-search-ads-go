@@ -34,7 +34,13 @@ jobs:
           path: ~/go/pkg/mod
           key: ${{ runner.os }}-go-${{ hashFiles('go.sum') }}
           restore-keys: ${{ runner.os }}-go-
-
+      
+      - name: Run go fmt
+        run: diff -u <(echo -n) <(gofmt -d -s .)
+      
+      - name: Run go vet
+        run: go vet ./...
+        
       - name: Run Tests
         run: go test -v -race -coverprofile coverage.out -covermode atomic ./...
 
@@ -45,10 +51,9 @@ jobs:
       - name: Upload Coverage to Codecov
         if: success()
         uses: codecov/codecov-action@v1
-        env:
-          CODECOV_TOKEN: ${{ secrets.ASA_CODECOV_TOKEN }}
         with:
           file: ./coverage.out
+          token: ${{ secrets.ASA_CODECOV_TOKEN }}
 
   lint:
     name: lint
