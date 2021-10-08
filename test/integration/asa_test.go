@@ -20,7 +20,7 @@ package integration
 
 import (
 	"fmt"
-	"github.com/gungoren/apple-search-ads/asa"
+	"github.com/gungoren/apple-search-ads-go/asa"
 	"os"
 	"time"
 )
