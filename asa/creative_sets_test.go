@@ -76,3 +76,11 @@ func TestAssignCreativeSetsToAdGroup(t *testing.T) {
 		return client.CreativeSets.AssignCreativeSetsToAdGroup(ctx, 1, 99, &AssignAdGroupCreativeSetRequest{})
 	})
 }
+
+func TestUpdateCreativeSets(t *testing.T) {
+	t.Parallel()
+
+	testEndpointWithResponse(t, "{}", &CreativeSetResponse{}, func(ctx context.Context, client *Client) (interface{}, *Response, error) {
+		return client.CreativeSets.UpdateCreativeSets(ctx, 1001, &CreativeSetUpdate{})
+	})
+}

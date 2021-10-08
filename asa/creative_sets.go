@@ -374,3 +374,21 @@ func (s *CreativeSetsService) AssignCreativeSetsToAdGroup(ctx context.Context, c
 
 	return res, resp, err
 }
+
+// CreativeSetUpdate is the details of an update to a Creative Set request
+//
+// https://developer.apple.com/documentation/apple_search_ads/creativesetupdate
+type CreativeSetUpdate struct {
+	Name string `json:"name"`
+}
+
+// UpdateCreativeSets Updates a Creative Set name using an identifier
+//
+// https://developer.apple.com/documentation/apple_search_ads/update_creative_sets
+func (s *CreativeSetsService) UpdateCreativeSets(ctx context.Context, creativeSetID int64, request *CreativeSetUpdate) (*CreativeSetResponse, *Response, error) {
+	url := fmt.Sprintf("creativesets/%d", creativeSetID)
+	res := new(CreativeSetResponse)
+	resp, err := s.client.put(ctx, url, request, res)
+
+	return res, resp, err
+}
