@@ -20,8 +20,8 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"github.com/gungoren/apple-search-ads/asa"
-	"github.com/gungoren/apple-search-ads/examples/util"
+	"github.com/gungoren/apple-search-ads-go/asa"
+	"github.com/gungoren/apple-search-ads-go/examples/util"
 	"log"
 )
 
