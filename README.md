@@ -1,8 +1,9 @@
 # apple-search-ads-go
 
 [![PkgGoDev](https://pkg.go.dev/badge/github.com/gungoren/apple-search-ads-go/asa)](https://pkg.go.dev/github.com/gungoren/apple-search-ads-go/asa)
-[![Test Status](https://github.com/gungoren/apple-search-ads-go/workflows/Run%20Tests/badge.svg)](https://github.com/gungoren/apple-search-ads-go/actions?query=workflow%253A%2522Run+Tests%2522)
+[![Continuous Integration](https://github.com/gungoren/apple-search-ads-go/workflows/Run%20Tests/badge.svg)](https://github.com/gungoren/apple-search-ads-go/actions?query=workflow%253A%2522Run+Tests%2522)
 [![codecov](https://codecov.io/gh/gungoren/apple-search-ads-go/branch/master/graph/badge.svg?token=NGXNS17SV2)](https://codecov.io/gh/gungoren/apple-search-ads-go)
+[![Go Report Card](https://goreportcard.com/badge/github.com/gungoren/apple-search-ads-go)](https://goreportcard.com/report/github.com/gungoren/apple-search-ads-go)
 
 apple-search-ads-go is a Go client library for accessing Apple's [Apple Search Ads API](https://developer.apple.com/documentation/apple_search_ads).
 
