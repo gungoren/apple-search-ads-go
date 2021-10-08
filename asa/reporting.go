@@ -74,15 +74,15 @@ const (
 //
 // https://developer.apple.com/documentation/apple_search_ads/reportingrequest
 type ReportingRequest struct {
-	StartTime                  DateTime                     `json:"startTime"`
-	EndTime                    DateTime                     `json:"endTime"`
-	Granularity                *ReportingRequestGranularity `json:"granularity,omitempty"`
-	TimeZone                   *ReportingRequestTimeZone    `json:"timeZone,omitempty"`
-	GroupBy                    []ReportingRequestGroupBy    `json:"groupBy,omitempty"`
-	ReturnGrandTotals          bool                         `json:"returnGrandTotals"`
-	ReturnRecordsWithNoMetrics bool                         `json:"returnRecordsWithNoMetrics"`
-	ReturnRowTotals            bool                         `json:"returnRowTotals"`
-	Selector                   *Selector                    `json:"selector,omitempty"`
+	StartTime                  Date                        `json:"startTime,omitempty"`
+	EndTime                    Date                        `json:"endTime,omitempty"`
+	Granularity                ReportingRequestGranularity `json:"granularity,omitempty"`
+	TimeZone                   ReportingRequestTimeZone    `json:"timeZone,omitempty"`
+	GroupBy                    []ReportingRequestGroupBy   `json:"groupBy,omitempty"`
+	ReturnGrandTotals          bool                        `json:"returnGrandTotals"`
+	ReturnRecordsWithNoMetrics bool                        `json:"returnRecordsWithNoMetrics"`
+	ReturnRowTotals            bool                        `json:"returnRowTotals"`
+	Selector                   *Selector                   `json:"selector,omitempty"`
 }
 
 // ReportingResponseBody is a container for the report response body
