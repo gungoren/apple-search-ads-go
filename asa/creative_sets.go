@@ -224,3 +224,21 @@ func (s *CreativeSetsService) FindAdGroupCreativeSets(ctx context.Context, campa
 
 	return res, resp, err
 }
+
+// AdGroupCreativeSetUpdate is the response to ad group Creative Set update requests
+//
+// https://developer.apple.com/documentation/apple_search_ads/adgroupcreativesetupdate
+type AdGroupCreativeSetUpdate struct {
+	Status AdGroupStatus `json:"status"`
+}
+
+// UpdateAdGroupCreativeSets Updates an ad group Creative Set using an identifier
+//
+// https://developer.apple.com/documentation/apple_search_ads/update_ad_group_creative_sets
+func (s *CreativeSetsService) UpdateAdGroupCreativeSets(ctx context.Context, campaignID int64, adgroupID int64, adGroupCreativeSetID int64, body *AdGroupCreativeSetUpdate) (*AdGroupCreativeSetResponse, *Response, error) {
+	url := fmt.Sprintf("/campaigns/%d/adgroups/%d/adgroupcreativesets/%d", campaignID, adgroupID, adGroupCreativeSetID)
+	res := new(AdGroupCreativeSetResponse)
+	resp, err := s.client.put(ctx, url, body, res)
+
+	return res, resp, err
+}

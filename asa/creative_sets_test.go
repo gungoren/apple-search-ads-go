@@ -36,3 +36,11 @@ func TestFindAdGroupCreativeSets(t *testing.T) {
 		return client.CreativeSets.FindAdGroupCreativeSets(ctx, 1, &FindAdGroupCreativeSetRequest{})
 	})
 }
+
+func TestUpdateAdGroupCreativeSets(t *testing.T) {
+	t.Parallel()
+
+	testEndpointWithResponse(t, "{}", &AdGroupCreativeSetResponse{}, func(ctx context.Context, client *Client) (interface{}, *Response, error) {
+		return client.CreativeSets.UpdateAdGroupCreativeSets(ctx, 1, 99, 10001, &AdGroupCreativeSetUpdate{})
+	})
+}
