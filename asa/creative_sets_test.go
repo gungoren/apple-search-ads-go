@@ -44,3 +44,11 @@ func TestUpdateAdGroupCreativeSets(t *testing.T) {
 		return client.CreativeSets.UpdateAdGroupCreativeSets(ctx, 1, 99, 10001, &AdGroupCreativeSetUpdate{})
 	})
 }
+
+func TestDeleteAdGroupCreativeSets(t *testing.T) {
+	t.Parallel()
+
+	testEndpointWithResponse(t, "{}", &IntegerResponse{}, func(ctx context.Context, client *Client) (interface{}, *Response, error) {
+		return client.CreativeSets.DeleteAdGroupCreativeSets(ctx, 1, 99, []int64{10001})
+	})
+}

@@ -242,3 +242,14 @@ func (s *CreativeSetsService) UpdateAdGroupCreativeSets(ctx context.Context, cam
 
 	return res, resp, err
 }
+
+// DeleteAdGroupCreativeSets Deletes Creative Sets from a specified ad group
+//
+// https://developer.apple.com/documentation/apple_search_ads/delete_ad_group_creative_sets
+func (s *CreativeSetsService) DeleteAdGroupCreativeSets(ctx context.Context, campaignID int64, adgroupID int64, adGroupCreativeSetIDs []int64) (*IntegerResponse, *Response, error) {
+	url := fmt.Sprintf("/campaigns/%d/adgroups/%d/adgroupcreativesets/delete/bulk", campaignID, adgroupID)
+	res := new(IntegerResponse)
+	resp, err := s.client.post(ctx, url, adGroupCreativeSetIDs, res)
+
+	return res, resp, err
+}
