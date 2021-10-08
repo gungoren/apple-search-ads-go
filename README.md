@@ -106,7 +106,7 @@ For complete usage of apple-search-ads-go, see the full [package docs](https://p
 
 ## Contributing
 
-This project's primary goal is to cover the entire API surface exposed by the official Apple Search Ads API. Otherwise, it's being developed to aid in internal application development by the authors. Therefore, until the package's version stabilizes with v1, there isn't a strong roadmap beyond those stated goals. However, contributions are always welcome. If you want to get involved or you just want to offer feedback, please see [`CONTRIBUTING.md`](https://github.com/gungoren/.github/blob/master/CONTRIBUTING.md) for details.
+This project's primary goal is to cover the entire API surface exposed by the official Apple Search Ads API. Otherwise, it's being developed to aid in internal application development by the authors. Therefore, until the package's version stabilizes with v1, there isn't a strong roadmap beyond those stated goals. However, contributions are always welcome.
 
 ## License
 
