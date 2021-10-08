@@ -7,6 +7,8 @@
 
 apple-search-ads-go is a Go client library for accessing Apple's [Apple Search Ads API](https://developer.apple.com/documentation/apple_search_ads).
 
+This library is heavily inspired by [asc-go](https://github.com/cidertool/asc-go).
+
 ## Usage
 
 This project uses Go Modules. It requires **Go 1.16 or higher**.
