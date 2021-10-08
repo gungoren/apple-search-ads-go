@@ -356,3 +356,21 @@ func (s *CreativeSetsService) FindCreativeSets(ctx context.Context, params *Find
 
 	return res, resp, err
 }
+
+// AssignAdGroupCreativeSetRequest is the request to assign a Creative Set to an ad group
+//
+// https://developer.apple.com/documentation/apple_search_ads/assignadgroupcreativesetrequest
+type AssignAdGroupCreativeSetRequest struct {
+	CreativeSetID int64 `json:"creativeSetID"`
+}
+
+// AssignCreativeSetsToAdGroup Creates a Creative Set assignment to an ad group
+//
+// https://developer.apple.com/documentation/apple_search_ads/assign_creative_sets_to_an_ad_group
+func (s *CreativeSetsService) AssignCreativeSetsToAdGroup(ctx context.Context, campaignID int64, adgroupID int64, request *AssignAdGroupCreativeSetRequest) (*AdGroupCreativeSetResponse, *Response, error) {
+	url := fmt.Sprintf("campaigns/%d/adgroups/%d/adgroupcreativesets", campaignID, adgroupID)
+	res := new(AdGroupCreativeSetResponse)
+	resp, err := s.client.post(ctx, url, request, res)
+
+	return res, resp, err
+}
