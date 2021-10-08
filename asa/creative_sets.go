@@ -107,7 +107,7 @@ type MediaAppPreviewOrScreenshots struct {
 //
 // https://developer.apple.com/documentation/apple_search_ads/get_app_language_device_sizes_and_asset_details
 func (s *CreativeSetsService) GetCreativeAppAssets(ctx context.Context, adamID int64, params *MediaCreativeSetRequest) (*MediaCreativeSetDetailResponse, *Response, error) {
-	url := fmt.Sprintf("/creativeappassets/%d", adamID)
+	url := fmt.Sprintf("creativeappassets/%d", adamID)
 	res := new(MediaCreativeSetDetailResponse)
 	resp, err := s.client.post(ctx, url, *params, res)
 
@@ -125,7 +125,7 @@ type AppPreviewDevicesMappingResponse struct {
 //
 // https://developer.apple.com/documentation/apple_search_ads/get_app_language_device_sizes_and_asset_details
 func (s *CreativeSetsService) GetAppPreviewDeviceSizes(ctx context.Context) (*AppPreviewDevicesMappingResponse, *Response, error) {
-	url := "/creativeappassets/devices"
+	url := "creativeappassets/devices"
 	res := new(AppPreviewDevicesMappingResponse)
 	resp, err := s.client.get(ctx, url, nil, res)
 
@@ -191,7 +191,7 @@ const (
 //
 // https://developer.apple.com/documentation/apple_search_ads/create_ad_group_creative_sets
 func (s *CreativeSetsService) CreateAdGroupCreativeSets(ctx context.Context, campaignID int64, adgroupID int64, body *CreateAdGroupCreativeSetRequest) (*AdGroupCreativeSetResponse, *Response, error) {
-	url := fmt.Sprintf("/campaigns/%d/adgroups/%d/adgroupcreativesets/creativesets", campaignID, adgroupID)
+	url := fmt.Sprintf("campaigns/%d/adgroups/%d/adgroupcreativesets/creativesets", campaignID, adgroupID)
 	res := new(AdGroupCreativeSetResponse)
 	resp, err := s.client.post(ctx, url, body, res)
 
@@ -218,7 +218,7 @@ type AdGroupCreativeSetListResponse struct {
 //
 // https://developer.apple.com/documentation/apple_search_ads/find_ad_group_creative_sets
 func (s *CreativeSetsService) FindAdGroupCreativeSets(ctx context.Context, campaignID int64, body *FindAdGroupCreativeSetRequest) (*AdGroupCreativeSetListResponse, *Response, error) {
-	url := fmt.Sprintf("/campaigns/%d/adgroupcreativesets/find", campaignID)
+	url := fmt.Sprintf("campaigns/%d/adgroupcreativesets/find", campaignID)
 	res := new(AdGroupCreativeSetListResponse)
 	resp, err := s.client.post(ctx, url, body, res)
 
@@ -236,7 +236,7 @@ type AdGroupCreativeSetUpdate struct {
 //
 // https://developer.apple.com/documentation/apple_search_ads/update_ad_group_creative_sets
 func (s *CreativeSetsService) UpdateAdGroupCreativeSets(ctx context.Context, campaignID int64, adgroupID int64, adGroupCreativeSetID int64, body *AdGroupCreativeSetUpdate) (*AdGroupCreativeSetResponse, *Response, error) {
-	url := fmt.Sprintf("/campaigns/%d/adgroups/%d/adgroupcreativesets/%d", campaignID, adgroupID, adGroupCreativeSetID)
+	url := fmt.Sprintf("campaigns/%d/adgroups/%d/adgroupcreativesets/%d", campaignID, adgroupID, adGroupCreativeSetID)
 	res := new(AdGroupCreativeSetResponse)
 	resp, err := s.client.put(ctx, url, body, res)
 
@@ -247,7 +247,7 @@ func (s *CreativeSetsService) UpdateAdGroupCreativeSets(ctx context.Context, cam
 //
 // https://developer.apple.com/documentation/apple_search_ads/delete_ad_group_creative_sets
 func (s *CreativeSetsService) DeleteAdGroupCreativeSets(ctx context.Context, campaignID int64, adgroupID int64, adGroupCreativeSetIDs []int64) (*IntegerResponse, *Response, error) {
-	url := fmt.Sprintf("/campaigns/%d/adgroups/%d/adgroupcreativesets/delete/bulk", campaignID, adgroupID)
+	url := fmt.Sprintf("campaigns/%d/adgroups/%d/adgroupcreativesets/delete/bulk", campaignID, adgroupID)
 	res := new(IntegerResponse)
 	resp, err := s.client.post(ctx, url, adGroupCreativeSetIDs, res)
 
@@ -320,11 +320,39 @@ type GetCreativeSetVariationQuery struct {
 
 // GetCreativeSetVariation Get a Creative Set Ad Variation
 //
-//https://developer.apple.com/documentation/apple_search_ads/get_a_creative_set_ad_variation
+// https://developer.apple.com/documentation/apple_search_ads/get_a_creative_set_ad_variation
 func (s *CreativeSetsService) GetCreativeSetVariation(ctx context.Context, creativeSetID int64, params *GetCreativeSetVariationQuery) (*CreativeSetResponse, *Response, error) {
-	url := fmt.Sprintf("/creativesets/%d", creativeSetID)
+	url := fmt.Sprintf("creativesets/%d", creativeSetID)
 	res := new(CreativeSetResponse)
 	resp, err := s.client.get(ctx, url, params, res)
+
+	return res, resp, err
+}
+
+// FindCreativeSetRequest is the request to find Creative Sets
+//
+// https://developer.apple.com/documentation/apple_search_ads/findcreativesetrequest
+type FindCreativeSetRequest struct {
+	Selector                        *Selector `json:"selector,omitempty"`
+	IncludeDeletedCreativeSetAssets bool      `json:"includeDeletedCreativeSetAssets,omitempty"`
+}
+
+// CreativeSetListResponse is the response to the request to find Creative Sets
+//
+// https://developer.apple.com/documentation/apple_search_ads/creativesetlistresponse
+type CreativeSetListResponse struct {
+	CreativeSets []*CreativeSet     `json:"data,omitempty"`
+	Error        *ErrorResponseBody `json:"error,omitempty"`
+	Pagination   *PageDetail        `json:"pagination,omitempty"`
+}
+
+// FindCreativeSets Fetches all assigned Creative Sets for an organization
+//
+// https://developer.apple.com/documentation/apple_search_ads/find_creative_sets
+func (s *CreativeSetsService) FindCreativeSets(ctx context.Context, params *FindCreativeSetRequest) (*CreativeSetListResponse, *Response, error) {
+	url := "creativesets/find"
+	res := new(CreativeSetListResponse)
+	resp, err := s.client.post(ctx, url, params, res)
 
 	return res, resp, err
 }

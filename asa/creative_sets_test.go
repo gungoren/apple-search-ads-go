@@ -60,3 +60,11 @@ func TestGetCreativeSetVariation(t *testing.T) {
 		return client.CreativeSets.GetCreativeSetVariation(ctx, 101, &GetCreativeSetVariationQuery{})
 	})
 }
+
+func TestFindCreativeSets(t *testing.T) {
+	t.Parallel()
+
+	testEndpointWithResponse(t, "{}", &CreativeSetListResponse{}, func(ctx context.Context, client *Client) (interface{}, *Response, error) {
+		return client.CreativeSets.FindCreativeSets(ctx, &FindCreativeSetRequest{})
+	})
+}

@@ -56,7 +56,7 @@ type AppInfo struct {
 //
 // https://developer.apple.com/documentation/apple_search_ads/search_for_ios_apps
 func (s *AppService) SearchApps(ctx context.Context, params *SearchAppsQuery) (*AppInfoListResponse, *Response, error) {
-	url := "/search/apps"
+	url := "search/apps"
 	res := new(AppInfoListResponse)
 	resp, err := s.client.get(ctx, url, &params, res)
 

@@ -255,7 +255,7 @@ type AdGroupListResponse struct {
 //
 // https://developer.apple.com/documentation/apple_search_ads/create_an_ad_group
 func (s *AdGroupService) CreateAdGroup(ctx context.Context, campaignID int64, adGroup *AdGroup) (*AdGroupResponse, *Response, error) {
-	url := fmt.Sprintf("/campaigns/%d/adgroups", campaignID)
+	url := fmt.Sprintf("campaigns/%d/adgroups", campaignID)
 	res := new(AdGroupResponse)
 	resp, err := s.client.post(ctx, url, adGroup, res)
 
@@ -363,7 +363,7 @@ type Pagination struct {
 //
 // https://developer.apple.com/documentation/apple_search_ads/find_ad_groups
 func (s *AdGroupService) FindAdGroups(ctx context.Context, campaignID int64, selector *Selector) (*AdGroupListResponse, *Response, error) {
-	url := fmt.Sprintf("/campaigns/%d/adgroups/find", campaignID)
+	url := fmt.Sprintf("campaigns/%d/adgroups/find", campaignID)
 	res := new(AdGroupListResponse)
 	resp, err := s.client.post(ctx, url, selector, res)
 
@@ -374,7 +374,7 @@ func (s *AdGroupService) FindAdGroups(ctx context.Context, campaignID int64, sel
 //
 // https://developer.apple.com/documentation/apple_search_ads/get_an_ad_group
 func (s *AdGroupService) GetAdGroup(ctx context.Context, campaignID int64, adGroupID int64) (*AdGroupResponse, *Response, error) {
-	url := fmt.Sprintf("/campaigns/%d/adgroups/%d", campaignID, adGroupID)
+	url := fmt.Sprintf("campaigns/%d/adgroups/%d", campaignID, adGroupID)
 	res := new(AdGroupResponse)
 	resp, err := s.client.get(ctx, url, nil, res)
 
@@ -385,7 +385,7 @@ func (s *AdGroupService) GetAdGroup(ctx context.Context, campaignID int64, adGro
 //
 // https://developer.apple.com/documentation/apple_search_ads/get_all_ad_groups
 func (s *AdGroupService) GetAllAdGroups(ctx context.Context, campaignID int64, params *GetAllAdGroupsQuery) (*AdGroupListResponse, *Response, error) {
-	url := fmt.Sprintf("/campaigns/%d/adgroups", campaignID)
+	url := fmt.Sprintf("campaigns/%d/adgroups", campaignID)
 	res := new(AdGroupListResponse)
 	resp, err := s.client.get(ctx, url, &params, res)
 
@@ -396,7 +396,7 @@ func (s *AdGroupService) GetAllAdGroups(ctx context.Context, campaignID int64, p
 //
 // https://developer.apple.com/documentation/apple_search_ads/update_an_ad_group
 func (s *AdGroupService) UpdateAdGroup(ctx context.Context, campaignID int64, adGroupID int64, req *AdGroupUpdateRequest) (*AdGroupResponse, *Response, error) {
-	url := fmt.Sprintf("/campaigns/%d/adgroups/%d", campaignID, adGroupID)
+	url := fmt.Sprintf("campaigns/%d/adgroups/%d", campaignID, adGroupID)
 	res := new(AdGroupResponse)
 	resp, err := s.client.put(ctx, url, req, res)
 
@@ -407,7 +407,7 @@ func (s *AdGroupService) UpdateAdGroup(ctx context.Context, campaignID int64, ad
 //
 // https://developer.apple.com/documentation/apple_search_ads/delete_an_adgroup
 func (s *AdGroupService) DeleteAdGroup(ctx context.Context, campaignID int64, adGroupID int64) (*Response, error) {
-	url := fmt.Sprintf("/campaigns/%d/adgroups/%d", campaignID, adGroupID)
+	url := fmt.Sprintf("campaigns/%d/adgroups/%d", campaignID, adGroupID)
 	resp, err := s.client.delete(ctx, url, nil)
 
 	return resp, err

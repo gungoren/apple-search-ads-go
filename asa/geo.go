@@ -68,7 +68,7 @@ type SearchEntity struct {
 //
 // https://developer.apple.com/documentation/apple_search_ads/search_for_geolocations
 func (s *GeoService) SearchGeos(ctx context.Context, params *SearchGeoQuery) (*SearchEntityListResponse, *Response, error) {
-	url := "/search/geo"
+	url := "search/geo"
 	res := new(SearchEntityListResponse)
 	resp, err := s.client.get(ctx, url, &params, res)
 
@@ -93,7 +93,7 @@ type GeoRequest struct {
 //
 // https://developer.apple.com/documentation/apple_search_ads/get_a_list_of_geolocations
 func (s *GeoService) GetGeos(ctx context.Context, query *ListGeoQuery, params []*GeoRequest) (*SearchEntityListResponse, *Response, error) {
-	url := "/search/geo"
+	url := "search/geo"
 	res := new(SearchEntityListResponse)
 	resp, err := s.client.postWithQuery(ctx, url, &query, &params, res)
 
