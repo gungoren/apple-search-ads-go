@@ -246,7 +246,7 @@ type LocalityCriteria struct {
 //
 // https://developer.apple.com/documentation/apple_search_ads/adgrouplistresponse
 type AdGroupListResponse struct {
-	AdGroup    []AdGroup          `json:"data,omitempty"`
+	AdGroups   []*AdGroup         `json:"data,omitempty"`
 	Error      *ErrorResponseBody `json:"error,omitempty"`
 	Pagination *PageDetail        `json:"pagination,omitempty"`
 }

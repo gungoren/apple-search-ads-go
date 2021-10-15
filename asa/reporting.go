@@ -176,7 +176,7 @@ type MetaDataObject struct {
 	KeywordID                          int64                                       `json:"keywordID,omitempty"`
 	MatchType                          *ReportingKeywordMatchType                  `json:"matchType,omitempty"`
 	CountryOrRegion                    string                                      `json:"countryOrRegion,omitempty"`
-	SearchTermText                     []string                                    `json:"SearchTermText,omitempty"`
+	SearchTermText                     *string                                     `json:"SearchTermText,omitempty"`
 	SearchTermSource                   *SearchTermSource                           `json:"searchTermSource,omitempty"`
 }
 

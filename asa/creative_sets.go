@@ -209,9 +209,9 @@ type FindAdGroupCreativeSetRequest struct {
 //
 // https://developer.apple.com/documentation/apple_search_ads/adgroupcreativesetlistresponse
 type AdGroupCreativeSetListResponse struct {
-	AdGroupCreativeSet []*AdGroupCreativeSet `json:"data,omitempty"`
-	Error              *ErrorResponseBody    `json:"error,omitempty"`
-	Pagination         *PageDetail           `json:"pagination,omitempty"`
+	AdGroupCreativeSets []*AdGroupCreativeSet `json:"data,omitempty"`
+	Error               *ErrorResponseBody    `json:"error,omitempty"`
+	Pagination          *PageDetail           `json:"pagination,omitempty"`
 }
 
 // FindAdGroupCreativeSets Fetches all assigned Creative Sets for ad groups

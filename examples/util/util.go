@@ -68,7 +68,7 @@ func GetCampaign(ctx context.Context, client *asa.Client, params *asa.Selector) 
 	} else if len(apps.Campaigns) == 0 {
 		return nil, fmt.Errorf("query for campaign returned no campaign")
 	}
-	return &apps.Campaigns[0], nil
+	return apps.Campaigns[0], nil
 }
 
 // Close closes an open descriptor.

@@ -22,10 +22,12 @@ Construct a new Apple Search Ads client, then use the various services on the cl
 ```go
 client := asa.NewClient(nil)
 
-// list all apps with the bundle ID "com.sky.MyApp"
-apps, _, err := client.Apps.ListApps(&asa.ListAppsQuery{
-    FilterBundleID: []string{"com.sky.MyApp"},
-})
+params := &asa.SearchAppsQuery{
+    Query:           "face",
+    ReturnOwnedApps: false,
+}
+// list all apps with the query "face"
+apps, _, err := client.App.SearchApps(context.Background(), params)
 ```
 
 The client is divided into logical chunks closely corresponding to the layout and structure of Apple's own documentation at <https://developer.apple.com/documentation/apple_search_ads>.
@@ -45,25 +47,37 @@ import (
 )
 
 func main() {
-    // Key ID for the given private key, described in Apple Search Ads
+    // Organization ID in Apple Search Ads
+    orgID := "...."
+	// Key ID for the given private key, described in Apple Search Ads
     keyID := "...."
-    // Issuer ID for the Apple Search Ads team
-    issuerID := "...."
+    // Team ID for the given private key for the Apple Search Ads
+    teamID := "...."
+    // ClientID ID for the given private key for the Apple Search Ads
+    clientID := "...."
     // A duration value for the lifetime of a token. Apple Search Ads does not accept a token with a lifetime of longer than 20 minutes
     expiryDuration = 20*time.Minute
-    // The bytes of the PKCS#8 private key created on Apple Search Ads. Keep this key safe as you can only download it once.
+    // The bytes of the private key created you have uploaded to it Apple Search Ads.
     privateKey = os.ReadFile("path/to/key")
 
-    auth, err = asa.NewTokenConfig(keyID, issuerID, expiryDuration, privateKey)
+    auth, err := asa.NewTokenConfig(orgID, keyID, teamID, clientID, expiryDuration, privateKey)
     if err != nil {
         return nil, err
     }
     client := asa.NewClient(auth.Client())
 
-    // list all apps with the bundle ID "com.sky.MyApp" in the authenticated user's team
-    apps, _, err := client.Apps.ListApps(&asa.ListAppsQuery{
-        FilterBundleID: []string{"com.sky.MyApp"},
-    })
+    // list all apps with the "face" in the authenticated user's team
+    params := &asa.SearchAppsQuery{
+        Offset:          0,
+        Limit:           100,
+        Query:           "face",
+        ReturnOwnedApps: true,
+    }
+    
+    apps, _, err := client.App.SearchApps(context.Background(), params)
+    if err != nil {
+        return nil, err
+    }
 }
 ```
 
@@ -77,31 +91,34 @@ Learn more about rate limiting at <https://developer.apple.com/documentation/app
 
 ### Pagination
 
-All requests for resource collections (apps, builds, beta groups, etc.) support pagination. Responses for paginated resources will contain a `Links` property of type `PagedDocumentLinks`, with `Reference` URLs for first, next, and self. A `Reference` can have its cursor extracted with the `Cursor()` method, and that can be passed to a query param using its `Cursor` field. You can also find more information about the per-page limit and total count of resources in the response's `Meta` field of type `PagingInformation`.
+All requests for resource collections (apps, builds, beta groups, etc.) support pagination. Responses for paginated resources will contain a `Pagination` property of type `PageDetail`, with `TotalResults`, `StartIndex` and `ItemsPerPage`. A `Reference` can have its cursor extracted with the `Cursor()` method, and that can be passed to a query param using its `Cursor` field. You can also find more information about the per-page limit and total count of resources in the response's `Meta` field of type `PagingInformation`.
 
 ```go
-auth, _ = asa.NewTokenConfig(keyID, issuerID, expiryDuration, privateKey)
+auth, _ := asa.NewTokenConfig(orgID, keyID, teamID, clientID, expiryDuration, privateKey)
 client := asa.NewClient(auth.Client())
 
-opt := &asa.ListAppsQuery{
-    FilterBundleID: []string{"com.sky.MyApp"},
+var allApps []asa.AppInfo
+params := &asa.SearchAppsQuery{
+	Offset:          0,
+	Limit:           100,
+	Query:           "face",
+	ReturnOwnedApps: false,
 }
-
-var allApps []asa.App
 for {
-    apps, _, err := apps, _, err := client.Apps.ListApps(opt)
+	apps, _, err := client.App.SearchApps(context.Background(), params)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	allApps = append(allApps, apps.Data...)
-    if apps.Links.Next == nil {
-        break
-    }
-    cursor := apps.Links.Next.Cursor()
-    if cursor == "" {
-        break
-    }
-    opt.Cursor = cursor
+
+	allApps = append(allApps, apps.AppInfos...)
+
+	pageDetail := apps.Pagination
+	lastOffset := pageDetail.StartIndex + len(apps.AppInfos)
+	if lastOffset < pageDetail.TotalResults {
+		params.Offset += int32(len(apps.AppInfos))
+	} else {
+		break
+	}
 }
 ```
 

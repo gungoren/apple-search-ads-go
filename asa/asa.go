@@ -52,14 +52,15 @@ type Client struct {
 
 	common service
 
-	Campaigns    *CampaignService
-	AdGroups     *AdGroupService
-	Reporting    *ReportingService
-	Keywords     *KeywordService
-	Budget       *BudgetService
-	App          *AppService
-	Geo          *GeoService
-	CreativeSets *CreativeSetsService
+	Campaigns         *CampaignService
+	AdGroups          *AdGroupService
+	Reporting         *ReportingService
+	Keywords          *KeywordService
+	Budget            *BudgetService
+	App               *AppService
+	Geo               *GeoService
+	CreativeSets      *CreativeSetsService
+	AccessControlList *AccessControlListService
 }
 
 // NewClient creates a new Client instance.
@@ -90,6 +91,7 @@ func NewClient(httpClient *http.Client) *Client {
 	c.App = (*AppService)(&c.common)
 	c.Geo = (*GeoService)(&c.common)
 	c.CreativeSets = (*CreativeSetsService)(&c.common)
+	c.AccessControlList = (*AccessControlListService)(&c.common)
 
 	return c
 }

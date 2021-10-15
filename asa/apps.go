@@ -37,9 +37,9 @@ type SearchAppsQuery struct {
 //
 // https://developer.apple.com/documentation/apple_search_ads/appinfolistresponse
 type AppInfoListResponse struct {
-	AppInfos   []AppInfo          `json:"data,omitempty"`
+	AppInfos   []*AppInfo         `json:"data,omitempty"`
 	Error      *ErrorResponseBody `json:"error,omitempty"`
-	Pagination PageDetail         `json:"pagination,omitempty"`
+	Pagination *PageDetail        `json:"pagination,omitempty"`
 }
 
 // AppInfo is the response to an app search request

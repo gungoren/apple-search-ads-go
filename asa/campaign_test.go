@@ -18,7 +18,11 @@ package asa
 
 import (
 	"context"
+	"encoding/json"
+	"io/ioutil"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestGetAllCampaigns(t *testing.T) {
@@ -67,4 +71,48 @@ func TestFindCampaigns(t *testing.T) {
 	testEndpointWithResponse(t, "{}", &CampaignListResponse{}, func(ctx context.Context, client *Client) (interface{}, *Response, error) {
 		return client.Campaigns.FindCampaigns(ctx, &Selector{})
 	})
+}
+
+func TestDeserializationWithUnAuthorized(t *testing.T) {
+	t.Parallel()
+
+	content, err := ioutil.ReadFile("../test/response_body_json_files/error_with_unauthorized.json")
+	assert.Nil(t, err)
+
+	model := &APIErrorResponse{}
+
+	err = json.Unmarshal(content, model)
+	assert.Nil(t, err)
+}
+
+func TestCampaignListResponseDeserialization(t *testing.T) {
+	t.Parallel()
+
+	content, err := ioutil.ReadFile("../test/response_body_json_files/campaign_list_response.json")
+	assert.Nil(t, err)
+
+	model := &CampaignListResponse{}
+
+	err = json.Unmarshal(content, model)
+	assert.Nil(t, err)
+
+	assert.Equal(t, 1, len(model.Campaigns))
+	assert.Equal(t, 1, model.Pagination.TotalResults)
+	campaign := model.Campaigns[0]
+	assert.Equal(t, PaymentModelLoc, campaign.PaymentModel)
+}
+
+func TestCampaignListResponseWithEmptyDeserialization(t *testing.T) {
+	t.Parallel()
+
+	content, err := ioutil.ReadFile("../test/response_body_json_files/campaign_list_response_with_empty.json")
+	assert.Nil(t, err)
+
+	model := &CampaignListResponse{}
+
+	err = json.Unmarshal(content, model)
+	assert.Nil(t, err)
+
+	assert.Equal(t, 0, len(model.Campaigns))
+	assert.Equal(t, 0, model.Pagination.TotalResults)
 }

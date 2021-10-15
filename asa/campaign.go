@@ -235,9 +235,9 @@ type CampaignResponse struct {
 //
 // https://developer.apple.com/documentation/apple_search_ads/campaignlistresponse
 type CampaignListResponse struct {
+	Campaigns  []*Campaign        `json:"data,omitempty"`
 	Error      *ErrorResponseBody `json:"error,omitempty"`
 	Pagination *PageDetail        `json:"pagination,omitempty"`
-	Campaigns  []Campaign         `json:"data,omitempty"`
 }
 
 // ErrorResponseBody is a container for the error response body

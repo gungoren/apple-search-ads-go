@@ -54,23 +54,20 @@ func main() {
 		log.Fatalf("%s", err)
 	}
 
-	offset := int32(0)
 	params := &asa.GetAllAdGroupsQuery{}
 	for {
-		if offset != 0 {
-			params.Offset = offset
-		}
 		adGroupsResponse, _, err := client.AdGroups.GetAllAdGroups(ctx, campaign.ID, params)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		for _, adGroup := range adGroupsResponse.AdGroup {
+		for _, adGroup := range adGroupsResponse.AdGroups {
 			fmt.Println(adGroup.Name)
 		}
-		pagination := adGroupsResponse.Pagination
-		if pagination.TotalResults > int(params.Offset)+pagination.ItemsPerPage {
-			offset = int32(pagination.StartIndex + pagination.ItemsPerPage)
+		pageDetail := adGroupsResponse.Pagination
+		lastOffset := pageDetail.StartIndex + len(adGroupsResponse.AdGroups)
+		if lastOffset < pageDetail.TotalResults {
+			params.Offset += int32(len(adGroupsResponse.AdGroups))
 		} else {
 			break
 		}
