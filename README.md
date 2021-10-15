@@ -83,15 +83,9 @@ func main() {
 
 The authenticated client created here will automatically regenerate the token if it expires. Also note that all Apple Search Ads APIs are scoped to the credentials of the pre-configured key, so you can't use this API to make queries against the entire Apple Search Ads. For more information on creating the necessary credentials for the Apple Search Ads API, see the documentation at <https://developer.apple.com/documentation/apple_search_ads/implementing_oauth_for_the_apple_search_ads_api>.
 
-### Rate Limiting
-
-Apple imposes a rate limit on all API clients. The returned `Response.Rate` value contains the rate limit information from the most recent API call. If the API produces a rate limit error, it will be identifiable as an `ErrorResponse` with an error code of `429`.
-
-Learn more about rate limiting at <https://developer.apple.com/documentation/appstoreconnectapi/identifying_rate_limits>.
-
 ### Pagination
 
-All requests for resource collections (apps, builds, beta groups, etc.) support pagination. Responses for paginated resources will contain a `Pagination` property of type `PageDetail`, with `TotalResults`, `StartIndex` and `ItemsPerPage`. A `Reference` can have its cursor extracted with the `Cursor()` method, and that can be passed to a query param using its `Cursor` field. You can also find more information about the per-page limit and total count of resources in the response's `Meta` field of type `PagingInformation`.
+All requests for resource collections (apps, acl, ad groups, campaigns, etc.) support pagination. Responses for paginated resources will contain a `Pagination` property of type `PageDetail`, with `TotalResults`, `StartIndex` and `ItemsPerPage`.
 
 ```go
 auth, _ := asa.NewTokenConfig(orgID, keyID, teamID, clientID, expiryDuration, privateKey)
