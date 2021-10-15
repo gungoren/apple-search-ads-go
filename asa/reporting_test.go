@@ -72,12 +72,12 @@ func deserializeFileToReportingResponse(t *testing.T, sampleJSONResponse string)
 	t.Helper()
 
 	content, err := ioutil.ReadFile(filepath.Clean(sampleJSONResponse))
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 
 	model := &ReportingResponseBody{}
 
 	err = json.Unmarshal(content, model)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 
 	return model
 }
@@ -177,10 +177,10 @@ func TestGetCampaignLevelReportsRequestSerialization(t *testing.T) {
 	}
 
 	val1, err := json.Marshal(reportingRequest)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 
 	val2, err := ioutil.ReadFile("../test/request_body_json_files/get_campaign_level_reports.json")
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 
 	require.JSONEq(t, string(val1), string(val2))
 }
@@ -230,10 +230,10 @@ func TestGetCampaignLevelReportsWithGranularityRequestSerialization(t *testing.T
 	}
 
 	val1, err := json.Marshal(reportingRequest)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 
 	val2, err := ioutil.ReadFile("../test/request_body_json_files/get_campaign_level_reports_with_granularity.json")
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 
 	require.JSONEq(t, string(val1), string(val2))
 }
@@ -277,10 +277,10 @@ func TestKeywordLevelReportsRequestSerialization(t *testing.T) {
 	}
 
 	val1, err := json.Marshal(reportingRequest)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 
 	val2, err := ioutil.ReadFile("../test/request_body_json_files/get_keyword_level_reports.json")
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 
 	require.JSONEq(t, string(val1), string(val2))
 }
@@ -317,10 +317,10 @@ func TestSearchTermLevelReportsRequestSerialization(t *testing.T) {
 	}
 
 	val1, err := json.Marshal(reportingRequest)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 
 	val2, err := ioutil.ReadFile("../test/request_body_json_files/get_search_term_level_reports.json")
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 
 	require.JSONEq(t, string(val1), string(val2))
 }

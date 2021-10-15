@@ -39,12 +39,12 @@ func TestDeserialization(t *testing.T) {
 	sampleJSONResponse := "../test/response_body_json_files/user_acl_list_response.json"
 
 	content, err := ioutil.ReadFile(sampleJSONResponse)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 
 	model := &UserACLListResponse{}
 
 	err = json.Unmarshal(content, model)
-	assert.Nil(t, err)
+	assert.NoError(t, err)
 
 	assert.Equal(t, len(model.UserAcls), 1)
 	assert.Nil(t, model.Pagination)

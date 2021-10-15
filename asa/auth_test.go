@@ -146,6 +146,16 @@ LWfXSp67hz35UIbgO6NANWf4tzZ6fhTThA==
 	assert.Equal(t, tok, tokCached)
 }
 
+func TestAuthClient(t *testing.T) {
+	t.Parallel()
+
+	generator := &standardJWTGenerator{}
+	client := generator.Client()
+	assert.NotNil(t, client)
+
+	assert.Equal(t, defaultAuthURL, client.baseURL)
+}
+
 type mockJWTGenerator struct {
 	token       string
 	accessToken *accessToken
