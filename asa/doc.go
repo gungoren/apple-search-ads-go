@@ -72,7 +72,7 @@ to look a little more like this:
 			Query:           "face",
 			ReturnOwnedApps: true,
 		}
-		
+
 		apps, _, err := client.App.SearchApps(context.Background(), params)
 		if err != nil {
 			return nil, err
@@ -85,7 +85,7 @@ creating the necessary credentials for the Apple Search Ads API, see the documen
 https://developer.apple.com/documentation/appstoreconnectapi/creating_api_keys_for_app_store_connect_api.
 Pagination
 All requests for resource collections (apps, acls, ad groups, campaigns, etc.) support pagination.
-Responses for paginated resources will contain a Pagination property of type PageDetail, 
+Responses for paginated resources will contain a Pagination property of type PageDetail,
 with TotalResults, StartIndex and ItemsPerPage.
 	auth, _ := asa.NewTokenConfig(orgID, keyID, teamID, clientID, expiryDuration, privateKey)
 	client := asa.NewClient(auth.Client())
