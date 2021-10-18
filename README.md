@@ -85,7 +85,7 @@ The authenticated client created here will automatically regenerate the token if
 
 ### Pagination
 
-All requests for resource collections (apps, acl, ad groups, campaigns, etc.) support pagination. Responses for paginated resources will contain a `Pagination` property of type `PageDetail`, with `TotalResults`, `StartIndex` and `ItemsPerPage`.
+All requests for resource collections (apps, acls, ad groups, campaigns, etc.) support pagination. Responses for paginated resources will contain a `Pagination` property of type `PageDetail`, with `TotalResults`, `StartIndex` and `ItemsPerPage`.
 
 ```go
 auth, _ := asa.NewTokenConfig(orgID, keyID, teamID, clientID, expiryDuration, privateKey)

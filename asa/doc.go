@@ -22,10 +22,13 @@ Import the package as you normally would:
 Construct a new Apple Search Ads client, then use the various services on the client to
 access different parts of the Apple Search Ads API. For example:
 	client := asa.NewClient(nil)
-	// list all apps with the bundle ID "com.sky.MyApp"
-	apps, _, err := client.Apps.ListApps(&asa.ListAppsQuery{
-		FilterBundleID: []string{"com.sky.MyApp"},
-	})
+
+	params := &asa.SearchAppsQuery{
+		Query:           "face",
+		ReturnOwnedApps: false,
+	}
+	// list all apps with the query "face"
+	apps, _, err := client.App.SearchApps(context.Background(), params)
 The client is divided into logical chunks closely corresponding to the layout and structure
 of Apple's own documentation at https://developer.apple.com/documentation/apple_search_ads.
 For more sample code snippets, head over to the https://github.com/gungoren/apple-search-ads-go/tree/master/examples directory.
@@ -38,66 +41,77 @@ to look a little more like this:
 	import (
 		"os"
 		"time"
+
 		"github.com/gungoren/apple-search-ads-go/asa"
 	)
+
 	func main() {
+		// Organization ID in Apple Search Ads
+		orgID := "...."
 		// Key ID for the given private key, described in Apple Search Ads
 		keyID := "...."
-		// Issuer ID for the Apple Search Ads team
-		issuerID := "...."
-		// A duration value for the lifetime of a token. Apple Search Ads does not accept
-		// a token with a lifetime of longer than 20 minutes
+		// Team ID for the given private key for the Apple Search Ads
+		teamID := "...."
+		// ClientID ID for the given private key for the Apple Search Ads
+		clientID := "...."
+		// A duration value for the lifetime of a token. Apple Search Ads does not accept a token with a lifetime of longer than 20 minutes
 		expiryDuration = 20*time.Minute
-		// The bytes of the PKCS#8 private key created on Apple Search Ads. Keep this key
-		// safe as you can only download it once.
+		// The bytes of the private key created you have uploaded to it Apple Search Ads.
 		privateKey = os.ReadFile("path/to/key")
-		auth, err = asa.NewTokenConfig(keyID, issuerID, expiryDuration, privateKey)
+
+		auth, err := asa.NewTokenConfig(orgID, keyID, teamID, clientID, expiryDuration, privateKey)
 		if err != nil {
 			return nil, err
 		}
 		client := asa.NewClient(auth.Client())
-		// list all apps with the bundle ID "com.sky.MyApp" in the authenticated user's team
-		apps, _, err := client.Apps.ListApps(&asa.ListAppsQuery{
-			FilterBundleID: []string{"com.sky.MyApp"},
-		})
+
+		// list all apps with the "face" in the authenticated user's team
+		params := &asa.SearchAppsQuery{
+			Offset:          0,
+			Limit:           100,
+			Query:           "face",
+			ReturnOwnedApps: true,
+		}
+		
+		apps, _, err := client.App.SearchApps(context.Background(), params)
+		if err != nil {
+			return nil, err
+		}
 	}
 The authenticated client created here will automatically regenerate the token if it expires.
 Also note that all Apple Search Ads APIs are scoped to the credentials of the pre-configured key,
 so you can't use this API to make queries against the entire App Store. For more information on
 creating the necessary credentials for the Apple Search Ads API, see the documentation at
 https://developer.apple.com/documentation/appstoreconnectapi/creating_api_keys_for_app_store_connect_api.
-Rate Limiting
-Apple imposes a rate limit on all API clients. The returned Response.Rate value contains the rate
-limit information from the most recent API call. If the API produces a rate limit error, it will be
-identifiable as an ErrorResponse with an error code of 429.
-Learn more about rate limiting at https://developer.apple.com/documentation/appstoreconnectapi/identifying_rate_limits.
 Pagination
-All requests for resource collections (apps, builds, beta groups, etc.) support pagination.
-Responses for paginated resources will contain a Links property of type PagedDocumentLinks,
-with Reference URLs for first, next, and self. A Reference can have its cursor extracted
-with the Cursor() method, and that can be passed to a query param using its Cursor field.
-You can also find more information about the per-page limit and total count of resources in
-the response's Meta field of type PagingInformation.
-	auth, _ = asa.NewTokenConfig(keyID, issuerID, expiryDuration, privateKey)
+All requests for resource collections (apps, acls, ad groups, campaigns, etc.) support pagination.
+Responses for paginated resources will contain a Pagination property of type PageDetail, 
+with TotalResults, StartIndex and ItemsPerPage.
+	auth, _ := asa.NewTokenConfig(orgID, keyID, teamID, clientID, expiryDuration, privateKey)
 	client := asa.NewClient(auth.Client())
-	opt := &asa.ListAppsQuery{
-		FilterBundleID: []string{"com.sky.MyApp"},
+
+	var allApps []asa.AppInfo
+	params := &asa.SearchAppsQuery{
+		Offset:          0,
+		Limit:           100,
+		Query:           "face",
+		ReturnOwnedApps: false,
 	}
-	var allApps []asa.App
 	for {
-		apps, _, err := apps, _, err := client.Apps.ListApps(opt)
+		apps, _, err := client.App.SearchApps(context.Background(), params)
 		if err != nil {
-			return err
+			return nil, err
 		}
-		allApps = append(allApps, apps.Data...)
-		if apps.Links.Next == nil {
+
+		allApps = append(allApps, apps.AppInfos...)
+
+		pageDetail := apps.Pagination
+		lastOffset := pageDetail.StartIndex + len(apps.AppInfos)
+		if lastOffset < pageDetail.TotalResults {
+			params.Offset += int32(len(apps.AppInfos))
+		} else {
 			break
 		}
-		cursor := apps.Links.Next.Cursor()
-		if cursor == "" {
-			break
-		}
-		opt.Cursor = cursor
 	}
 */
 package asa
